@@ -1,5 +1,55 @@
 const GITHUB_USERNAME = "shivanesh1495";
 const PORTFOLIO_TOPIC = "portfolio";
+const DATA_REPO_OWNER = "shivanesh1495";
+const DATA_REPO_NAME = "PORTFOLIO-DB";
+const DATA_REPO_BRANCH = "main";
+
+async function fetchJson(url) {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Request failed: ${response.status}`);
+  }
+
+  return response.json();
+}
+
+async function fetchRepoFolderFiles(folder) {
+  const url = `https://api.github.com/repos/${DATA_REPO_OWNER}/${DATA_REPO_NAME}/contents/${folder}?ref=${DATA_REPO_BRANCH}`;
+  const files = await fetchJson(url);
+
+  if (!Array.isArray(files)) {
+    throw new Error(`Expected a file list from ${folder}`);
+  }
+
+  return files.filter(
+    (file) => file.type === "file" && file.name.endsWith(".txt"),
+  );
+}
+
+function parseStructuredTextFile(content) {
+  const trimmed = content.trim();
+
+  try {
+    return JSON.parse(trimmed);
+  } catch {
+    try {
+      // The data files are maintained as simple object literals.
+      return new Function(`return (${trimmed});`)();
+    } catch (error) {
+      throw new Error(`Failed to parse data file: ${error.message}`);
+    }
+  }
+}
+
+async function fetchStructuredFile(downloadUrl) {
+  const response = await fetch(downloadUrl);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch file: ${response.status}`);
+  }
+
+  const text = await response.text();
+  return parseStructuredTextFile(text);
+}
 
 export async function fetchGitHubUserProfile() {
   try {
@@ -72,6 +122,52 @@ export async function fetchGitHubProjects() {
     }));
   } catch (error) {
     console.error("Error fetching GitHub projects:", error);
+    return [];
+  }
+}
+
+export async function fetchGitHubWritings() {
+  try {
+    const files = await fetchRepoFolderFiles("writings");
+    const writings = await Promise.all(
+      files.map(async (file) => {
+        const data = await fetchStructuredFile(file.download_url);
+        return {
+          id: file.sha || file.name,
+          slug: file.name.replace(/\.txt$/i, ""),
+          ...data,
+        };
+      }),
+    );
+
+    return writings.sort((a, b) => {
+      const aDate = Date.parse(a.date || 0);
+      const bDate = Date.parse(b.date || 0);
+      return bDate - aDate;
+    });
+  } catch (error) {
+    console.error("Error fetching writings:", error);
+    return [];
+  }
+}
+
+export async function fetchGitHubExperience() {
+  try {
+    const files = await fetchRepoFolderFiles("experience");
+    const experience = await Promise.all(
+      files.map(async (file) => {
+        const data = await fetchStructuredFile(file.download_url);
+        return {
+          id: file.sha || file.name,
+          slug: file.name.replace(/\.txt$/i, ""),
+          ...data,
+        };
+      }),
+    );
+
+    return experience;
+  } catch (error) {
+    console.error("Error fetching experience:", error);
     return [];
   }
 }
