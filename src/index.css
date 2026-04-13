@@ -94,6 +94,14 @@
   --aurora-2: rgba(130, 80, 223, 0.1);
   --aurora-3: rgba(45, 180, 200, 0.08);
   --aurora-4: rgba(200, 80, 150, 0.06);
+
+  /* ── Resume Button Folder Palette ── */
+  --resume-folder-back-start: #91b8ff;
+  --resume-folder-back-end: #3e5f96;
+  --resume-folder-front-start: #d6e5ff;
+  --resume-folder-front-end: #5a7fbe;
+  --resume-page-start: #ffffff;
+  --resume-page-end: #b8c7e0;
 }
 
 /* ===== LIGHT MODE ===== */
@@ -159,6 +167,13 @@
   --surface-shadow-nav:
     inset 0 1px 0 var(--surface-highlight), 0 12px 28px rgba(26, 20, 14, 0.11),
     0 2px 8px rgba(26, 20, 14, 0.06), 0 0 36px rgba(232, 86, 23, 0.09);
+
+  --resume-folder-back-start: #ffd3b0;
+  --resume-folder-back-end: #e98a4f;
+  --resume-folder-front-start: #ffe7d3;
+  --resume-folder-front-end: #d16f2f;
+  --resume-page-start: #fffdfa;
+  --resume-page-end: #ffd9bc;
 }
 
 [data-theme="light"] .content-card,
@@ -2402,37 +2417,102 @@ body::after {
 .Documents-btn {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  width: fit-content;
-  height: 45px;
-  border: none;
-  padding: 0px 15px;
-  border-radius: 8px;
-  background: rgba(var(--accent-rgb), 0.12);
-  border: 1px solid rgba(var(--accent-rgb), 0.15);
-  gap: 10px;
+  justify-content: center;
+  width: min(100%, 180px);
+  height: 52px;
+  border: 1px solid rgba(var(--accent-rgb), 0.34);
+  padding: 0 1rem;
+  border-radius: 14px;
+  background: linear-gradient(
+    165deg,
+    rgba(var(--accent-rgb), 0.16) 0%,
+    rgba(var(--accent-rgb), 0.1) 55%,
+    rgba(var(--accent-rgb), 0.07) 100%
+  );
+  gap: 0.75rem;
   cursor: pointer;
   margin-top: 1.25rem;
   position: relative;
+  overflow: hidden;
   z-index: 2;
   transition:
-    all 0.35s var(--ease-spring),
+    transform 0.35s var(--ease-spring),
+    background 0.35s var(--ease-smooth),
+    border-color 0.35s var(--ease-smooth),
     box-shadow 0.3s var(--ease-smooth);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 8px 24px rgba(10, 20, 42, 0.24),
+    0 0 28px rgba(var(--accent-rgb), 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.Documents-btn::before {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.5),
+    transparent
+  );
+  pointer-events: none;
 }
 
 .Documents-btn:hover {
-  background: rgba(var(--accent-rgb), 0.18);
-  border-color: rgba(var(--accent-rgb), 0.25);
-  box-shadow: 0 4px 20px rgba(var(--accent-rgb), 0.12);
+  background: linear-gradient(
+    165deg,
+    rgba(var(--accent-rgb), 0.24) 0%,
+    rgba(var(--accent-rgb), 0.14) 58%,
+    rgba(var(--accent-rgb), 0.09) 100%
+  );
+  border-color: rgba(var(--accent-rgb), 0.45);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 14px 34px rgba(10, 20, 42, 0.28),
+    0 0 36px rgba(var(--accent-rgb), 0.2);
   transform: translateY(-2px);
 }
 
 .Documents-btn:active {
-  transform: scale(0.95);
+  transform: scale(0.98);
+}
+
+[data-theme="light"] .Documents-btn {
+  background: linear-gradient(
+    165deg,
+    rgba(255, 197, 152, 0.34) 0%,
+    rgba(255, 224, 198, 0.3) 55%,
+    rgba(255, 246, 238, 0.28) 100%
+  );
+  border-color: rgba(232, 124, 53, 0.34);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 10px 26px rgba(214, 120, 56, 0.22),
+    0 0 32px rgba(232, 124, 53, 0.18);
+}
+
+[data-theme="light"] .Documents-btn:hover {
+  background: linear-gradient(
+    165deg,
+    rgba(255, 186, 132, 0.46) 0%,
+    rgba(255, 212, 173, 0.4) 56%,
+    rgba(255, 240, 226, 0.34) 100%
+  );
+  border-color: rgba(232, 124, 53, 0.46);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.76),
+    0 14px 30px rgba(214, 120, 56, 0.26),
+    0 0 40px rgba(232, 124, 53, 0.24);
 }
 
 .folderContainer {
-  width: 40px;
+  width: 48px;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -2467,8 +2547,9 @@ body::after {
 
 .Documents-btn .text {
   color: var(--text-main);
-  font-size: 14px;
-  font-weight: 600;
+  font-size: clamp(1.05rem, 2.1vw, 1.6rem);
+  font-family: var(--font-heading);
+  font-weight: 700;
   letter-spacing: 0.5px;
   margin-top: 0;
 }

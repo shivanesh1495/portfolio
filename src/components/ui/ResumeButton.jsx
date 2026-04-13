@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export default function ResumeButton() {
   return (
@@ -25,8 +25,8 @@ export default function ResumeButton() {
               y2="95.4804"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stopColor="#8F88C2"></stop>
-              <stop offset="1" stopColor="#5C52A2"></stop>
+              <stop stopColor="var(--resume-folder-back-start)"></stop>
+              <stop offset="1" stopColor="var(--resume-folder-back-end)"></stop>
             </linearGradient>
           </defs>
         </svg>
@@ -38,11 +38,7 @@ export default function ResumeButton() {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <rect
-            width="88"
-            height="99"
-            fill="url(#paint0_linear_117_6)"
-          ></rect>
+          <rect width="88" height="99" fill="url(#paint0_linear_117_6)"></rect>
           <defs>
             <linearGradient
               id="paint0_linear_117_6"
@@ -52,8 +48,8 @@ export default function ResumeButton() {
               y2="160.5"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stopColor="white"></stop>
-              <stop offset="1" stopColor="#686868"></stop>
+              <stop stopColor="var(--resume-page-start)"></stop>
+              <stop offset="1" stopColor="var(--resume-page-end)"></stop>
             </linearGradient>
           </defs>
         </svg>
@@ -79,8 +75,11 @@ export default function ResumeButton() {
               y2="82.8317"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stopColor="#C3BBFF"></stop>
-              <stop offset="1" stopColor="#51469A"></stop>
+              <stop stopColor="var(--resume-folder-front-start)"></stop>
+              <stop
+                offset="1"
+                stopColor="var(--resume-folder-front-end)"
+              ></stop>
             </linearGradient>
           </defs>
         </svg>
