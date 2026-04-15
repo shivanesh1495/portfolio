@@ -226,3 +226,33 @@ export async function fetchGitHubCertifications() {
     return [];
   }
 }
+
+export async function fetchGitHubResume() {
+  try {
+    const files = await fetchRepoFolderFiles("resume", [
+      ".pdf",
+      ".png",
+      ".jpg",
+      ".jpeg",
+      ".webp",
+      ".svg",
+    ]);
+
+    if (files.length === 0) {
+      return null;
+    }
+
+    // Repo contract: only one resume file exists; use the first one when present.
+    const file = files[0];
+
+    return {
+      id: file.sha || file.name,
+      type: file.name.split(".").pop().toUpperCase(),
+      previewUrl: file.download_url,
+      url: file.html_url,
+    };
+  } catch (error) {
+    console.error("Error fetching resume:", error);
+    return null;
+  }
+}

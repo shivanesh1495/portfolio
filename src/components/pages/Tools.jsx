@@ -10,11 +10,27 @@ import { useGitHubCertifications } from "../../hooks/useGitHub";
 
 GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
 
-function PdfPreview({ url, mode = "cover", showBadge = false, badgeLabel }) {
+const pdfDocumentCache = new Map();
+
+async function loadPdfDocument(url) {
+  if (pdfDocumentCache.has(url)) {
+    return pdfDocumentCache.get(url);
+  }
+
+  const loadingTask = getDocument({ url });
+  const documentPromise = loadingTask.promise.catch((error) => {
+    pdfDocumentCache.delete(url);
+    throw error;
+  });
+
+  pdfDocumentCache.set(url, documentPromise);
+  return documentPromise;
+}
+
+function PdfPreview({ url, mode = "cover" }) {
   const wrapperRef = useRef(null);
   const canvasRef = useRef(null);
   const renderTaskRef = useRef(null);
-  const loadingTaskRef = useRef(null);
   const [status, setStatus] = useState("loading");
 
   useEffect(() => {
@@ -49,23 +65,15 @@ function PdfPreview({ url, mode = "cover", showBadge = false, badgeLabel }) {
           renderTaskRef.current.cancel();
           renderTaskRef.current = null;
         }
-        if (loadingTaskRef.current) {
-          loadingTaskRef.current.destroy();
-          loadingTaskRef.current = null;
-        }
 
-        const loadingTask = getDocument({ url });
-        loadingTaskRef.current = loadingTask;
-        const pdfDocument = await loadingTask.promise;
+        const pdfDocument = await loadPdfDocument(url);
 
         if (disposed || token !== renderToken) {
-          pdfDocument.destroy();
           return;
         }
 
         const page = await pdfDocument.getPage(1);
         if (disposed || token !== renderToken) {
-          pdfDocument.destroy();
           return;
         }
 
@@ -94,7 +102,7 @@ function PdfPreview({ url, mode = "cover", showBadge = false, badgeLabel }) {
         }
 
         context.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-        context.fillStyle = "#0b0e15";
+        context.fillStyle = "#ffffff";
         context.fillRect(0, 0, viewport.width, viewport.height);
 
         const renderTask = page.render({
@@ -105,12 +113,10 @@ function PdfPreview({ url, mode = "cover", showBadge = false, badgeLabel }) {
         await renderTask.promise;
 
         if (disposed || token !== renderToken) {
-          pdfDocument.destroy();
           return;
         }
 
         setStatus("ready");
-        pdfDocument.destroy();
       } catch (error) {
         if (!disposed) {
           setStatus("error");
@@ -140,10 +146,6 @@ function PdfPreview({ url, mode = "cover", showBadge = false, badgeLabel }) {
         renderTaskRef.current.cancel();
         renderTaskRef.current = null;
       }
-      if (loadingTaskRef.current) {
-        loadingTaskRef.current.destroy();
-        loadingTaskRef.current = null;
-      }
       if (resizeObserver) {
         resizeObserver.disconnect();
       } else {
@@ -163,9 +165,6 @@ function PdfPreview({ url, mode = "cover", showBadge = false, badgeLabel }) {
           <span>Preview unavailable</span>
         </div>
       ) : null}
-      {showBadge ? (
-        <span className="cert-preview-badge">{badgeLabel}</span>
-      ) : null}
     </div>
   );
 }
@@ -174,6 +173,7 @@ export default function Certifications() {
   const container = useRef();
   const modalOverlayRef = useRef(null);
   const modalPanelRef = useRef(null);
+  const hasAnimatedRef = useRef(false);
   const [selectedCert, setSelectedCert] = useState(null);
   const [selectedRect, setSelectedRect] = useState(null);
   const { certifications, loading, error } = useGitHubCertifications();
@@ -229,7 +229,8 @@ export default function Certifications() {
 
   useGSAP(
     () => {
-      if (!loading && certifications.length > 0) {
+      if (!loading && certifications.length > 0 && !hasAnimatedRef.current) {
+        hasAnimatedRef.current = true;
         gsap.from(".cert-card", {
           opacity: 0,
           scale: 0.96,
@@ -323,8 +324,8 @@ export default function Certifications() {
     <div className="certifications-page" ref={container}>
       <div className="page-header">
         <h1 className="certifications-hero-heading">
-          <span className="solid">CERTIFIED</span>
-          <span className="ghost">CREDENTIALS</span>
+          <span className="solid">CERTIFICATES &</span>
+          <span className="ghost">RECOGNITIONS</span>
         </h1>
         <p className="page-subtitle">
           Certificates synced live from GitHub. Tap a card to expand the preview
@@ -348,14 +349,9 @@ export default function Certifications() {
               className="cert-card"
               key={cert.id}
               onClick={(event) => openCertification(cert, event.currentTarget)}
-              aria-label={`Open ${cert.title} certificate preview`}
+              aria-label="Open certificate preview"
             >
-              <PdfPreview
-                url={cert.previewUrl}
-                mode="cover"
-                showBadge
-                badgeLabel="Open preview"
-              />
+              <PdfPreview url={cert.previewUrl} mode="cover" />
             </button>
           ))}
         </div>
@@ -382,14 +378,6 @@ export default function Certifications() {
                   ×
                 </button>
                 <PdfPreview url={selectedCert.previewUrl} mode="contain" />
-                <div className="cert-modal-footer">
-                  <div>
-                    <span className="cert-modal-kicker">
-                      {selectedCert.type} certificate
-                    </span>
-                    <h2>{selectedCert.title}</h2>
-                  </div>
-                </div>
               </div>
             </div>,
             document.body,
