@@ -530,8 +530,9 @@ body::after {
   display: flex;
   align-items: center;
   width: max-content;
+  min-width: 200%;
   white-space: nowrap;
-  animation: scrollTicker 56s linear infinite;
+  animation: scrollTicker 42s linear infinite;
   will-change: transform;
 }
 
@@ -539,8 +540,9 @@ body::after {
   display: flex;
   align-items: center;
   gap: 1rem;
-  flex: 0 0 auto;
-  padding-right: 1rem;
+  min-width: 100%;
+  justify-content: space-around;
+  padding: 0 0.5rem;
 }
 
 .ticker-item {
