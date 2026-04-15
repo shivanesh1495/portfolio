@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useGitHubProfile } from "../../hooks/useGitHub";
+import { useInstagramStats } from "../../hooks/useInstagram";
 
 function useCountUp(target, duration = 1400) {
   const [count, setCount] = useState(0);
@@ -35,65 +36,66 @@ const Stat = ({ value, label, showPlus = true }) => {
 
 export default function Home() {
   const { profile } = useGitHubProfile();
+  const { mediaCount } = useInstagramStats();
 
   // Default values while loading
-  const yearsExp = profile?.yearsExperience || 1;
+  const yearsExp = profile?.yearsExperience || 3;
   const projects = profile?.public_repos || 46;
+  const edits = mediaCount;
 
   const container = useRef();
 
-  useGSAP(() => {
-    gsap.from(".home-heading span, .home-bio, .stat-block", {
-      opacity: 0,
-      y: 15,
-      stagger: 0.1,
-      duration: 0.5,
-      ease: "power3.out",
-      clearProps: "all"
-    });
-  }, { scope: container });
+  useGSAP(
+    () => {
+      gsap.from(".home-heading span, .stat-card", {
+        opacity: 0,
+        y: 15,
+        stagger: 0.08,
+        duration: 0.5,
+        ease: "power3.out",
+        clearProps: "all",
+      });
+    },
+    { scope: container },
+  );
 
   return (
     <div className="home-page" ref={container}>
       <div className="home-hero">
-        <h1 className="home-heading">
-          <span className="heading-line solid">FULL STACK</span>
-          <span className="heading-line ghost">ENGINEER</span>
-        </h1>
-
-        <p className="home-bio">
-          Passionate about creating intuitive and engaging
-          <br />
-          <em className="bio-highlight">
-            USER EXPERIENCES. SPECIALIZE IN TRANSFORMING IDEAS
-          </em>
-          <br />
-          into beautifully crafted products.
-        </p>
+        <div className="hero-content">
+          <h1 className="home-heading">
+            <span className="heading-line solid">FULL STACK</span>
+            <span className="heading-line solid">& CLOUD </span>
+            <span className="heading-line ghost">ENGINEER</span>
+          </h1>
+        </div>
       </div>
 
-      <div className="home-stats">
-        <Stat
-          value={yearsExp}
-          label={
-            <>
-              YEARS INTO MY CODING
-              <br />
-              JOURNEY
-            </>
-          }
-          showPlus={false}
-        />
-        <Stat
-          value={projects}
-          label={
-            <>
-              PROJECTS
-              <br />
-              COMPLETED
-            </>
-          }
-        />
+      <div className="home-stats-grid">
+        <div className="stat-card">
+          <div className="stat-number">{yearsExp}</div>
+          <div className="stat-text">
+            Years Into
+            <br />
+            Coding Journey
+          </div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-number">+{projects}</div>
+          <div className="stat-text">
+            Projects
+            <br />
+            Completed
+          </div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-number">+{edits}</div>
+          <div className="stat-text">
+            Edits
+            <br />
+            Completed
+          </div>
+        </div>
       </div>
     </div>
   );
