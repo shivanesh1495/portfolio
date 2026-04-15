@@ -526,7 +526,7 @@ body::after {
   gap: 4rem;
   padding: 0 2rem;
   white-space: nowrap;
-  animation: scrollTicker 28s linear infinite;
+  animation: scrollTicker 56s linear infinite;
 }
 
 .ticker-item {
