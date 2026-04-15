@@ -483,6 +483,8 @@ body::after {
   position: relative;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  --ticker-icon-filter: grayscale(1) invert(1) brightness(0.96) contrast(1.08);
+  --ticker-icon-hover-filter: none;
 }
 
 /* Subtle glow line on top border */
@@ -507,6 +509,8 @@ body::after {
 [data-theme="light"] .bottom-ticker {
   background: rgba(255, 255, 255, 0.85);
   border-top: 1px solid rgba(0, 0, 0, 0.06);
+  --ticker-icon-filter: saturate(1.05) brightness(0.9) contrast(1.12);
+  --ticker-icon-hover-filter: none;
 }
 
 [data-theme="light"] .bottom-ticker::before {
@@ -518,10 +522,6 @@ body::after {
     rgba(var(--accent-rgb), 0.28) 75%,
     transparent 100%
   );
-}
-
-[data-theme="light"] .skill-icon {
-  filter: grayscale(1) brightness(0.12) contrast(1.2);
 }
 
 .ticker-track {
@@ -570,12 +570,16 @@ body::after {
   transform: translateY(-1px);
 }
 
+[data-theme="light"] .ticker-item {
+  opacity: 0.95;
+}
+
 .skill-icon {
   width: 30px;
   height: 30px;
   object-fit: contain;
   display: block;
-  filter: grayscale(1) invert(1) brightness(0.96) contrast(1.08);
+  filter: var(--ticker-icon-filter);
   opacity: 0.9;
   transition:
     filter 0.3s var(--ease-smooth),
@@ -583,8 +587,12 @@ body::after {
     transform 0.3s var(--ease-smooth);
 }
 
+[data-theme="light"] .skill-icon {
+  opacity: 0.98;
+}
+
 .ticker-item:hover .skill-icon {
-  filter: none;
+  filter: var(--ticker-icon-hover-filter);
   opacity: 1;
   transform: scale(1.05);
 }
