@@ -27,8 +27,8 @@ export default function Cinematraphie({ onBack }) {
 
       // Hide everything initially
       gsap.set(titleRef.current, { clipPath: "inset(0 100% 0 0)" });
-      gsap.set(bgRef.current, { opacity: 0 });
-      gsap.set(restRef.current, { opacity: 0, y: 30 });
+      gsap.set(bgRef.current, { opacity: 0, scale: 1.05 }); // Pre-scale for "zoom out" settle
+      gsap.set(restRef.current, { opacity: 0, y: 15, scale: 0.95 }); // Slimmer slide, subtle scale
       gsap.set(backRef.current, { opacity: 0, x: -10 });
 
       // ── STEP 2 (0.9s → 2.4s): Title sweep reveal ──
@@ -37,32 +37,34 @@ export default function Cinematraphie({ onBack }) {
         {
           clipPath: "inset(0 0% 0 0)",
           duration: 1.5,
-          ease: "power3.out",
+          ease: "expo.out", // Much smoother deceleration
         },
-        0.9 // starts at 0.9s
+        0.9
       );
 
-      // ── STEP 3 (2.5s → 2.8s): Gradient background appears ──
+      // ── STEP 3 (2.5s → 3.0s): Gradient background settle ──
       tl.to(
         bgRef.current,
         {
           opacity: 1,
-          duration: 0.3,
-          ease: "power2.inOut",
+          scale: 1,
+          duration: 0.8, // Slightly longer for smoothness
+          ease: "power3.out",
         },
-        2.5 // starts at 2.5s
+        2.5
       );
 
-      // ── STEP 4 (from 2.8s): Everything else fades in ──
+      // ── STEP 4 (from 2.8s): Everything else materializes ──
       tl.to(
         restRef.current,
         {
           opacity: 1,
           y: 0,
-          duration: 0.9,
-          ease: "power2.out",
+          scale: 1,
+          duration: 1.2,
+          ease: "expo.out",
         },
-        2.8 // starts at 2.8s
+        2.8
       );
 
       tl.to(
@@ -70,10 +72,10 @@ export default function Cinematraphie({ onBack }) {
         {
           opacity: 1,
           x: 0,
-          duration: 0.5,
-          ease: "power2.out",
+          duration: 0.6,
+          ease: "expo.out",
         },
-        2.8 // starts with rest components
+        2.9 // Offset slightly for staggered layer feel
       );
     },
     { scope: pageRef }

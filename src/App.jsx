@@ -286,11 +286,11 @@ function App() {
   const handleOpenCinematraphie = useCallback(() => {
     setShowCinematraphie(true); // Mount immediately
     gsap.to(appRootRef.current, {
-      filter: "blur(15px)",
-      scale: 0.98,
-      opacity: 0.5, // Keep semi-opaque to show the blur clearly
+      filter: "blur(20px)",
+      scale: 0.97,
+      opacity: 0.45,
       duration: 2.5,
-      ease: "power2.inOut",
+      ease: "expo.inOut",
     });
   }, []);
 
