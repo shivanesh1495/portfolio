@@ -12,7 +12,13 @@ export const BASE_REVEAL = Object.freeze({
 });
 
 export function revealIn(targets, options = {}) {
-  return gsap.from(targets, {
+  const resolvedTargets = gsap.utils.toArray(targets).filter(Boolean);
+
+  if (resolvedTargets.length === 0) {
+    return null;
+  }
+
+  return gsap.from(resolvedTargets, {
     ...BASE_REVEAL,
     ...options,
   });

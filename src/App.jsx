@@ -237,11 +237,17 @@ function PageTransition({ children, activeTab }) {
         },
       );
 
-      revealIn(".page-header, .home-heading", {
-        y: 12,
-        duration: 0.45,
-        stagger: 0.04,
-      });
+      const scopedTargets = container.current?.querySelectorAll(
+        ".page-header, .home-heading",
+      );
+
+      if (scopedTargets && scopedTargets.length > 0) {
+        revealIn(scopedTargets, {
+          y: 12,
+          duration: 0.45,
+          stagger: 0.04,
+        });
+      }
     },
     { scope: container, dependencies: [activeTab] },
   );
