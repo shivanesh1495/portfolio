@@ -2,6 +2,7 @@ import {
   lazy,
   memo,
   Suspense,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -19,6 +20,7 @@ const Projects = lazy(() => import("./components/pages/Projects"));
 const Experience = lazy(() => import("./components/pages/Experience"));
 const Certifications = lazy(() => import("./components/pages/Tools"));
 const Writings = lazy(() => import("./components/pages/Writings"));
+const Cinematraphie = lazy(() => import("./components/pages/Cinematraphie"));
 const MemoSidebar = memo(Sidebar);
 
 const TICKER_ITEMS = [
@@ -278,6 +280,32 @@ function App() {
   const rafRef = useRef(0);
   const hasMountedThemeRef = useRef(false);
 
+  /* ── Cinematraphie overlay state & transition handlers ── */
+  const [showCinematraphie, setShowCinematraphie] = useState(false);
+
+  const handleOpenCinematraphie = useCallback(() => {
+    setShowCinematraphie(true); // Mount immediately
+    gsap.to(appRootRef.current, {
+      filter: "blur(15px)",
+      scale: 0.98,
+      opacity: 0.5, // Keep semi-opaque to show the blur clearly
+      duration: 2.5,
+      ease: "power2.inOut",
+    });
+  }, []);
+
+  const handleCloseCinematraphie = useCallback(() => {
+    setShowCinematraphie(false);
+    gsap.to(appRootRef.current, {
+      filter: "blur(0px)",
+      scale: 1,
+      opacity: 1,
+      duration: 0.5,
+      ease: "power2.out",
+      clearProps: "filter,transform,opacity",
+    });
+  }, []);
+
   useGSAP(
     () => {
       revealIn(".sidebar-col, .main-col", {
@@ -439,12 +467,13 @@ function App() {
   }, [activeTab]);
 
   return (
+    <>
     <div className="app-root" ref={appRootRef}>
       <div className="app-theme-flash" ref={themeFlashRef} aria-hidden="true" />
       <div className="app-body">
         {/* LEFT: Sidebar */}
         <div className="sidebar-col">
-          <MemoSidebar />
+          <MemoSidebar onCinematraphie={handleOpenCinematraphie} />
         </div>
 
         {/* RIGHT: Nav + Content */}
@@ -475,6 +504,13 @@ function App() {
       {/* BOTTOM: Scrolling Tech Ticker */}
       <BottomTicker />
     </div>
+
+    {showCinematraphie && (
+      <Suspense fallback={null}>
+        <Cinematraphie onBack={handleCloseCinematraphie} />
+      </Suspense>
+    )}
+    </>
   );
 }
 

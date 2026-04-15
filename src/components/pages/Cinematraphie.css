@@ -1,0 +1,320 @@
+/* ╔══════════════════════════════════════════════════════════════════╗
+   ║  CINEMATRAPHIE — CINEMATIC LUXURY LANDING PAGE                  ║
+   ║  Full-screen · No-scroll · Film-studio aesthetic                ║
+   ╚══════════════════════════════════════════════════════════════════╝ */
+
+/* ── Page container ── */
+.cin-page {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: opacity, transform;
+}
+
+/* ────────────────────────────────────────────────────────────────────
+   BACKGROUND — Deep cinematic gradient
+   Maroon → Wine Red → Burnt Orange → Black
+   Multi-layer radial + linear gradients for depth
+   ──────────────────────────────────────────────────────────────────── */
+.cin-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    /* Burnt orange glow — upper right */
+    radial-gradient(
+      ellipse 55% 50% at 82% 12%,
+      rgba(195, 90, 18, 0.68) 0%,
+      transparent 70%
+    ),
+    /* Amber accent — mid-right */
+    radial-gradient(
+      ellipse 38% 38% at 68% 28%,
+      rgba(165, 72, 8, 0.34) 0%,
+      transparent 65%
+    ),
+    /* Subtle warm wash — upper band */
+    radial-gradient(
+      ellipse 80% 40% at 58% 8%,
+      rgba(140, 55, 5, 0.2) 0%,
+      transparent 60%
+    ),
+    /* Dark wine sweep — center & left */
+    radial-gradient(
+      ellipse 100% 80% at 38% 58%,
+      rgba(45, 5, 15, 0.94) 0%,
+      transparent 65%
+    ),
+    /* Deep maroon — center */
+    radial-gradient(
+      ellipse 70% 60% at 50% 50%,
+      rgba(35, 4, 12, 0.5) 0%,
+      transparent 70%
+    ),
+    /* Magenta glow — lower right */
+    radial-gradient(
+      ellipse 48% 42% at 78% 86%,
+      rgba(135, 22, 55, 0.5) 0%,
+      transparent 70%
+    ),
+    /* Wine undertone — bottom edge */
+    radial-gradient(
+      ellipse 65% 35% at 50% 95%,
+      rgba(80, 10, 30, 0.35) 0%,
+      transparent 65%
+    ),
+    /* Deep black base */
+    #080306;
+}
+
+/* Animated glow layer — slow, living background movement */
+.cin-bg-glow {
+  position: absolute;
+  inset: -30%;
+  z-index: 0;
+  background:
+    radial-gradient(
+      ellipse 45% 45% at 60% 35%,
+      rgba(180, 70, 15, 0.12) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 40% 40% at 35% 70%,
+      rgba(100, 15, 40, 0.09) 0%,
+      transparent 55%
+    );
+  animation: cin-glow-drift 20s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+/* Noise / film grain overlay */
+.cin-noise {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px;
+}
+
+/* Soft vignette edges */
+.cin-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 78% 72% at 50% 50%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
+
+/* ────────────────────────────────────────────────────────────────────
+   CONTENT — Centered flex column
+   ──────────────────────────────────────────────────────────────────── */
+.cin-content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  padding: 0;
+}
+
+/* ── Main title — SVG signature stretching full width ── */
+.cin-title {
+  width: 100%;
+  max-width: 92vw;
+  height: auto;
+  display: block;
+  padding: 0 4vw;
+  will-change: clip-path;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  user-select: none;
+  pointer-events: none;
+  filter: drop-shadow(0 0 60px rgba(255, 255, 255, 0.06))
+          drop-shadow(0 0 120px rgba(255, 255, 255, 0.03));
+}
+
+/* ── Rest group — tagline + buttons (animated as one in step 3) ── */
+.cin-rest {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -8vw; /* Pull up to overlay/bring near the SVG signature */
+  position: relative;
+  z-index: 4;
+  will-change: opacity, transform;
+}
+
+/* ── Tagline — gradient text (blue → purple → pink) ── */
+.cin-tagline {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.2rem, 2.8vw, 2.2rem);
+  font-weight: 300;
+  font-style: italic;
+  background: linear-gradient(90deg, #8ba0ff, #c084fc, #f472b6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-top: 0;
+  letter-spacing: 2px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  opacity: 0.9;
+}
+
+/* ── Buttons row ── */
+.cin-buttons {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1.5rem; /* Reduced space between tagline and buttons */
+  align-items: center;
+}
+
+/* ── Glassmorphic pill button ── */
+.cin-btn {
+  font-family: "Lora", serif;
+  font-style: italic;
+  font-size: clamp(0.85rem, 1.1vw, 1.1rem);
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 999px;
+  padding: 0.9rem 3rem;
+  cursor: pointer;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 0 20px rgba(255, 255, 255, 0.02),
+    0 4px 24px rgba(0, 0, 0, 0.25);
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 0.3s ease,
+    background-color 0.3s ease,
+    box-shadow 0.35s ease,
+    color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+.cin-btn:hover {
+  transform: scale(1.05);
+  border-color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 30px rgba(255, 255, 255, 0.04),
+    0 0 40px rgba(255, 255, 255, 0.06),
+    0 0 80px rgba(255, 255, 255, 0.02),
+    0 6px 30px rgba(0, 0, 0, 0.3);
+}
+
+.cin-btn:active {
+  transform: scale(0.98);
+  transition-duration: 0.1s;
+}
+
+/* ── Back button — subtle, circular, top-left ── */
+.cin-back {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  z-index: 10;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition:
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 0.3s ease,
+    color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.cin-back:hover {
+  transform: scale(1.1);
+  border-color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ────────────────────────────────────────────────────────────────────
+   KEYFRAMES
+   ──────────────────────────────────────────────────────────────────── */
+
+/* Very slow, infinite background glow movement */
+@keyframes cin-glow-drift {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 0.8;
+  }
+  33% {
+    transform: translate(3%, -2%) rotate(1.5deg) scale(1.04);
+    opacity: 1;
+  }
+  66% {
+    transform: translate(-2%, 2%) rotate(-1deg) scale(1.02);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(1%, -1%) rotate(0.5deg) scale(1.06);
+    opacity: 1;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────────
+   RESPONSIVE
+   ──────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .cin-content {
+    padding: 1.5rem;
+  }
+
+  .cin-buttons {
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  .cin-btn {
+    padding: 0.8rem 2.5rem;
+    min-width: 200px;
+  }
+
+  .cin-back {
+    top: 1rem;
+    left: 1rem;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cin-title {
+    padding: 0 2vw;
+  }
+}
