@@ -1,9 +1,14 @@
-import React from 'react';
-import { ArrowUpRight, Star, GitFork } from 'lucide-react';
+import React from "react";
+import { ArrowUpRight } from "lucide-react";
 
 export default function ProjectCard({ project }) {
   return (
-    <a href={project.url} target="_blank" rel="noreferrer" className="project-card-link">
+    <a
+      href={project.url}
+      target="_blank"
+      rel="noreferrer"
+      className="project-card-link"
+    >
       <div className="card-container noselect">
         <div className="canvas">
           {Array.from({ length: 25 }).map((_, i) => (
@@ -17,11 +22,11 @@ export default function ProjectCard({ project }) {
             <p>{project.desc}</p>
             <div className="card-footer">
               <div className="card-tags">
-                {project.tags.map(t => <span key={t} className="tag">{t}</span>)}
-              </div>
-              <div className="card-stats">
-                <span className="stat"><Star size={14} /> {project.stars}</span>
-                <span className="stat"><GitFork size={14} /> {project.forks}</span>
+                {project.tags.map((t) => (
+                  <span key={t} className="tag">
+                    {t}
+                  </span>
+                ))}
               </div>
             </div>
           </div>

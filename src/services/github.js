@@ -3,6 +3,16 @@ const PORTFOLIO_TOPIC = "portfolio";
 const DATA_REPO_OWNER = "shivanesh1495";
 const DATA_REPO_NAME = "PORTFOLIO-DB";
 const DATA_REPO_BRANCH = "main";
+const EXCLUDED_REPO_NAMES = new Set([
+  "portfolio",
+  "portfolio-db",
+  "shivanesh1495",
+  "leetcode_solutions",
+]);
+
+function normalizeRepoName(name) {
+  return name.toLowerCase().replace(/\s+/g, "-");
+}
 
 async function fetchJson(url) {
   const response = await fetch(url);
@@ -13,7 +23,20 @@ async function fetchJson(url) {
   return response.json();
 }
 
-async function fetchRepoFolderFiles(folder) {
+function hasAllowedExtension(fileName, extensions) {
+  const lowerName = fileName.toLowerCase();
+  return extensions.some((extension) => lowerName.endsWith(extension));
+}
+
+function formatRepositoryAssetName(fileName) {
+  return fileName
+    .replace(/\.[^.]+$/, "")
+    .replace(/[_-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+async function fetchRepoFolderFiles(folder, extensions = [".txt"]) {
   const url = `https://api.github.com/repos/${DATA_REPO_OWNER}/${DATA_REPO_NAME}/contents/${folder}?ref=${DATA_REPO_BRANCH}`;
   const files = await fetchJson(url);
 
@@ -22,7 +45,8 @@ async function fetchRepoFolderFiles(folder) {
   }
 
   return files.filter(
-    (file) => file.type === "file" && file.name.endsWith(".txt"),
+    (file) =>
+      file.type === "file" && hasAllowedExtension(file.name, extensions),
   );
 }
 
@@ -31,7 +55,7 @@ function parseStructuredTextFile(content) {
 
   try {
     return JSON.parse(trimmed);
-  } catch {
+  } catch (parseError) {
     try {
       // The data files are maintained as simple object literals.
       return new Function(`return (${trimmed});`)();
@@ -88,15 +112,22 @@ export async function fetchGitHubProjects() {
     if (!response.ok) throw new Error("Failed to fetch repositories");
 
     const data = await response.json();
+    const visibleRepos = data.filter(
+      (repo) => !EXCLUDED_REPO_NAMES.has(normalizeRepoName(repo.name)),
+    );
 
     // Filter by 'portfolio' topic if any exist
     let filtered = data.filter(
       (repo) => repo.topics && repo.topics.includes(PORTFOLIO_TOPIC),
     );
 
-    // If no repos have the topic, fallback to all non-fork public repositories
+    filtered = filtered.filter(
+      (repo) => !EXCLUDED_REPO_NAMES.has(normalizeRepoName(repo.name)),
+    );
+
+    // If no repos have the topic, fallback to all public repositories.
     if (filtered.length === 0) {
-      filtered = data.filter((repo) => !repo.fork);
+      filtered = visibleRepos;
     }
 
     return filtered.map((repo) => ({
@@ -168,6 +199,30 @@ export async function fetchGitHubExperience() {
     return experience;
   } catch (error) {
     console.error("Error fetching experience:", error);
+    return [];
+  }
+}
+
+export async function fetchGitHubCertifications() {
+  try {
+    const files = await fetchRepoFolderFiles("certifications", [
+      ".pdf",
+      ".png",
+      ".jpg",
+      ".jpeg",
+      ".webp",
+      ".svg",
+    ]);
+
+    return files.map((file) => ({
+      id: file.sha || file.name,
+      title: formatRepositoryAssetName(file.name),
+      type: file.name.split(".").pop().toUpperCase(),
+      previewUrl: file.download_url,
+      url: file.html_url,
+    }));
+  } catch (error) {
+    console.error("Error fetching certifications:", error);
     return [];
   }
 }

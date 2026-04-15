@@ -81,6 +81,32 @@ export const NextSVG = () => (
   </svg>
 );
 
+export const CertificateSVG = () => (
+  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+    <rect
+      x="4"
+      y="4"
+      width="20"
+      height="20"
+      rx="4"
+      fill="rgba(255, 255, 255, 0.08)"
+      stroke="white"
+      strokeOpacity="0.55"
+    />
+    <path
+      d="M8 9h12M8 13h12M8 17h7"
+      stroke="white"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+    />
+    <circle cx="20" cy="19" r="3" fill="#4d8ce8" />
+    <path
+      d="M20 17.4l.7 1.4 1.6.2-1.2 1.1.3 1.6-1.4-.8-1.4.8.3-1.6-1.2-1.1 1.6-.2.7-1.4Z"
+      fill="white"
+    />
+  </svg>
+);
+
 export const DribbbleIcon = () => (
   <svg
     width="20"

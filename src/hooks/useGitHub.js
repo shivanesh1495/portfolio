@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import {
+  fetchGitHubCertifications,
   fetchGitHubExperience,
   fetchGitHubProjects,
   fetchGitHubWritings,
@@ -98,4 +99,28 @@ export function useGitHubExperience() {
   }, []);
 
   return { experience, loading, error };
+}
+
+export function useGitHubCertifications() {
+  const [certifications, setCertifications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        setLoading(true);
+        const data = await fetchGitHubCertifications();
+        setCertifications(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    load();
+  }, []);
+
+  return { certifications, loading, error };
 }
