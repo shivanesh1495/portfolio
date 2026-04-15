@@ -2784,116 +2784,203 @@ body::after {
 /* ╔══════════════════════════════════════════════════════════════════╗
    ║  RESUME BUTTON (Animated Folder)                                ║
    ╚══════════════════════════════════════════════════════════════════╝ */
-.Documents-btn {
+.Documents-btn,
+.action-btn {
+  all: unset;
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  position: relative;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    160deg,
+    rgba(18, 28, 50, 0.94) 0%,
+    rgba(10, 16, 33, 0.96) 100%
+  );
   display: flex;
   align-items: center;
   justify-content: center;
-  width: min(100%, 180px);
-  height: 52px;
-  border: 1px solid rgba(var(--accent-rgb), 0.34);
-  padding: 0 1rem;
-  border-radius: 14px;
-  background: linear-gradient(
-    165deg,
-    rgba(var(--accent-rgb), 0.16) 0%,
-    rgba(var(--accent-rgb), 0.1) 55%,
-    rgba(var(--accent-rgb), 0.07) 100%
-  );
-  gap: 0.75rem;
-  cursor: pointer;
-  margin-top: 1.25rem;
-  position: relative;
-  overflow: hidden;
-  z-index: 2;
+  width: 92%;
+  margin-inline: auto;
+  height: 54px;
+  text-decoration: none;
+  border: 1px solid rgba(122, 164, 255, 0.28);
   transition:
-    transform 0.35s var(--ease-spring),
-    background 0.35s var(--ease-smooth),
-    border-color 0.35s var(--ease-smooth),
-    box-shadow 0.3s var(--ease-smooth);
+    transform 0.24s var(--ease-smooth),
+    box-shadow 0.24s var(--ease-smooth),
+    border-color 0.24s var(--ease-smooth),
+    background 0.24s var(--ease-smooth);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    0 8px 24px rgba(10, 20, 42, 0.24),
-    0 0 28px rgba(var(--accent-rgb), 0.12);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 10px 24px rgba(2, 7, 20, 0.45),
+    0 0 24px rgba(67, 122, 255, 0.16);
+  z-index: 2;
 }
 
-.Documents-btn::before {
+.Documents-btn {
+  margin-top: 1.25rem;
+  margin-bottom: 0;
+}
+
+.Documents-btn::before,
+.action-btn::before {
   content: "";
   position: absolute;
-  left: 10%;
-  right: 10%;
-  top: 0;
-  height: 1px;
+  inset: 1px;
+  border-radius: inherit;
   background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.5),
-    transparent
+    140deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0) 38%,
+    rgba(0, 0, 0, 0.16) 100%
   );
   pointer-events: none;
+  z-index: 0;
 }
 
-.Documents-btn:hover {
+.Documents-btn .button-outer,
+.action-btn .button-outer {
+  position: relative;
+  z-index: 1;
+  border-radius: inherit;
+  width: 100%;
+  height: 100%;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Documents-btn .button-inner,
+.action-btn .button-inner {
+  position: relative;
+  z-index: 1;
+  border-radius: inherit;
+  padding: 0 1rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
   background: linear-gradient(
-    165deg,
-    rgba(var(--accent-rgb), 0.24) 0%,
-    rgba(var(--accent-rgb), 0.14) 58%,
-    rgba(var(--accent-rgb), 0.09) 100%
+    145deg,
+    rgba(64, 74, 92, 0.56) 0%,
+    rgba(34, 42, 58, 0.76) 100%
   );
-  border-color: rgba(var(--accent-rgb), 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.24s var(--ease-smooth);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    0 14px 34px rgba(10, 20, 42, 0.28),
-    0 0 36px rgba(var(--accent-rgb), 0.2);
-  transform: translateY(-2px);
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35);
 }
 
-.Documents-btn:active {
-  transform: scale(0.98);
-}
-
-[data-theme="light"] .Documents-btn {
+.Documents-btn:hover,
+.action-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(146, 182, 255, 0.4);
   background: linear-gradient(
-    165deg,
-    rgba(255, 197, 152, 0.34) 0%,
-    rgba(255, 224, 198, 0.3) 55%,
-    rgba(255, 246, 238, 0.28) 100%
+    160deg,
+    rgba(22, 34, 60, 0.98) 0%,
+    rgba(12, 20, 40, 1) 100%
   );
-  border-color: rgba(232, 124, 53, 0.34);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.7),
-    0 10px 26px rgba(214, 120, 56, 0.22),
-    0 0 32px rgba(232, 124, 53, 0.18);
+    inset 0 1px 0 rgba(255, 255, 255, 0.11),
+    0 12px 28px rgba(2, 8, 22, 0.52),
+    0 0 30px rgba(69, 130, 255, 0.2);
 }
 
-[data-theme="light"] .Documents-btn:hover {
+.Documents-btn:hover .button-inner,
+.action-btn:hover .button-inner {
   background: linear-gradient(
-    165deg,
-    rgba(255, 186, 132, 0.46) 0%,
-    rgba(255, 212, 173, 0.4) 56%,
-    rgba(255, 240, 226, 0.34) 100%
+    145deg,
+    rgba(74, 84, 102, 0.62) 0%,
+    rgba(39, 47, 66, 0.8) 100%
   );
-  border-color: rgba(232, 124, 53, 0.46);
+}
+
+.Documents-btn:active,
+.action-btn:active {
+  transform: translateY(0);
+}
+
+.Documents-btn .folderContainer {
+  width: 38px;
+  height: 26px;
+  position: relative;
+  z-index: 2;
+}
+
+.Documents-btn .text,
+.action-btn .button-inner span {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-body);
+  letter-spacing: 0.2px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: rgba(235, 242, 255, 0.95);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+  display: block;
+}
+
+/* LIGHT MODE RESUME BUTTON */
+[data-theme="light"] .Documents-btn,
+[data-theme="light"] .action-btn {
+  background: linear-gradient(
+    160deg,
+    rgba(255, 242, 224, 0.98) 0%,
+    rgba(247, 229, 204, 0.98) 100%
+  );
+  border-color: rgba(214, 120, 56, 0.34);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.76),
-    0 14px 30px rgba(214, 120, 56, 0.26),
-    0 0 40px rgba(232, 124, 53, 0.24);
+    inset 0 1px 0 rgba(255, 255, 255, 0.88),
+    0 10px 22px rgba(214, 120, 56, 0.22),
+    0 0 24px rgba(232, 124, 53, 0.12);
+}
+
+[data-theme="light"] .Documents-btn .button-inner,
+[data-theme="light"] .action-btn .button-inner {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(243, 230, 214, 0.95) 100%
+  );
+  border-color: rgba(214, 120, 56, 0.2);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -1px 0 rgba(214, 120, 56, 0.12);
+}
+
+[data-theme="light"] .Documents-btn .text,
+[data-theme="light"] .action-btn .button-inner span {
+  color: rgba(73, 43, 21, 0.95);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+[data-theme="light"] .Documents-btn:hover,
+[data-theme="light"] .action-btn:hover {
+  background: linear-gradient(
+    160deg,
+    rgba(255, 236, 214, 1) 0%,
+    rgba(246, 223, 194, 1) 100%
+  );
+  border-color: rgba(214, 120, 56, 0.44);
 }
 
 .folderContainer {
-  width: 48px;
-  height: fit-content;
+  width: 38px;
+  height: 26px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
   position: relative;
+  z-index: 2;
 }
 
 .fileBack {
   z-index: 1;
-  width: 80%;
+  width: 78%;
   height: auto;
 }
 
@@ -2906,7 +2993,7 @@ body::after {
 }
 
 .fileFront {
-  width: 85%;
+  width: 82%;
   height: auto;
   position: absolute;
   z-index: 3;
@@ -2916,12 +3003,7 @@ body::after {
 }
 
 .Documents-btn .text {
-  color: var(--text-main);
-  font-size: clamp(1.05rem, 2.1vw, 1.6rem);
-  font-family: var(--font-title-secondary);
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  margin-top: 0;
+  display: block;
 }
 
 .Documents-btn:hover .filePage {
@@ -3257,152 +3339,14 @@ body::after {
   flex-direction: column;
   gap: 0.85rem;
   width: 100%;
-  margin-top: 1.5rem;
+  margin-top: 0.85rem;
   margin-bottom: 1.5rem;
   position: relative;
   z-index: 2;
 }
 
-.action-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  width: 100%;
-  height: 54px;
-  padding: 0 1.5rem;
-  border-radius: var(--radius-pill);
-  background: linear-gradient(
-    165deg,
-    rgba(var(--accent-rgb), 0.1) 0%,
-    rgba(var(--accent-rgb), 0.06) 100%
-  );
-  border: 1.5px solid rgba(var(--accent-rgb), 0.2);
-  color: var(--text-main);
-  text-decoration: none;
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition:
-    transform 0.35s var(--ease-spring),
-    background 0.35s var(--ease-smooth),
-    border-color 0.35s var(--ease-smooth),
-    box-shadow 0.35s var(--ease-smooth);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-
-.action-btn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: var(--radius-pill);
-  padding: 1.5px;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.2) 0%,
-    rgba(255, 255, 255, 0.08) 100%
-  );
-  -webkit-mask: radial-gradient(
-    farthest-side,
-    transparent calc(100% - 1.5px),
-    #fff calc(100% - 1.5px)
-  );
-  mask: radial-gradient(
-    farthest-side,
-    transparent calc(100% - 1.5px),
-    #fff calc(100% - 1.5px)
-  );
-  pointer-events: none;
-}
-
-.action-btn::after {
-  content: "";
-  position: absolute;
-  inset: 1px;
-  border-radius: calc(var(--radius-pill) - 1px);
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.06) 0%,
-    transparent 50%,
-    rgba(0, 0, 0, 0.06) 100%
-  );
-  pointer-events: none;
-  z-index: 1;
-}
-
-.btn-icon {
-  font-size: 1.2rem;
-  position: relative;
-  z-index: 2;
-}
-
-.btn-text {
-  position: relative;
-  z-index: 2;
-}
-
-.action-btn:hover {
-  transform: translateY(-3px);
-  background: linear-gradient(
-    165deg,
-    rgba(var(--accent-rgb), 0.16) 0%,
-    rgba(var(--accent-rgb), 0.1) 100%
-  );
-  border-color: rgba(var(--accent-rgb), 0.32);
-  box-shadow:
-    -6px -6px 16px rgba(255, 255, 255, 0.08),
-    8px 8px 20px rgba(0, 0, 0, 0.4),
-    0 0 32px rgba(var(--accent-rgb), 0.12);
-}
-
-.action-btn:active {
-  transform: translateY(-1px) scale(0.98);
-  box-shadow:
-    inset -2px -2px 8px rgba(255, 255, 255, 0.06),
-    inset 2px 2px 8px rgba(0, 0, 0, 0.3),
-    0 0 16px rgba(0, 0, 0, 0.1);
-}
-
-/* LIGHT MODE ACTION BUTTONS */
-[data-theme="light"] .action-btn {
-  background: linear-gradient(
-    165deg,
-    rgba(255, 186, 132, 0.2) 0%,
-    rgba(255, 224, 198, 0.12) 100%
-  );
-  border-color: rgba(232, 86, 23, 0.24);
-  color: var(--text-main);
-  box-shadow:
-    -6px -6px 16px rgba(255, 255, 255, 0.8),
-    8px 8px 20px rgba(214, 120, 56, 0.15),
-    0 0 28px rgba(232, 86, 23, 0.08);
-}
-
-[data-theme="light"] .action-btn:hover {
-  background: linear-gradient(
-    165deg,
-    rgba(255, 170, 110, 0.28) 0%,
-    rgba(255, 212, 173, 0.16) 100%
-  );
-  border-color: rgba(232, 86, 23, 0.32);
-  box-shadow:
-    -8px -8px 20px rgba(255, 255, 255, 0.9),
-    10px 10px 24px rgba(214, 120, 56, 0.2),
-    0 0 40px rgba(232, 86, 23, 0.15);
-}
-
-[data-theme="light"] .action-btn:active {
-  box-shadow:
-    inset -2px -2px 8px rgba(255, 255, 255, 0.6),
-    inset 2px 2px 8px rgba(232, 86, 23, 0.1),
-    0 0 16px rgba(232, 86, 23, 0.06);
-}
-
-║  SCROLLBAR & PROGRESS BAR                                      ║
+/* ╔══════════════════════════════════════════════════════════════════╗
+   ║  SCROLLBAR & PROGRESS BAR                                      ║
    ╚══════════════════════════════════════════════════════════════════╝ */
 
 /* ╔══════════════════════════════════════════════════════════════════╗
@@ -3411,7 +3355,6 @@ body::after {
 
 /* DARK MODE NEUMORPHISM */
 .social-link,
-.Documents-btn,
 .project-card,
 .tool-card,
 .exp-card,
@@ -3425,7 +3368,6 @@ body::after {
 }
 
 .social-link:hover,
-.Documents-btn:hover,
 .project-card:hover,
 .tool-card:hover,
 .exp-card:hover,
@@ -3440,7 +3382,6 @@ body::after {
 
 /* LIGHT MODE NEUMORPHISM */
 [data-theme="light"] .social-link,
-[data-theme="light"] .Documents-btn,
 [data-theme="light"] .project-card,
 [data-theme="light"] .tool-card,
 [data-theme="light"] .exp-card,
@@ -3453,7 +3394,6 @@ body::after {
 }
 
 [data-theme="light"] .social-link:hover,
-[data-theme="light"] .Documents-btn:hover,
 [data-theme="light"] .project-card:hover,
 [data-theme="light"] .tool-card:hover,
 [data-theme="light"] .exp-card:hover,
@@ -3468,7 +3408,6 @@ body::after {
 
 /* INSET NEUMORPHISM FOR DEPTH */
 .social-link::after,
-.Documents-btn::after,
 .project-card::after,
 .tool-card::after,
 .exp-card::after,
@@ -3488,7 +3427,6 @@ body::after {
 }
 
 [data-theme="light"] .social-link::after,
-[data-theme="light"] .Documents-btn::after,
 [data-theme="light"] .project-card::after,
 [data-theme="light"] .tool-card::after,
 [data-theme="light"] .exp-card::after,
@@ -3504,7 +3442,6 @@ body::after {
 /* ENSURE CONTENT APPEARS ABOVE NEUMORPHIC LAYER */
 .social-link svg,
 .tool-icon-wrap,
-.Documents-btn .text,
 .project-card-content,
 .exp-card-content,
 .chip {
@@ -3514,7 +3451,6 @@ body::after {
 
 /* PRESSED STATE NEUMORPHISM */
 .social-link:active,
-.Documents-btn:active,
 .project-card:active,
 .tool-card:active {
   box-shadow:
@@ -3525,7 +3461,6 @@ body::after {
 }
 
 [data-theme="light"] .social-link:active,
-[data-theme="light"] .Documents-btn:active,
 [data-theme="light"] .project-card:active,
 [data-theme="light"] .tool-card:active {
   box-shadow:

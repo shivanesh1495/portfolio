@@ -87,12 +87,18 @@ export default function Sidebar() {
 
         <div className="action-buttons">
           <a href="#" className="action-btn editing-btn">
-            <span className="btn-icon">🎨</span>
-            <span className="btn-text">Checkout My Editing</span>
+            <div className="button-outer">
+              <div className="button-inner">
+                <span>Editing Profile</span>
+              </div>
+            </div>
           </a>
           <a href="#" className="action-btn connect-btn">
-            <span className="btn-icon">💬</span>
-            <span className="btn-text">Connect With Me</span>
+            <div className="button-outer">
+              <div className="button-inner">
+                <span>Get In Touch</span>
+              </div>
+            </div>
           </a>
         </div>
 
