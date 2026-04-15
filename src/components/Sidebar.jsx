@@ -1,29 +1,26 @@
-import React, { useRef } from "react";
-import gsap from "gsap";
+import React, { memo, useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import { Flame } from "lucide-react";
 import { useGitHubProfile } from "../hooks/useGitHub";
+import { floatLoop, revealIn } from "../utils/animations";
 
 import { GitHubIcon, LinkedinIcon, InstagramIcon } from "./icons/BrandIcons";
 import ResumeButton from "./ui/ResumeButton";
 
-export default function Sidebar() {
+function Sidebar() {
   const { profile } = useGitHubProfile();
   const container = useRef();
 
   useGSAP(
     () => {
-      gsap.from(
+      revealIn(
         ".photo-block, .card-name, .flame-row, .card-bio, .Documents-btn, .card-socials .social-link",
         {
-          opacity: 0,
-          y: 15,
           stagger: 0.08,
-          duration: 0.6,
-          ease: "power3.out",
-          clearProps: "all",
+          duration: 0.58,
         },
       );
+
+      floatLoop(".photo-bg");
     },
     { scope: container },
   );
@@ -136,3 +133,5 @@ export default function Sidebar() {
     </aside>
   );
 }
+
+export default memo(Sidebar);

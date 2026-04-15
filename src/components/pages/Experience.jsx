@@ -1,22 +1,19 @@
-import React, { useRef } from "react";
-import gsap from "gsap";
+import React, { memo, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { ArrowUpRight } from "lucide-react";
 import { useGitHubExperience } from "../../hooks/useGitHub";
+import { revealIn } from "../../utils/animations";
 
-export default function Experience() {
+function Experience() {
   const { experience, loading, error } = useGitHubExperience();
   const container = useRef();
 
   useGSAP(
     () => {
-      gsap.from(".exp-card", {
-        opacity: 0,
+      revealIn(".exp-card", {
         y: 15,
         duration: 0.5,
         stagger: 0.1,
-        ease: "power3.out",
-        clearProps: "all",
       });
     },
     { scope: container, dependencies: [experience] },
@@ -57,3 +54,5 @@ export default function Experience() {
     </div>
   );
 }
+
+export default memo(Experience);

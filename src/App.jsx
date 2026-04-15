@@ -12,6 +12,7 @@ import { useGSAP } from "@gsap/react";
 import Lenis from "lenis";
 import Sidebar from "./components/Sidebar";
 import Navigation from "./components/Navigation";
+import { revealIn } from "./utils/animations";
 
 const Home = lazy(() => import("./components/pages/Home"));
 const Projects = lazy(() => import("./components/pages/Projects"));
@@ -223,15 +224,26 @@ function PageTransition({ children, activeTab }) {
 
   useGSAP(
     () => {
-      gsap.from(container.current, {
-        opacity: 0,
-        y: 15,
-        duration: 0.5,
-        ease: "power3.out",
-        clearProps: "all",
+      gsap.fromTo(
+        container.current,
+        { opacity: 0, y: 18, scale: 0.995 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.52,
+          ease: "power3.out",
+          clearProps: "all",
+        },
+      );
+
+      revealIn(".page-header, .home-heading", {
+        y: 12,
+        duration: 0.45,
+        stagger: 0.04,
       });
     },
-    { dependencies: [activeTab] },
+    { scope: container, dependencies: [activeTab] },
   );
 
   return (
@@ -252,10 +264,35 @@ function PageTransition({ children, activeTab }) {
 function App() {
   const [activeTab, setActiveTab] = useState("home");
   const [isDark, setIsDark] = useState(true);
+  const appRootRef = useRef();
   const scrollRef = useRef();
   const progressBarRef = useRef();
   const lenisRef = useRef(null);
   const rafRef = useRef(0);
+
+  useGSAP(
+    () => {
+      revealIn(".sidebar-col, .main-col", {
+        y: 14,
+        stagger: 0.08,
+        duration: 0.56,
+      });
+
+      gsap.fromTo(
+        ".bottom-ticker",
+        { opacity: 0, y: 10 },
+        {
+          opacity: 1,
+          y: 0,
+          delay: 0.18,
+          duration: 0.5,
+          ease: "power2.out",
+          clearProps: "all",
+        },
+      );
+    },
+    { scope: appRootRef },
+  );
 
   useEffect(() => {
     document.documentElement.setAttribute(
@@ -327,7 +364,7 @@ function App() {
   }, [activeTab]);
 
   return (
-    <div className="app-root">
+    <div className="app-root" ref={appRootRef}>
       <div className="app-body">
         {/* LEFT: Sidebar */}
         <div className="sidebar-col">

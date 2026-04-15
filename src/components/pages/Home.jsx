@@ -1,39 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
-import gsap from "gsap";
+import React, { memo, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { useGitHubProfile } from "../../hooks/useGitHub";
+import { revealIn } from "../../utils/animations";
 
-function useCountUp(target, duration = 1400) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    let start = 0;
-    const step = Math.ceil(target / (duration / 16));
-    const timer = setInterval(() => {
-      start += step;
-      if (start >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else setCount(start);
-    }, 16);
-    return () => clearInterval(timer);
-  }, [target, duration]);
-  return count;
-}
-
-const Stat = ({ value, label, showPlus = true }) => {
-  const count = useCountUp(value);
-  return (
-    <div className="stat-block">
-      <span className="stat-value">
-        {showPlus ? "+" : ""}
-        {count}
-      </span>
-      <span className="stat-label">{label}</span>
-    </div>
-  );
-};
-
-export default function Home() {
+function Home() {
   const { profile } = useGitHubProfile();
 
   // Default values while loading
@@ -44,13 +14,10 @@ export default function Home() {
 
   useGSAP(
     () => {
-      gsap.from(".home-heading span, .stat-card", {
-        opacity: 0,
-        y: 15,
-        stagger: 0.08,
-        duration: 0.5,
-        ease: "power3.out",
-        clearProps: "all",
+      revealIn(".home-heading span, .stat-card", {
+        y: 14,
+        stagger: 0.09,
+        duration: 0.52,
       });
     },
     { scope: container },
@@ -89,3 +56,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default memo(Home);

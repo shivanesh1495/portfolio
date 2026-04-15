@@ -1,12 +1,12 @@
-import React, { useState, useRef } from "react";
-import gsap from "gsap";
+import React, { memo, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { Search, ArrowUpRight, Calendar, Clock } from "lucide-react";
 import { useGitHubWritings } from "../../hooks/useGitHub";
+import { revealIn } from "../../utils/animations";
 
 const FALLBACK_FILTERS = ["all"];
 
-export default function Writings() {
+function Writings() {
   const { writings, loading, error } = useGitHubWritings();
   const [filter, setFilter] = useState("all");
   const [query, setQuery] = useState("");
@@ -21,28 +21,37 @@ export default function Writings() {
     return Array.from(stacks).sort();
   }, [writings]);
 
-  const visible = writings.filter((a) => {
-    const stacks = (a.stacks || []).map((stack) => String(stack).toLowerCase());
-    const tags = (a.tags || []).map((tag) => String(tag).toLowerCase());
-    const haystack =
-      `${a.title || ""} ${a.desc || ""} ${tags.join(" ")} ${stacks.join(" ")}`.toLowerCase();
-    const matchesFilter = filter === "all" || stacks.includes(filter);
-    const matchesQuery = !query || haystack.includes(query.toLowerCase());
-    return matchesFilter && matchesQuery;
-  });
+  const normalizedQuery = React.useMemo(
+    () => query.trim().toLowerCase(),
+    [query],
+  );
+
+  const visible = React.useMemo(
+    () =>
+      writings.filter((a) => {
+        const stacks = (a.stacks || []).map((stack) =>
+          String(stack).toLowerCase(),
+        );
+        const tags = (a.tags || []).map((tag) => String(tag).toLowerCase());
+        const haystack =
+          `${a.title || ""} ${a.desc || ""} ${tags.join(" ")} ${stacks.join(" ")}`.toLowerCase();
+        const matchesFilter = filter === "all" || stacks.includes(filter);
+        const matchesQuery =
+          !normalizedQuery || haystack.includes(normalizedQuery);
+        return matchesFilter && matchesQuery;
+      }),
+    [writings, filter, normalizedQuery],
+  );
 
   const container = useRef();
 
   useGSAP(
     () => {
       if (visible.length > 0) {
-        gsap.from(".article-card", {
-          opacity: 0,
+        revealIn(".article-card", {
           y: 15,
           duration: 0.5,
           stagger: 0.1,
-          ease: "power3.out",
-          clearProps: "all",
         });
       }
     },
@@ -122,3 +131,5 @@ export default function Writings() {
     </div>
   );
 }
+
+export default memo(Writings);

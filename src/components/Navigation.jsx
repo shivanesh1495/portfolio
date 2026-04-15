@@ -1,4 +1,6 @@
-import React from "react";
+import React, { memo, useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import { pulseActive, revealIn } from "../utils/animations";
 import { Home, Folder, Briefcase, BadgeCheck, Edit3 } from "lucide-react";
 import ThemeSwitch from "./icons/ThemeSwitch";
 
@@ -10,14 +12,29 @@ const TABS = [
   { id: "writings", Icon: Edit3, label: "Writings" },
 ];
 
-export default function Navigation({
-  activeTab,
-  setActiveTab,
-  isLight,
-  setIsLight,
-}) {
+function Navigation({ activeTab, setActiveTab, isLight, setIsLight }) {
+  const container = useRef(null);
+
+  useGSAP(
+    () => {
+      revealIn(".nav-btn, .theme-switch", {
+        y: 10,
+        stagger: 0.05,
+        duration: 0.45,
+      });
+    },
+    { scope: container },
+  );
+
+  useGSAP(
+    () => {
+      pulseActive(container.current?.querySelector(`#nav-${activeTab}`));
+    },
+    { scope: container, dependencies: [activeTab] },
+  );
+
   return (
-    <nav className="nav-bar">
+    <nav className="nav-bar" ref={container}>
       {/* Pill stretches to fill all available space */}
       <div className="nav-pill">
         {TABS.map((tab) => (
@@ -41,3 +58,5 @@ export default function Navigation({
     </nav>
   );
 }
+
+export default memo(Navigation);
