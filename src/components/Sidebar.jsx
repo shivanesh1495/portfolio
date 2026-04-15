@@ -82,23 +82,19 @@ export default function Sidebar() {
           {profile?.name ? profile.name.toUpperCase() : "SHIVANESH MC"}
         </p>
 
-        {/* ── Flame icon ── */}
-        <div className="flame-row">
-          <div className="flame-circle">
-            <Flame size={15} color="#fff" strokeWidth={2.5} />
-          </div>
-        </div>
-
-        {/* ── Bottom dashed orange arc ── */}
-
-        {/* ── Bio ── */}
-        <p className="card-bio">
-          {profile?.bio ||
-            "A Software Engineer who has developed countless innovative solutions."}
-        </p>
-
-        {/* ── Resume button (Animated Folder) ── */}
+        {/* ── Action buttons ── */}
         <ResumeButton />
+
+        <div className="action-buttons">
+          <a href="#" className="action-btn editing-btn">
+            <span className="btn-icon">🎨</span>
+            <span className="btn-text">Checkout My Editing</span>
+          </a>
+          <a href="#" className="action-btn connect-btn">
+            <span className="btn-icon">💬</span>
+            <span className="btn-text">Connect With Me</span>
+          </a>
+        </div>
 
         {/* ── Social icons ── */}
         <div className="card-socials">

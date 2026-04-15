@@ -3016,9 +3016,9 @@ body::after {
    ══════════════════════════════════ */
 .card-socials {
   display: flex;
-  gap: 1.5rem;
-  margin-top: auto;
-  padding-top: 1.5rem;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 0rem;
   position: relative;
   z-index: 2;
   justify-content: center;
@@ -3030,9 +3030,9 @@ body::after {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-pill);
   cursor: pointer;
   overflow: hidden;
   transition:
@@ -3247,6 +3247,292 @@ body::after {
     inset 0 1px 0 rgba(255, 255, 255, 0.7),
     0 12px 32px rgba(228, 64, 95, 0.12),
     0 0 40px rgba(228, 64, 95, 0.15);
+}
+
+/* ╔══════════════════════════════════════════════════════════════════╗
+   ║  ACTION BUTTONS (RESUME, EDITING, CONNECT)                      ║
+   ╚══════════════════════════════════════════════════════════════════╝ */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  width: 100%;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  height: 54px;
+  padding: 0 1.5rem;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    165deg,
+    rgba(var(--accent-rgb), 0.1) 0%,
+    rgba(var(--accent-rgb), 0.06) 100%
+  );
+  border: 1.5px solid rgba(var(--accent-rgb), 0.2);
+  color: var(--text-main);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.35s var(--ease-spring),
+    background 0.35s var(--ease-smooth),
+    border-color 0.35s var(--ease-smooth),
+    box-shadow 0.35s var(--ease-smooth);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.action-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-pill);
+  padding: 1.5px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 1.5px),
+    #fff calc(100% - 1.5px)
+  );
+  mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 1.5px),
+    #fff calc(100% - 1.5px)
+  );
+  pointer-events: none;
+}
+
+.action-btn::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: calc(var(--radius-pill) - 1px);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.06) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.btn-icon {
+  font-size: 1.2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.btn-text {
+  position: relative;
+  z-index: 2;
+}
+
+.action-btn:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(
+    165deg,
+    rgba(var(--accent-rgb), 0.16) 0%,
+    rgba(var(--accent-rgb), 0.1) 100%
+  );
+  border-color: rgba(var(--accent-rgb), 0.32);
+  box-shadow:
+    -6px -6px 16px rgba(255, 255, 255, 0.08),
+    8px 8px 20px rgba(0, 0, 0, 0.4),
+    0 0 32px rgba(var(--accent-rgb), 0.12);
+}
+
+.action-btn:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow:
+    inset -2px -2px 8px rgba(255, 255, 255, 0.06),
+    inset 2px 2px 8px rgba(0, 0, 0, 0.3),
+    0 0 16px rgba(0, 0, 0, 0.1);
+}
+
+/* LIGHT MODE ACTION BUTTONS */
+[data-theme="light"] .action-btn {
+  background: linear-gradient(
+    165deg,
+    rgba(255, 186, 132, 0.2) 0%,
+    rgba(255, 224, 198, 0.12) 100%
+  );
+  border-color: rgba(232, 86, 23, 0.24);
+  color: var(--text-main);
+  box-shadow:
+    -6px -6px 16px rgba(255, 255, 255, 0.8),
+    8px 8px 20px rgba(214, 120, 56, 0.15),
+    0 0 28px rgba(232, 86, 23, 0.08);
+}
+
+[data-theme="light"] .action-btn:hover {
+  background: linear-gradient(
+    165deg,
+    rgba(255, 170, 110, 0.28) 0%,
+    rgba(255, 212, 173, 0.16) 100%
+  );
+  border-color: rgba(232, 86, 23, 0.32);
+  box-shadow:
+    -8px -8px 20px rgba(255, 255, 255, 0.9),
+    10px 10px 24px rgba(214, 120, 56, 0.2),
+    0 0 40px rgba(232, 86, 23, 0.15);
+}
+
+[data-theme="light"] .action-btn:active {
+  box-shadow:
+    inset -2px -2px 8px rgba(255, 255, 255, 0.6),
+    inset 2px 2px 8px rgba(232, 86, 23, 0.1),
+    0 0 16px rgba(232, 86, 23, 0.06);
+}
+
+║  SCROLLBAR & PROGRESS BAR                                      ║
+   ╚══════════════════════════════════════════════════════════════════╝ */
+
+/* ╔══════════════════════════════════════════════════════════════════╗
+   ║  NEUMORPHISM EFFECTS — SOFT & SUBTLE 3D DEPTH                  ║
+   ╚══════════════════════════════════════════════════════════════════╝ */
+
+/* DARK MODE NEUMORPHISM */
+.social-link,
+.Documents-btn,
+.project-card,
+.tool-card,
+.exp-card,
+.chip {
+  position: relative;
+  box-shadow:
+    /* Soft highlight (top-left) */
+    -6px -6px 16px rgba(255, 255, 255, 0.08),
+    /* Soft shadow (bottom-right) */ 8px 8px 20px rgba(0, 0, 0, 0.4),
+    /* Outer glow */ 0 0 32px rgba(0, 0, 0, 0.15);
+}
+
+.social-link:hover,
+.Documents-btn:hover,
+.project-card:hover,
+.tool-card:hover,
+.exp-card:hover,
+.chip:hover,
+.chip.active {
+  box-shadow:
+    /* Enhanced highlight on hover */
+    -8px -8px 20px rgba(255, 255, 255, 0.12),
+    /* Deeper shadow on hover */ 10px 10px 24px rgba(0, 0, 0, 0.5),
+    /* Accent-colored glow */ 0 0 40px rgba(var(--accent-rgb), 0.12);
+}
+
+/* LIGHT MODE NEUMORPHISM */
+[data-theme="light"] .social-link,
+[data-theme="light"] .Documents-btn,
+[data-theme="light"] .project-card,
+[data-theme="light"] .tool-card,
+[data-theme="light"] .exp-card,
+[data-theme="light"] .chip {
+  box-shadow:
+    /* Soft highlight (top-left) */
+    -6px -6px 16px rgba(255, 255, 255, 0.8),
+    /* Soft shadow (bottom-right) */ 8px 8px 20px rgba(214, 120, 56, 0.15),
+    /* Accent glow */ 0 0 28px rgba(232, 86, 23, 0.08);
+}
+
+[data-theme="light"] .social-link:hover,
+[data-theme="light"] .Documents-btn:hover,
+[data-theme="light"] .project-card:hover,
+[data-theme="light"] .tool-card:hover,
+[data-theme="light"] .exp-card:hover,
+[data-theme="light"] .chip:hover,
+[data-theme="light"] .chip.active {
+  box-shadow:
+    /* Enhanced highlight on hover */
+    -8px -8px 20px rgba(255, 255, 255, 0.9),
+    /* deeper shadow on hover */ 10px 10px 24px rgba(214, 120, 56, 0.2),
+    /* Enhanced accent glow */ 0 0 40px rgba(232, 86, 23, 0.15);
+}
+
+/* INSET NEUMORPHISM FOR DEPTH */
+.social-link::after,
+.Documents-btn::after,
+.project-card::after,
+.tool-card::after,
+.exp-card::after,
+.chip::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.06) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+[data-theme="light"] .social-link::after,
+[data-theme="light"] .Documents-btn::after,
+[data-theme="light"] .project-card::after,
+[data-theme="light"] .tool-card::after,
+[data-theme="light"] .exp-card::after,
+[data-theme="light"] .chip::after {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    transparent 50%,
+    rgba(232, 86, 23, 0.04) 100%
+  );
+}
+
+/* ENSURE CONTENT APPEARS ABOVE NEUMORPHIC LAYER */
+.social-link svg,
+.tool-icon-wrap,
+.Documents-btn .text,
+.project-card-content,
+.exp-card-content,
+.chip {
+  position: relative;
+  z-index: 2;
+}
+
+/* PRESSED STATE NEUMORPHISM */
+.social-link:active,
+.Documents-btn:active,
+.project-card:active,
+.tool-card:active {
+  box-shadow:
+    /* Inset shadow when pressed */
+    inset -2px -2px 8px rgba(255, 255, 255, 0.06),
+    inset 2px 2px 8px rgba(0, 0, 0, 0.3),
+    /* Minimal outer glow */ 0 0 16px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .social-link:active,
+[data-theme="light"] .Documents-btn:active,
+[data-theme="light"] .project-card:active,
+[data-theme="light"] .tool-card:active {
+  box-shadow:
+    /* Inset shadows pressed */
+    inset -2px -2px 8px rgba(255, 255, 255, 0.6),
+    inset 2px 2px 8px rgba(232, 86, 23, 0.1),
+    /* Minimal outer glow */ 0 0 16px rgba(232, 86, 23, 0.06);
 }
 
 /* ╔══════════════════════════════════════════════════════════════════╗
