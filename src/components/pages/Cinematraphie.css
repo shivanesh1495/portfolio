@@ -15,6 +15,15 @@
   will-change: opacity, transform;
 }
 
+/* ── Background Wrapper ── */
+.cin-bg-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  will-change: opacity;
+}
+
 /* ────────────────────────────────────────────────────────────────────
    BACKGROUND — Deep cinematic gradient
    Maroon → Wine Red → Burnt Orange → Black

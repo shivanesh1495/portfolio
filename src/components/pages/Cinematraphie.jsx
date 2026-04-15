@@ -17,6 +17,7 @@ export default function Cinematraphie({ onBack }) {
   const titleRef = useRef();
   const restRef = useRef();
   const backRef = useRef();
+  const bgRef = useRef();
   const isExitingRef = useRef(false);
 
   /* ── Entry animation timeline ── */
@@ -26,21 +27,33 @@ export default function Cinematraphie({ onBack }) {
 
       // Hide everything initially
       gsap.set(titleRef.current, { clipPath: "inset(0 100% 0 0)" });
+      gsap.set(bgRef.current, { opacity: 0 });
       gsap.set(restRef.current, { opacity: 0, y: 30 });
       gsap.set(backRef.current, { opacity: 0, x: -10 });
 
-      // ── STEP 2 (1s → 3s): Title sweep on top of blur ──
+      // ── STEP 2 (0.9s → 2.4s): Title sweep reveal ──
       tl.to(
         titleRef.current,
         {
           clipPath: "inset(0 0% 0 0)",
-          duration: 2,
+          duration: 1.5,
           ease: "power3.out",
         },
-        1 // starts at 1s
+        0.9 // starts at 0.9s
       );
 
-      // ── STEP 3 (from 3s): Everything else fades in ──
+      // ── STEP 3 (2.5s → 2.8s): Gradient background appears ──
+      tl.to(
+        bgRef.current,
+        {
+          opacity: 1,
+          duration: 0.3,
+          ease: "power2.inOut",
+        },
+        2.5 // starts at 2.5s
+      );
+
+      // ── STEP 4 (from 2.8s): Everything else fades in ──
       tl.to(
         restRef.current,
         {
@@ -49,14 +62,18 @@ export default function Cinematraphie({ onBack }) {
           duration: 0.9,
           ease: "power2.out",
         },
-        3 // starts at 3s
+        2.8 // starts at 2.8s
       );
 
-      // Back button fades in at the same time
       tl.to(
         backRef.current,
-        { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" },
-        3 // starts at 3s
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.5,
+          ease: "power2.out",
+        },
+        2.8 // starts with rest components
       );
     },
     { scope: pageRef }
@@ -88,11 +105,13 @@ export default function Cinematraphie({ onBack }) {
 
   return (
     <div className="cin-page" ref={pageRef}>
-      {/* ── Background layers ── */}
-      <div className="cin-bg" />
-      <div className="cin-bg-glow" />
-      <div className="cin-noise" />
-      <div className="cin-vignette" />
+      {/* ── Background layers (grouped for fade-in) ── */}
+      <div className="cin-bg-wrapper" ref={bgRef}>
+        <div className="cin-bg" />
+        <div className="cin-bg-glow" />
+        <div className="cin-noise" />
+        <div className="cin-vignette" />
+      </div>
 
       {/* ── Back button ── */}
       <button
