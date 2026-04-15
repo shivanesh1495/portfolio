@@ -520,10 +520,29 @@ body::after {
   );
 }
 
+[data-theme="light"] .ticker-item {
+  background: rgba(255, 255, 255, 0.58);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 24px rgba(26, 20, 14, 0.08);
+}
+
+[data-theme="light"] .ticker-item:hover {
+  border-color: rgba(var(--accent-rgb), 0.2);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow:
+    0 14px 30px rgba(26, 20, 14, 0.12),
+    0 0 0 1px rgba(var(--accent-rgb), 0.08),
+    0 0 22px rgba(var(--accent-rgb), 0.06);
+}
+
+[data-theme="light"] .skill-icon {
+  filter: grayscale(1) brightness(0.12) contrast(1.2);
+}
+
 .ticker-track {
   display: flex;
   align-items: center;
-  gap: 4rem;
+  gap: 1rem;
   padding: 0 2rem;
   white-space: nowrap;
   animation: scrollTicker 56s linear infinite;
@@ -532,36 +551,56 @@ body::after {
 .ticker-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  flex: 0 0 auto;
   color: var(--text-muted);
-  opacity: 0.4;
-  font-family: var(--font-title-secondary);
-  font-weight: 700;
-  font-size: 1.1rem;
-  letter-spacing: 1px;
+  opacity: 0.82;
   cursor: default;
   user-select: none;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
   transition:
     opacity 0.3s var(--ease-smooth),
-    color 0.3s var(--ease-smooth),
-    text-shadow 0.3s var(--ease-smooth);
+    transform 0.3s var(--ease-smooth),
+    box-shadow 0.3s var(--ease-smooth),
+    border-color 0.3s var(--ease-smooth),
+    background 0.3s var(--ease-smooth);
 }
 
 .ticker-item:hover {
-  opacity: 0.95;
-  color: var(--text-main);
-  text-shadow: 0 0 20px rgba(var(--accent-rgb), 0.3);
+  opacity: 1;
+  transform: translateY(-2px);
+  border-color: rgba(var(--accent-rgb), 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 14px 30px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(var(--accent-rgb), 0.12),
+    0 0 22px rgba(var(--accent-rgb), 0.08);
 }
 
-.ticker-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid currentColor;
-  border-radius: 4px;
-  padding: 1px 5px;
-  font-size: 0.85rem;
-  line-height: 1.2;
+.skill-icon {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  display: block;
+  filter: grayscale(1) invert(1) brightness(0.96) contrast(1.08);
+  opacity: 0.9;
+  transition:
+    filter 0.3s var(--ease-smooth),
+    opacity 0.3s var(--ease-smooth),
+    transform 0.3s var(--ease-smooth);
+}
+
+.ticker-item:hover .skill-icon {
+  filter: none;
+  opacity: 1;
+  transform: scale(1.05);
 }
 
 @keyframes scrollTicker {

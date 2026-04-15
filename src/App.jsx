@@ -21,34 +21,146 @@ const Writings = lazy(() => import("./components/pages/Writings"));
 const MemoSidebar = memo(Sidebar);
 
 const TICKER_ITEMS = [
-  { label: "C++", type: "text" },
-  { label: "Python", type: "text" },
-  { label: "Java", type: "text" },
-  { label: "C", type: "text" },
-  { label: "Dart", type: "text" },
-  { label: "Haskell", type: "text" },
-  { label: "HTML5", type: "text" },
-  { label: "CSS3", type: "text" },
-  { label: "JavaScript", type: "text" },
-  { label: "React", type: "text" },
-  { label: "Next.js", type: "text" },
-  { label: "Node.js", type: "text" },
-  { label: "Ⓡ Remix", type: "text", title: "Remix" },
-  { label: "△ Three.js", type: "text", title: "Three.js" },
-  { label: "MongoDB", type: "text" },
-  { label: "MySQL", type: "text" },
-  { label: "Flutter", type: "text" },
-  { label: "Git", type: "text" },
-  { label: "🐧 Linux", type: "text", title: "Linux" },
-  { label: "Arduino", type: "text" },
-  { label: "VS Code", type: "text", title: "Visual Studio Code" },
-  { label: "Eclipse", type: "text" },
-  { label: "Postman", type: "text" },
-  { label: "Figma", type: "text" },
-  { label: "Android Studio", type: "text" },
-  { label: "Firebase", type: "text" },
-  { label: "MATLAB", type: "text" },
-  { label: "shopify", type: "text" },
+  {
+    label: "C++",
+    title: "C++",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg",
+  },
+  {
+    label: "Python",
+    title: "Python",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+  },
+  {
+    label: "Java",
+    title: "Java",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
+  },
+  {
+    label: "C",
+    title: "C",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg",
+  },
+  {
+    label: "Dart",
+    title: "Dart",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg",
+  },
+  {
+    label: "Haskell",
+    title: "Haskell",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/haskell/haskell-original.svg",
+  },
+  {
+    label: "HTML5",
+    title: "HTML5",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
+  },
+  {
+    label: "CSS3",
+    title: "CSS3",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
+  },
+  {
+    label: "JavaScript",
+    title: "JavaScript",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+  },
+  {
+    label: "React",
+    title: "React",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+  },
+  {
+    label: "Next.js",
+    title: "Next.js",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
+  },
+  {
+    label: "Node.js",
+    title: "Node.js",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+  },
+  {
+    label: "Remix",
+    title: "Remix",
+    src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/remix.svg",
+  },
+  {
+    label: "Three.js",
+    title: "Three.js",
+    src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/threedotjs.svg",
+  },
+  {
+    label: "MongoDB",
+    title: "MongoDB",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
+  },
+  {
+    label: "MySQL",
+    title: "MySQL",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
+  },
+  {
+    label: "Flutter",
+    title: "Flutter",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg",
+  },
+  {
+    label: "Git",
+    title: "Git",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
+  },
+  {
+    label: "Linux",
+    title: "Linux",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg",
+  },
+  {
+    label: "Arduino",
+    title: "Arduino",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/arduino/arduino-original.svg",
+  },
+  {
+    label: "VS Code",
+    title: "Visual Studio Code",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
+  },
+  {
+    label: "Eclipse",
+    title: "Eclipse",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/eclipse/eclipse-original.svg",
+  },
+  {
+    label: "Postman",
+    title: "Postman",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg",
+  },
+  {
+    label: "Figma",
+    title: "Figma",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
+  },
+  {
+    label: "Android Studio",
+    title: "Android Studio",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/androidstudio/androidstudio-original.svg",
+  },
+  {
+    label: "Firebase",
+    title: "Firebase",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
+  },
+  {
+    label: "MATLAB",
+    title: "MATLAB",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matlab/matlab-original.svg",
+  },
+  {
+    label: "Shopify",
+    title: "Shopify",
+    src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/shopify.svg",
+  },
 ];
 const DUPLICATED_TICKER_ITEMS = [...TICKER_ITEMS, ...TICKER_ITEMS];
 
@@ -67,15 +179,17 @@ const BottomTicker = memo(function BottomTicker() {
         {DUPLICATED_TICKER_ITEMS.map((item, i) => (
           <span
             key={i}
-            className="ticker-item"
+            className="ticker-item icon-card"
             title={item.title || item.label}
             style={item.style}
           >
-            {item.type === "badge" ? (
-              <span className="ticker-badge">{item.label}</span>
-            ) : (
-              item.label
-            )}
+            <img
+              className="skill-icon"
+              src={item.src}
+              alt={item.title || item.label}
+              loading="lazy"
+              draggable="false"
+            />
           </span>
         ))}
       </div>
