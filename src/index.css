@@ -539,9 +539,9 @@ body::after {
 .ticker-group {
   display: flex;
   align-items: center;
-  gap: 1.35rem;
+  gap: 4rem;
   flex: 0 0 auto;
-  padding-right: 1.35rem;
+  padding-right: 4rem;
 }
 
 .ticker-item {
