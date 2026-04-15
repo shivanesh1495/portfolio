@@ -265,10 +265,12 @@ function App() {
   const [activeTab, setActiveTab] = useState("home");
   const [isDark, setIsDark] = useState(true);
   const appRootRef = useRef();
+  const themeFlashRef = useRef();
   const scrollRef = useRef();
   const progressBarRef = useRef();
   const lenisRef = useRef(null);
   const rafRef = useRef(0);
+  const hasMountedThemeRef = useRef(false);
 
   useGSAP(
     () => {
@@ -299,6 +301,73 @@ function App() {
       "data-theme",
       isDark ? "dark" : "light",
     );
+
+    if (!hasMountedThemeRef.current) {
+      hasMountedThemeRef.current = true;
+      return undefined;
+    }
+
+    const root = appRootRef.current;
+    const flash = themeFlashRef.current;
+
+    if (!root || !flash) {
+      return undefined;
+    }
+
+    const targets = Array.from(
+      root.querySelectorAll(
+        ".nav-bar, .sidebar-card, .content-card, .bottom-ticker, .theme-switch",
+      ),
+    );
+
+    gsap.killTweensOf([...targets, flash]);
+
+    const frame = requestAnimationFrame(() => {
+      gsap.set(flash, { opacity: 0, scale: 0.98 });
+
+      const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+      timeline.to(
+        flash,
+        {
+          opacity: 1,
+          scale: 1.02,
+          duration: 0.2,
+        },
+        0,
+      );
+
+      timeline.fromTo(
+        targets,
+        {
+          y: 8,
+          scale: 0.995,
+        },
+        {
+          y: 0,
+          scale: 1,
+          duration: 0.34,
+          stagger: 0.01,
+          clearProps: "transform,opacity",
+        },
+        0,
+      );
+
+      timeline.to(
+        flash,
+        {
+          opacity: 0,
+          scale: 1.04,
+          duration: 0.24,
+          ease: "power2.out",
+        },
+        0.08,
+      );
+    });
+
+    return () => {
+      cancelAnimationFrame(frame);
+    };
   }, [isDark]);
 
   // Initialize Lenis once; avoid rebuilding RAF loop on every tab change.
@@ -365,6 +434,7 @@ function App() {
 
   return (
     <div className="app-root" ref={appRootRef}>
+      <div className="app-theme-flash" ref={themeFlashRef} aria-hidden="true" />
       <div className="app-body">
         {/* LEFT: Sidebar */}
         <div className="sidebar-col">

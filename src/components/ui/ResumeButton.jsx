@@ -174,6 +174,10 @@ export default function ResumeButton() {
     gsap.killTweensOf([panel, overlay]);
 
     const timeline = gsap.timeline({
+      defaults: {
+        ease: "power2.out",
+        overwrite: "auto",
+      },
       onComplete: () => {
         setIsOpen(false);
         setOriginRect(null);
@@ -182,8 +186,7 @@ export default function ResumeButton() {
 
     timeline.to(overlay, {
       opacity: 0,
-      duration: 0.2,
-      ease: "power2.in",
+      duration: 0.16,
     });
 
     timeline.to(
@@ -196,8 +199,10 @@ export default function ResumeButton() {
         xPercent: 0,
         yPercent: 0,
         borderRadius: 22,
-        duration: 0.48,
-        ease: "power3.inOut",
+        scale: 0.97,
+        opacity: 0.88,
+        duration: 0.3,
+        ease: "power2.inOut",
       },
       0,
     );
@@ -223,13 +228,20 @@ export default function ResumeButton() {
       xPercent: 0,
       yPercent: 0,
       borderRadius: 22,
+      opacity: 0,
+      scale: 0.96,
+      transformOrigin: "center center",
     });
 
-    const timeline = gsap.timeline();
+    const timeline = gsap.timeline({
+      defaults: {
+        ease: "power2.out",
+        overwrite: "auto",
+      },
+    });
     timeline.to(overlay, {
       opacity: 1,
-      duration: 0.22,
-      ease: "power2.out",
+      duration: 0.18,
     });
     timeline.to(
       panel,
@@ -241,10 +253,12 @@ export default function ResumeButton() {
         xPercent: -50,
         yPercent: -50,
         borderRadius: 28,
-        duration: 0.62,
-        ease: "power3.out",
+        opacity: 1,
+        scale: 1,
+        duration: 0.42,
+        ease: "power2.out",
       },
-      0,
+      0.02,
     );
 
     return () => timeline.kill();

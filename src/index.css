@@ -216,13 +216,13 @@
   margin: 0;
   padding: 0;
   transition:
-    background-color 0.45s var(--ease-smooth),
-    background 0.45s var(--ease-smooth),
-    border-color 0.45s var(--ease-smooth),
-    color 0.45s var(--ease-smooth),
-    fill 0.45s var(--ease-smooth),
-    stroke 0.45s var(--ease-smooth),
-    box-shadow 0.45s var(--ease-smooth);
+    background-color 0.3s var(--ease-smooth),
+    border-color 0.3s var(--ease-smooth),
+    color 0.3s var(--ease-smooth),
+    fill 0.3s var(--ease-smooth),
+    stroke 0.3s var(--ease-smooth),
+    opacity 0.3s var(--ease-smooth),
+    transform 0.3s var(--ease-smooth);
 }
 
 html,
@@ -404,6 +404,57 @@ body::after {
   z-index: 1;
 }
 
+.app-theme-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.98);
+  background:
+    radial-gradient(
+      circle at 18% 20%,
+      rgba(var(--accent-rgb), 0.18) 0%,
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 82% 16%,
+      rgba(255, 255, 255, 0.12) 0%,
+      transparent 32%
+    ),
+    linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.02) 0%,
+      rgba(255, 255, 255, 0) 42%,
+      rgba(var(--accent-rgb), 0.08) 100%
+    );
+  mix-blend-mode: screen;
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  will-change: opacity, transform;
+}
+
+[data-theme="light"] .app-theme-flash {
+  mix-blend-mode: multiply;
+  background:
+    radial-gradient(
+      circle at 18% 20%,
+      rgba(var(--accent-rgb), 0.2) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 80% 14%,
+      rgba(255, 255, 255, 0.34) 0%,
+      transparent 30%
+    ),
+    linear-gradient(
+      160deg,
+      rgba(255, 248, 242, 0.4) 0%,
+      rgba(255, 248, 242, 0.08) 48%,
+      rgba(var(--accent-rgb), 0.1) 100%
+    );
+}
+
 .app-body {
   display: flex;
   flex: 1;
@@ -450,8 +501,10 @@ body::after {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   transition:
-    background-color 0.45s var(--ease-smooth),
-    box-shadow 0.45s var(--ease-smooth);
+    background-color 0.55s var(--ease-smooth),
+    box-shadow 0.55s var(--ease-smooth),
+    transform 0.55s var(--ease-smooth),
+    border-color 0.55s var(--ease-smooth);
 }
 
 /* Inner glow halo */
@@ -638,6 +691,11 @@ body::after {
   margin-bottom: 0;
   position: relative;
   overflow: visible;
+  transition:
+    background-color 0.55s var(--ease-smooth),
+    box-shadow 0.55s var(--ease-smooth),
+    border-color 0.55s var(--ease-smooth),
+    transform 0.55s var(--ease-smooth);
 }
 
 /* Subtle inner light reflection */
@@ -719,21 +777,6 @@ body::after {
   box-shadow:
     0 4px 20px rgba(var(--accent-rgb), 0.4),
     0 0 40px rgba(var(--accent-rgb), 0.15);
-  animation: nav-pulse 3s ease-in-out infinite;
-}
-
-@keyframes nav-pulse {
-  0%,
-  100% {
-    box-shadow:
-      0 4px 20px rgba(var(--accent-rgb), 0.4),
-      0 0 40px rgba(var(--accent-rgb), 0.15);
-  }
-  50% {
-    box-shadow:
-      0 4px 24px rgba(var(--accent-rgb), 0.5),
-      0 0 55px rgba(var(--accent-rgb), 0.2);
-  }
 }
 
 /* ╔══════════════════════════════════════════════════════════════════╗
@@ -783,7 +826,7 @@ body::after {
   box-shadow:
     0em -0.062em 0.062em rgba(0, 0, 0, 0.25),
     0em 0.062em 0.125em rgba(255, 255, 255, 0.94);
-  transition: var(--transition);
+  transition: 0.32s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
 }
 
@@ -2621,6 +2664,11 @@ body::after {
   box-shadow: var(--surface-shadow-card);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  transition:
+    background-color 0.55s var(--ease-smooth),
+    border-color 0.55s var(--ease-smooth),
+    box-shadow 0.55s var(--ease-smooth),
+    transform 0.55s var(--ease-smooth);
 }
 
 /* Inner glow on sidebar */
@@ -3111,6 +3159,7 @@ body::after {
   background: rgba(6, 8, 14, 0.72);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  will-change: opacity, backdrop-filter;
 }
 
 .resume-modal-shell {
@@ -3125,6 +3174,8 @@ body::after {
   box-shadow:
     0 24px 70px rgba(0, 0, 0, 0.5),
     0 0 0 1px rgba(255, 255, 255, 0.05);
+  will-change: transform, opacity, width, height, left, top;
+  transform-origin: center center;
 }
 
 .resume-preview {
@@ -3161,11 +3212,17 @@ body::after {
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  transition:
+    background-color 0.22s var(--ease-smooth),
+    border-color 0.22s var(--ease-smooth),
+    transform 0.22s var(--ease-smooth),
+    box-shadow 0.22s var(--ease-smooth);
 }
 
 .resume-modal-close:hover {
   background: rgba(var(--accent-rgb), 0.16);
   border-color: rgba(var(--accent-rgb), 0.28);
+  transform: scale(1.06);
 }
 
 [data-theme="light"] .resume-modal-shell {
