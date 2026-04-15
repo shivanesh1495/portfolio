@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useGitHubProfile } from "../../hooks/useGitHub";
-import { useInstagramStats } from "../../hooks/useInstagram";
 
 function useCountUp(target, duration = 1400) {
   const [count, setCount] = useState(0);
@@ -36,12 +35,10 @@ const Stat = ({ value, label, showPlus = true }) => {
 
 export default function Home() {
   const { profile } = useGitHubProfile();
-  const { mediaCount } = useInstagramStats();
 
   // Default values while loading
   const yearsExp = profile?.yearsExperience || 3;
   const projects = profile?.public_repos || 46;
-  const edits = mediaCount;
 
   const container = useRef();
 
@@ -84,14 +81,6 @@ export default function Home() {
           <div className="stat-number">+{projects}</div>
           <div className="stat-text">
             Projects
-            <br />
-            Completed
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-number">+{edits}</div>
-          <div className="stat-text">
-            Edits
             <br />
             Completed
           </div>
