@@ -483,8 +483,10 @@ body::after {
   position: relative;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  --ticker-icon-filter: grayscale(1) invert(1) brightness(0.96) contrast(1.08);
-  --ticker-icon-hover-filter: none;
+  --ticker-icon-filter: saturate(1.12) brightness(1.05) contrast(1.08)
+    drop-shadow(0 0 1px rgba(255, 255, 255, 0.2));
+  --ticker-icon-hover-filter: saturate(1.2) brightness(1.12) contrast(1.1)
+    drop-shadow(0 0 4px rgba(255, 255, 255, 0.2));
 }
 
 /* Subtle glow line on top border */
@@ -595,6 +597,18 @@ body::after {
   filter: var(--ticker-icon-hover-filter);
   opacity: 1;
   transform: scale(1.05);
+}
+
+[data-theme="dark"]
+  .ticker-item:is([title="Remix"], [title="Three.js"], [title="Shopify"])
+  .skill-icon {
+  filter: brightness(0) invert(1) drop-shadow(0 0 2px rgba(255, 255, 255, 0.2));
+}
+
+[data-theme="dark"]
+  .ticker-item:is([title="Remix"], [title="Three.js"], [title="Shopify"]):hover
+  .skill-icon {
+  filter: brightness(0) invert(1) drop-shadow(0 0 4px rgba(255, 255, 255, 0.28));
 }
 
 @keyframes scrollTicker {
