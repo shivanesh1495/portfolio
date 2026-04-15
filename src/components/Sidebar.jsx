@@ -86,7 +86,7 @@ function Sidebar() {
           <a href="#" className="action-btn editing-btn">
             <div className="button-outer">
               <div className="button-inner">
-                <span>Editing Profile</span>
+                <span>Cinematraphie</span>
               </div>
             </div>
           </a>
