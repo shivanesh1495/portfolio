@@ -1,17 +1,179 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { ArrowUpRight } from "lucide-react";
 import { createPortal } from "react-dom";
+import { getDocument, GlobalWorkerOptions } from "pdfjs-dist";
+import pdfWorkerUrl from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 
 import { CertificateSVG } from "../icons/BrandIcons";
 import { useGitHubCertifications } from "../../hooks/useGitHub";
+
+GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
+
+function PdfPreview({ url, mode = "cover", showBadge = false, badgeLabel }) {
+  const wrapperRef = useRef(null);
+  const canvasRef = useRef(null);
+  const renderTaskRef = useRef(null);
+  const loadingTaskRef = useRef(null);
+  const [status, setStatus] = useState("loading");
+
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    const canvas = canvasRef.current;
+
+    if (!wrapper || !canvas) {
+      return undefined;
+    }
+
+    let disposed = false;
+    let renderToken = 0;
+
+    const renderPage = async () => {
+      const currentWrapper = wrapperRef.current;
+      const currentCanvas = canvasRef.current;
+
+      if (!currentWrapper || !currentCanvas) {
+        return;
+      }
+
+      const rect = currentWrapper.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) {
+        return;
+      }
+
+      const token = ++renderToken;
+      setStatus("loading");
+
+      try {
+        if (renderTaskRef.current) {
+          renderTaskRef.current.cancel();
+          renderTaskRef.current = null;
+        }
+        if (loadingTaskRef.current) {
+          loadingTaskRef.current.destroy();
+          loadingTaskRef.current = null;
+        }
+
+        const loadingTask = getDocument({ url });
+        loadingTaskRef.current = loadingTask;
+        const pdfDocument = await loadingTask.promise;
+
+        if (disposed || token !== renderToken) {
+          pdfDocument.destroy();
+          return;
+        }
+
+        const page = await pdfDocument.getPage(1);
+        if (disposed || token !== renderToken) {
+          pdfDocument.destroy();
+          return;
+        }
+
+        const baseViewport = page.getViewport({ scale: 1 });
+        const scale =
+          mode === "cover"
+            ? Math.max(
+                rect.width / baseViewport.width,
+                rect.height / baseViewport.height,
+              )
+            : Math.min(
+                rect.width / baseViewport.width,
+                rect.height / baseViewport.height,
+              );
+        const viewport = page.getViewport({ scale });
+        const devicePixelRatio = window.devicePixelRatio || 1;
+
+        currentCanvas.width = Math.floor(viewport.width * devicePixelRatio);
+        currentCanvas.height = Math.floor(viewport.height * devicePixelRatio);
+        currentCanvas.style.width = `${viewport.width}px`;
+        currentCanvas.style.height = `${viewport.height}px`;
+
+        const context = currentCanvas.getContext("2d", { alpha: false });
+        if (!context) {
+          throw new Error("Canvas context unavailable");
+        }
+
+        context.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+        context.fillStyle = "#0b0e15";
+        context.fillRect(0, 0, viewport.width, viewport.height);
+
+        const renderTask = page.render({
+          canvasContext: context,
+          viewport,
+        });
+        renderTaskRef.current = renderTask;
+        await renderTask.promise;
+
+        if (disposed || token !== renderToken) {
+          pdfDocument.destroy();
+          return;
+        }
+
+        setStatus("ready");
+        pdfDocument.destroy();
+      } catch (error) {
+        if (!disposed) {
+          setStatus("error");
+        }
+      }
+    };
+
+    const handleResize = () => {
+      renderPage();
+    };
+
+    let resizeObserver = null;
+
+    if (typeof ResizeObserver !== "undefined") {
+      resizeObserver = new ResizeObserver(() => handleResize());
+      resizeObserver.observe(wrapper);
+    } else {
+      window.addEventListener("resize", handleResize);
+    }
+
+    renderPage();
+
+    return () => {
+      disposed = true;
+      renderToken += 1;
+      if (renderTaskRef.current) {
+        renderTaskRef.current.cancel();
+        renderTaskRef.current = null;
+      }
+      if (loadingTaskRef.current) {
+        loadingTaskRef.current.destroy();
+        loadingTaskRef.current = null;
+      }
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      } else {
+        window.removeEventListener("resize", handleResize);
+      }
+    };
+  }, [mode, url]);
+
+  return (
+    <div ref={wrapperRef} className="cert-preview">
+      <canvas ref={canvasRef} className="cert-preview-canvas" />
+      {status === "error" ? (
+        <div className="cert-preview-fallback" aria-hidden="true">
+          <div className="cert-icon-wrap">
+            <CertificateSVG />
+          </div>
+          <span>Preview unavailable</span>
+        </div>
+      ) : null}
+      {showBadge ? (
+        <span className="cert-preview-badge">{badgeLabel}</span>
+      ) : null}
+    </div>
+  );
+}
 
 export default function Certifications() {
   const container = useRef();
   const modalOverlayRef = useRef(null);
   const modalPanelRef = useRef(null);
-  const activeCardRef = useRef(null);
   const [selectedCert, setSelectedCert] = useState(null);
   const [selectedRect, setSelectedRect] = useState(null);
   const { certifications, loading, error } = useGitHubCertifications();
@@ -19,7 +181,6 @@ export default function Certifications() {
   const openCertification = (cert, element) => {
     if (!element) return;
 
-    activeCardRef.current = element;
     setSelectedRect(element.getBoundingClientRect());
     setSelectedCert(cert);
   };
@@ -28,7 +189,6 @@ export default function Certifications() {
     if (!selectedCert || !selectedRect || !modalPanelRef.current) {
       setSelectedCert(null);
       setSelectedRect(null);
-      activeCardRef.current = null;
       return;
     }
 
@@ -41,7 +201,6 @@ export default function Certifications() {
       onComplete: () => {
         setSelectedCert(null);
         setSelectedRect(null);
-        activeCardRef.current = null;
       },
     });
 
@@ -144,6 +303,9 @@ export default function Certifications() {
   useEffect(() => {
     if (!selectedCert) return undefined;
 
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     const onKeyDown = (event) => {
       if (event.key === "Escape") {
         closeCertification();
@@ -151,7 +313,10 @@ export default function Certifications() {
     };
 
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
   }, [selectedCert, selectedRect]);
 
   return (
@@ -185,22 +350,12 @@ export default function Certifications() {
               onClick={(event) => openCertification(cert, event.currentTarget)}
               aria-label={`Open ${cert.title} certificate preview`}
             >
-              <div className="cert-preview">
-                <iframe
-                  className="cert-preview-frame"
-                  src={cert.previewUrl}
-                  title={cert.title}
-                />
-                <div className="cert-preview-fade" />
-                <span className="cert-preview-badge">Open preview</span>
-                <div className="cert-preview-fallback" aria-hidden="true">
-                  <div className="cert-icon-wrap">
-                    <CertificateSVG />
-                  </div>
-                  <span>Preview unavailable</span>
-                </div>
-              </div>
-              <ArrowUpRight size={17} className="cert-arrow" />
+              <PdfPreview
+                url={cert.previewUrl}
+                mode="cover"
+                showBadge
+                badgeLabel="Open preview"
+              />
             </button>
           ))}
         </div>
@@ -226,13 +381,7 @@ export default function Certifications() {
                 >
                   ×
                 </button>
-                <div className="cert-modal-preview">
-                  <iframe
-                    className="cert-modal-frame"
-                    src={selectedCert.previewUrl}
-                    title={selectedCert.title}
-                  />
-                </div>
+                <PdfPreview url={selectedCert.previewUrl} mode="contain" />
                 <div className="cert-modal-footer">
                   <div>
                     <span className="cert-modal-kicker">
