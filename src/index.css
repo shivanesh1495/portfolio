@@ -3016,7 +3016,7 @@ body::after {
    ══════════════════════════════════ */
 .card-socials {
   display: flex;
-  gap: 1.35rem;
+  gap: 1.5rem;
   margin-top: auto;
   padding-top: 1rem;
   position: relative;
@@ -3024,21 +3024,105 @@ body::after {
 }
 
 .social-link {
-  color: var(--accent);
+  color: currentColor;
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
   transition:
     transform 0.35s var(--ease-spring),
-    opacity 0.3s var(--ease-smooth),
-    filter 0.3s var(--ease-smooth);
+    background 0.35s var(--ease-smooth),
+    border-color 0.35s var(--ease-smooth),
+    box-shadow 0.35s var(--ease-smooth),
+    color 0.35s var(--ease-smooth);
+  backdrop-filter: blur(10px);
 }
 
 .social-link:hover {
-  transform: translateY(-4px) scale(1.1);
-  opacity: 0.85;
-  filter: drop-shadow(0 0 8px rgba(var(--accent-rgb), 0.3));
+  transform: translateY(-6px) scale(1.08);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* ────── Theme-specific social link colors ────── */
+/* DARK MODE */
+.social-link {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.social-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* GITHUB */
+.social-link.github {
+  color: #ffffff;
+}
+
+.social-link.github:hover {
+  color: #4d8ce8;
+}
+
+/* LINKEDIN */
+.social-link.linkedin {
+  color: #ffffff;
+}
+
+.social-link.linkedin:hover {
+  color: #0077b5;
+}
+
+/* INSTAGRAM */
+.social-link.instagram {
+  color: #ffffff;
+}
+
+.social-link.instagram:hover {
+  color: #e4405f;
+}
+
+/* LIGHT MODE */
+[data-theme="light"] .social-link {
+  background: rgba(26, 26, 46, 0.08);
+  border-color: rgba(26, 26, 46, 0.15);
+}
+
+[data-theme="light"] .social-link:hover {
+  background: rgba(26, 26, 46, 0.12);
+  border-color: rgba(26, 26, 46, 0.25);
+  box-shadow: 0 8px 24px rgba(26, 26, 46, 0.12);
+}
+
+[data-theme="light"] .social-link.github {
+  color: #1a1a1a;
+}
+
+[data-theme="light"] .social-link.github:hover {
+  color: #e85617;
+}
+
+[data-theme="light"] .social-link.linkedin {
+  color: #1a1a1a;
+}
+
+[data-theme="light"] .social-link.linkedin:hover {
+  color: #0077b5;
+}
+
+[data-theme="light"] .social-link.instagram {
+  color: #1a1a1a;
+}
+
+[data-theme="light"] .social-link.instagram:hover {
+  color: #e4405f;
 }
 
 /* ╔══════════════════════════════════════════════════════════════════╗

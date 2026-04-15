@@ -4,23 +4,29 @@ import { useGSAP } from "@gsap/react";
 import { Flame } from "lucide-react";
 import { useGitHubProfile } from "../hooks/useGitHub";
 
-import { DribbbleIcon, TwitterIcon, InstagramIcon, YoutubeIcon } from './icons/BrandIcons';
-import ResumeButton from './ui/ResumeButton';
+import { GitHubIcon, LinkedinIcon, InstagramIcon } from "./icons/BrandIcons";
+import ResumeButton from "./ui/ResumeButton";
 
 export default function Sidebar() {
   const { profile } = useGitHubProfile();
   const container = useRef();
 
-  useGSAP(() => {
-    gsap.from(".photo-block, .card-name, .flame-row, .card-bio, .Documents-btn, .card-socials .social-link", {
-      opacity: 0,
-      y: 15,
-      stagger: 0.08,
-      duration: 0.6,
-      ease: "power3.out",
-      clearProps: "all"
-    });
-  }, { scope: container });
+  useGSAP(
+    () => {
+      gsap.from(
+        ".photo-block, .card-name, .flame-row, .card-bio, .Documents-btn, .card-socials .social-link",
+        {
+          opacity: 0,
+          y: 15,
+          stagger: 0.08,
+          duration: 0.6,
+          ease: "power3.out",
+          clearProps: "all",
+        },
+      );
+    },
+    { scope: container },
+  );
 
   return (
     <aside className="sidebar" ref={container}>
@@ -85,7 +91,6 @@ export default function Sidebar() {
 
         {/* ── Bottom dashed orange arc ── */}
 
-
         {/* ── Bio ── */}
         <p className="card-bio">
           {profile?.bio ||
@@ -97,17 +102,32 @@ export default function Sidebar() {
 
         {/* ── Social icons ── */}
         <div className="card-socials">
-          <a href="#" aria-label="Dribbble" className="social-link">
-            <DribbbleIcon />
+          <a
+            href="https://github.com/shivanesh1495"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            className="social-link github"
+          >
+            <GitHubIcon />
           </a>
-          <a href="#" aria-label="Twitter" className="social-link">
-            <TwitterIcon />
+          <a
+            href="https://linkedin.com/in/shivaneshmc"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            className="social-link linkedin"
+          >
+            <LinkedinIcon />
           </a>
-          <a href="#" aria-label="Instagram" className="social-link">
+          <a
+            href="https://instagram.com/shivanesh_1495"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+            className="social-link instagram"
+          >
             <InstagramIcon />
-          </a>
-          <a href="#" aria-label="YouTube" className="social-link">
-            <YoutubeIcon />
           </a>
         </div>
       </div>
