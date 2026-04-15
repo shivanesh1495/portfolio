@@ -34,16 +34,21 @@
   position: absolute;
   inset: 0;
   z-index: 0;
+  --bg-p1: 82% 12%;
+  --bg-p2: 68% 28%;
+  --bg-p3: 38% 58%;
+  --bg-p4: 78% 86%;
+  
   background:
     /* Burnt orange glow — upper right */
     radial-gradient(
-      ellipse 55% 50% at 82% 12%,
+      ellipse 55% 50% at var(--bg-p1),
       rgba(195, 90, 18, 0.68) 0%,
       transparent 70%
     ),
     /* Amber accent — mid-right */
     radial-gradient(
-      ellipse 38% 38% at 68% 28%,
+      ellipse 38% 38% at var(--bg-p2),
       rgba(165, 72, 8, 0.34) 0%,
       transparent 65%
     ),
@@ -55,7 +60,7 @@
     ),
     /* Dark wine sweep — center & left */
     radial-gradient(
-      ellipse 100% 80% at 38% 58%,
+      ellipse 100% 80% at var(--bg-p3),
       rgba(45, 5, 15, 0.94) 0%,
       transparent 65%
     ),
@@ -67,7 +72,7 @@
     ),
     /* Magenta glow — lower right */
     radial-gradient(
-      ellipse 48% 42% at 78% 86%,
+      ellipse 48% 42% at var(--bg-p4),
       rgba(135, 22, 55, 0.5) 0%,
       transparent 70%
     ),
@@ -79,6 +84,8 @@
     ),
     /* Deep black base */
     #080306;
+  
+  animation: cin-bg-breathe 30s ease-in-out infinite alternate;
 }
 
 /* Animated glow layer — slow, living background movement */
@@ -101,16 +108,35 @@
   pointer-events: none;
 }
 
-/* Noise / film grain overlay */
+/* Noise / film grain overlay — now with subtle jitter for 'live' grain */
 .cin-noise {
   position: absolute;
-  inset: 0;
+  inset: -50%; /* Larger to allow for jitter without edges showing */
   z-index: 1;
   pointer-events: none;
-  opacity: 0.04;
+  opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 180px;
+  animation: cin-grain-jitter 0.8s steps(10) infinite;
+}
+
+/* Very subtle light sweep beam */
+.cin-bg-sweep {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255, 100, 50, 0.04) 45%,
+    rgba(255, 200, 150, 0.08) 50%,
+    rgba(255, 100, 50, 0.04) 55%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  animation: cin-sweep-move 15s linear infinite;
+  pointer-events: none;
 }
 
 /* Soft vignette edges */
@@ -283,20 +309,63 @@
 @keyframes cin-glow-drift {
   0% {
     transform: translate(0, 0) rotate(0deg) scale(1);
-    opacity: 0.8;
+    opacity: 0.6;
   }
   33% {
-    transform: translate(3%, -2%) rotate(1.5deg) scale(1.04);
-    opacity: 1;
-  }
-  66% {
-    transform: translate(-2%, 2%) rotate(-1deg) scale(1.02);
+    transform: translate(5%, -3%) rotate(1deg) scale(1.06);
     opacity: 0.9;
   }
-  100% {
-    transform: translate(1%, -1%) rotate(0.5deg) scale(1.06);
-    opacity: 1;
+  66% {
+    transform: translate(-3%, 4%) rotate(-0.5deg) scale(1.03);
+    opacity: 0.7;
   }
+  100% {
+    transform: translate(2%, -2%) rotate(0.5deg) scale(1.08);
+    opacity: 0.9;
+  }
+}
+
+/* New: Breathing main background gradient positions */
+@keyframes cin-bg-breathe {
+  0% {
+    --bg-p1: 82% 12%;
+    --bg-p2: 68% 28%;
+    --bg-p3: 38% 58%;
+    --bg-p4: 78% 86%;
+  }
+  50% {
+    --bg-p1: 75% 18%;
+    --bg-p2: 72% 35%;
+    --bg-p3: 45% 52%;
+    --bg-p4: 82% 78%;
+  }
+  100% {
+    --bg-p1: 85% 8%;
+    --bg-p2: 65% 22%;
+    --bg-p3: 32% 62%;
+    --bg-p4: 74% 92%;
+  }
+}
+
+/* Light beam sweep animation */
+@keyframes cin-sweep-move {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Film grain micro-jitter */
+@keyframes cin-grain-jitter {
+  0% { transform: translate(0,0); }
+  10% { transform: translate(-1%,-1%); }
+  20% { transform: translate(1%,1%); }
+  30% { transform: translate(-2%,0); }
+  40% { transform: translate(2%,-1%); }
+  50% { transform: translate(-1%,2%); }
+  60% { transform: translate(1%,-2%); }
+  70% { transform: translate(-2%,1%); }
+  80% { transform: translate(2%,2%); }
+  90% { transform: translate(-1%,-2%); }
+  100% { transform: translate(0,0); }
 }
 
 /* ────────────────────────────────────────────────────────────────────

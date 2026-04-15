@@ -111,6 +111,7 @@ export default function Cinematraphie({ onBack }) {
       <div className="cin-bg-wrapper" ref={bgRef}>
         <div className="cin-bg" />
         <div className="cin-bg-glow" />
+        <div className="cin-bg-sweep" />
         <div className="cin-noise" />
         <div className="cin-vignette" />
       </div>
