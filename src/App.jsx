@@ -1,15 +1,24 @@
-import { useState, useEffect, useRef } from "react";
+import {
+  lazy,
+  memo,
+  Suspense,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Lenis from "lenis";
 import Sidebar from "./components/Sidebar";
 import Navigation from "./components/Navigation";
 
-import Home from "./components/pages/Home";
-import Projects from "./components/pages/Projects";
-import Experience from "./components/pages/Experience";
-import Certifications from "./components/pages/Tools";
-import Writings from "./components/pages/Writings";
+const Home = lazy(() => import("./components/pages/Home"));
+const Projects = lazy(() => import("./components/pages/Projects"));
+const Experience = lazy(() => import("./components/pages/Experience"));
+const Certifications = lazy(() => import("./components/pages/Tools"));
+const Writings = lazy(() => import("./components/pages/Writings"));
+const MemoSidebar = memo(Sidebar);
 
 const TICKER_ITEMS = [
   { label: "CSS3", type: "text" },
@@ -25,13 +34,21 @@ const TICKER_ITEMS = [
   { label: "🐘", type: "text", title: "PostgreSQL" },
   { label: "→GO", type: "text", style: { fontStyle: "italic" } },
 ];
+const DUPLICATED_TICKER_ITEMS = [...TICKER_ITEMS, ...TICKER_ITEMS];
 
-function BottomTicker() {
-  const items = [...TICKER_ITEMS, ...TICKER_ITEMS]; // duplicate for seamless loop
+const PageFallback = memo(function PageFallback() {
+  return (
+    <div className="empty-state">
+      <p>Loading...</p>
+    </div>
+  );
+});
+
+const BottomTicker = memo(function BottomTicker() {
   return (
     <div className="bottom-ticker">
       <div className="ticker-track">
-        {items.map((item, i) => (
+        {DUPLICATED_TICKER_ITEMS.map((item, i) => (
           <span
             key={i}
             className="ticker-item"
@@ -48,7 +65,7 @@ function BottomTicker() {
       </div>
     </div>
   );
-}
+});
 
 gsap.registerPlugin(useGSAP);
 
@@ -88,6 +105,8 @@ function App() {
   const [isDark, setIsDark] = useState(true);
   const scrollRef = useRef();
   const progressBarRef = useRef();
+  const lenisRef = useRef(null);
+  const rafRef = useRef(0);
 
   useEffect(() => {
     document.documentElement.setAttribute(
@@ -96,47 +115,52 @@ function App() {
     );
   }, [isDark]);
 
-  // Integrated Lenis smooth scrolling
-  useGSAP(
-    () => {
-      if (!scrollRef.current) return;
+  // Initialize Lenis once; avoid rebuilding RAF loop on every tab change.
+  useEffect(() => {
+    if (!scrollRef.current || lenisRef.current) return;
 
-      const lenis = new Lenis({
-        wrapper: scrollRef.current,
-        content: scrollRef.current.children[1], // Targeting .lenis-content-wrapper
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-      });
+    const lenis = new Lenis({
+      wrapper: scrollRef.current,
+      content: scrollRef.current.children[1],
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+    lenisRef.current = lenis;
 
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
+    const onScroll = ({ progress }) => {
+      if (progressBarRef.current) {
+        // set is cheaper than creating a tween on every scroll event
+        gsap.set(progressBarRef.current, { scaleX: progress });
       }
+    };
+    lenis.on("scroll", onScroll);
 
-      requestAnimationFrame(raf);
+    const raf = (time) => {
+      lenis.raf(time);
+      rafRef.current = requestAnimationFrame(raf);
+    };
+    rafRef.current = requestAnimationFrame(raf);
 
-      lenis.on("scroll", ({ progress }) => {
-        if (progressBarRef.current) {
-          gsap.to(progressBarRef.current, {
-            scaleX: progress,
-            duration: 0.1,
-            ease: "none",
-          });
-        }
-      });
+    return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
 
-      // Reset scroll on tab change
-      lenis.scrollTo(0, { immediate: true });
+  useEffect(() => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    }
+    if (progressBarRef.current) {
+      gsap.set(progressBarRef.current, { scaleX: 0 });
+    }
+  }, [activeTab]);
 
-      return () => {
-        lenis.destroy();
-      };
-    },
-    { dependencies: [activeTab] },
-  );
-
-  const renderPage = () => {
+  const currentPage = useMemo(() => {
     switch (activeTab) {
       case "home":
         return <Home key="home" />;
@@ -151,14 +175,14 @@ function App() {
       default:
         return <Home key="home" />;
     }
-  };
+  }, [activeTab]);
 
   return (
     <div className="app-root">
       <div className="app-body">
         {/* LEFT: Sidebar */}
         <div className="sidebar-col">
-          <Sidebar />
+          <MemoSidebar />
         </div>
 
         {/* RIGHT: Nav + Content */}
@@ -179,7 +203,7 @@ function App() {
             </div>
             <div className="lenis-content-wrapper">
               <PageTransition activeTab={activeTab}>
-                {renderPage()}
+                <Suspense fallback={<PageFallback />}>{currentPage}</Suspense>
               </PageTransition>
             </div>
           </div>
