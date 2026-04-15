@@ -162,7 +162,6 @@ const TICKER_ITEMS = [
     src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/shopify.svg",
   },
 ];
-const DUPLICATED_TICKER_ITEMS = [...TICKER_ITEMS, ...TICKER_ITEMS];
 
 const PageFallback = memo(function PageFallback() {
   return (
@@ -176,22 +175,42 @@ const BottomTicker = memo(function BottomTicker() {
   return (
     <div className="bottom-ticker">
       <div className="ticker-track">
-        {DUPLICATED_TICKER_ITEMS.map((item, i) => (
-          <span
-            key={i}
-            className="ticker-item icon-card"
-            title={item.title || item.label}
-            style={item.style}
-          >
-            <img
-              className="skill-icon"
-              src={item.src}
-              alt={item.title || item.label}
-              loading="lazy"
-              draggable="false"
-            />
-          </span>
-        ))}
+        <div className="ticker-group">
+          {TICKER_ITEMS.map((item, i) => (
+            <span
+              key={`ticker-a-${i}`}
+              className="ticker-item"
+              title={item.title || item.label}
+              style={item.style}
+            >
+              <img
+                className="skill-icon"
+                src={item.src}
+                alt={item.title || item.label}
+                loading="lazy"
+                draggable="false"
+              />
+            </span>
+          ))}
+        </div>
+        <div className="ticker-group" aria-hidden="true">
+          {TICKER_ITEMS.map((item, i) => (
+            <span
+              key={`ticker-b-${i}`}
+              className="ticker-item"
+              title={item.title || item.label}
+              style={item.style}
+            >
+              <img
+                className="skill-icon"
+                src={item.src}
+                alt=""
+                loading="lazy"
+                draggable="false"
+              />
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );
