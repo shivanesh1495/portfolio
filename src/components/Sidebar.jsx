@@ -6,7 +6,7 @@ import { floatLoop, revealIn } from "../utils/animations";
 import { GitHubIcon, LinkedinIcon, InstagramIcon } from "./icons/BrandIcons";
 import ResumeButton from "./ui/ResumeButton";
 
-function Sidebar() {
+function Sidebar({ onCinematraphie }) {
   const { profile } = useGitHubProfile();
   const container = useRef();
 
@@ -83,10 +83,10 @@ function Sidebar() {
         <ResumeButton />
 
         <div className="action-buttons">
-          <a href="#" className="action-btn editing-btn">
+          <a href="#" className="action-btn editing-btn" onClick={(e) => { e.preventDefault(); onCinematraphie?.(); }}>
             <div className="button-outer">
               <div className="button-inner">
-                <span>Editing Profile</span>
+                <span>Cinematraphie</span>
               </div>
             </div>
           </a>
