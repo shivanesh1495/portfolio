@@ -8,7 +8,7 @@ function Home() {
 
   // Default values while loading
   const yearsExp = profile?.yearsExperience || 3;
-  const projects = profile?.public_repos || 46;
+  const projects = profile?.public_repos || 15;
 
   const container = useRef();
 
