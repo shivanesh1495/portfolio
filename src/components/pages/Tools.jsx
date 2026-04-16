@@ -1,6 +1,11 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
 import { createPortal } from "react-dom";
 import { getDocument, GlobalWorkerOptions } from "pdfjs-dist";
 import pdfWorkerUrl from "pdfjs-dist/build/pdf.worker.min.mjs?url";
@@ -117,7 +122,7 @@ function PdfPreview({ url, mode = "cover" }) {
         }
 
         setStatus("ready");
-      } catch (error) {
+      } catch {
         if (!disposed) {
           setStatus("error");
         }
@@ -170,22 +175,20 @@ function PdfPreview({ url, mode = "cover" }) {
 }
 
 export default function Certifications() {
-  const container = useRef();
   const modalOverlayRef = useRef(null);
   const modalPanelRef = useRef(null);
-  const hasAnimatedRef = useRef(false);
   const [selectedCert, setSelectedCert] = useState(null);
   const [selectedRect, setSelectedRect] = useState(null);
   const { certifications, loading, error } = useGitHubCertifications();
 
-  const openCertification = (cert, element) => {
+  const openCertification = useCallback((cert, element) => {
     if (!element) return;
 
     setSelectedRect(element.getBoundingClientRect());
     setSelectedCert(cert);
-  };
+  }, []);
 
-  const closeCertification = () => {
+  const closeCertification = useCallback(() => {
     if (!selectedCert || !selectedRect || !modalPanelRef.current) {
       setSelectedCert(null);
       setSelectedRect(null);
@@ -225,25 +228,7 @@ export default function Certifications() {
       },
       0,
     );
-  };
-
-  useGSAP(
-    () => {
-      if (!loading && certifications.length > 0 && !hasAnimatedRef.current) {
-        hasAnimatedRef.current = true;
-        gsap.from(".cert-card", {
-          opacity: 0,
-          scale: 0.96,
-          y: 18,
-          duration: 0.45,
-          stagger: 0.08,
-          ease: "power3.out",
-          clearProps: "all",
-        });
-      }
-    },
-    { dependencies: [certifications, loading], scope: container },
-  );
+  }, [selectedCert, selectedRect]);
 
   useLayoutEffect(() => {
     if (
@@ -318,10 +303,10 @@ export default function Certifications() {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [selectedCert, selectedRect]);
+  }, [closeCertification, selectedCert]);
 
   return (
-    <div className="certifications-page" ref={container}>
+    <div className="certifications-page">
       <div className="page-header">
         <h1 className="certifications-hero-heading">
           <span className="solid">CERTIFICATES &</span>

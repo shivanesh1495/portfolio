@@ -12,7 +12,7 @@ const TABS = [
   { id: "writings", Icon: Edit3, label: "Writings" },
 ];
 
-function Navigation({ activeTab, setActiveTab, isLight, setIsLight }) {
+function Navigation({ activeSection, isLight, onNavigate, setIsLight }) {
   const container = useRef(null);
 
   useGSAP(
@@ -28,32 +28,37 @@ function Navigation({ activeTab, setActiveTab, isLight, setIsLight }) {
 
   useGSAP(
     () => {
-      pulseActive(container.current?.querySelector(`#nav-${activeTab}`));
+      pulseActive(
+        container.current?.querySelector(
+          `[data-nav-button="${activeSection}"]`,
+        ),
+      );
     },
-    { scope: container, dependencies: [activeTab] },
+    { scope: container, dependencies: [activeSection] },
   );
 
   return (
     <nav className="nav-bar" ref={container}>
-      {/* Pill stretches to fill all available space */}
       <div className="nav-pill">
         {TABS.map((tab) => (
           <button
             key={tab.id}
-            id={`nav-${tab.id}`}
-            className={`nav-btn${activeTab === tab.id ? " active" : ""}`}
-            onClick={() => setActiveTab(tab.id)}
+            type="button"
+            className={`nav-btn${activeSection === tab.id ? " active" : ""}`}
+            data-nav-button={tab.id}
+            onClick={() => onNavigate?.(tab.id)}
+            aria-current={activeSection === tab.id ? "page" : undefined}
             aria-label={tab.label}
           >
             <tab.Icon
-              size={20}
-              strokeWidth={activeTab === tab.id ? 2.5 : 1.8}
+              size={18}
+              strokeWidth={activeSection === tab.id ? 2.5 : 1.8}
             />
+            <span>{tab.label}</span>
           </button>
         ))}
       </div>
 
-      {/* Only the theme toggle remains on the right */}
       <ThemeSwitch isLight={isLight} setIsLight={setIsLight} />
     </nav>
   );

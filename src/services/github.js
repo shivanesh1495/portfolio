@@ -55,7 +55,7 @@ function parseStructuredTextFile(content) {
 
   try {
     return JSON.parse(trimmed);
-  } catch (parseError) {
+  } catch {
     try {
       // The data files are maintained as simple object literals.
       return new Function(`return (${trimmed});`)();

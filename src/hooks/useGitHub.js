@@ -9,11 +9,39 @@ import {
 } from "../services/github";
 
 const CERTIFICATIONS_CACHE_KEY = "portfolio:certifications-cache";
+const PROFILE_CACHE_KEY = "portfolio:profile-cache";
 const RESUME_CACHE_KEY = "portfolio:resume-cache";
+let profileMemoryCache = null;
+let profileMemoryPromise = null;
 let certificationsMemoryCache = null;
 let certificationsMemoryPromise = null;
 let resumeMemoryCache = null;
 let resumeMemoryPromise = null;
+
+function readProfileSessionCache() {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  try {
+    const raw = window.sessionStorage.getItem(PROFILE_CACHE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeProfileSessionCache(value) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  try {
+    window.sessionStorage.setItem(PROFILE_CACHE_KEY, JSON.stringify(value));
+  } catch {
+    // Ignore storage quota and privacy mode errors.
+  }
+}
 
 function readCertificationsSessionCache() {
   if (typeof window === "undefined") {
@@ -71,6 +99,7 @@ function writeResumeSessionCache(value) {
 if (typeof window !== "undefined") {
   window.addEventListener("beforeunload", () => {
     try {
+      window.sessionStorage.removeItem(PROFILE_CACHE_KEY);
       window.sessionStorage.removeItem(CERTIFICATIONS_CACHE_KEY);
       window.sessionStorage.removeItem(RESUME_CACHE_KEY);
     } catch {
@@ -108,18 +137,54 @@ export function useGitHubProfile() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    let cancelled = false;
+
     async function load() {
       try {
-        setLoading(true);
-        const data = await fetchGitHubUserProfile();
-        setProfile(data);
+        const sessionCache = profileMemoryCache || readProfileSessionCache();
+
+        if (sessionCache) {
+          profileMemoryCache = sessionCache;
+          if (!cancelled) {
+            setProfile(sessionCache);
+          }
+          return;
+        }
+
+        if (!profileMemoryPromise) {
+          profileMemoryPromise = fetchGitHubUserProfile()
+            .then((data) => {
+              profileMemoryCache = data;
+              writeProfileSessionCache(data);
+              profileMemoryPromise = null;
+              return data;
+            })
+            .catch((err) => {
+              profileMemoryPromise = null;
+              throw err;
+            });
+        }
+
+        const data = await profileMemoryPromise;
+        if (!cancelled) {
+          setProfile(data);
+        }
       } catch (err) {
-        setError(err.message);
+        if (!cancelled) {
+          setError(err.message);
+        }
       } finally {
-        setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
     }
+
     load();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return { profile, loading, error };

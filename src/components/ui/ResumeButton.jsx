@@ -1,4 +1,10 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import gsap from "gsap";
 import { getDocument, GlobalWorkerOptions } from "pdfjs-dist";
@@ -154,7 +160,7 @@ export default function ResumeButton() {
     setIsOpen(true);
   };
 
-  const closeResume = () => {
+  const closeResume = useCallback(() => {
     if (!panelRef.current) {
       setIsOpen(false);
       setOriginRect(null);
@@ -206,7 +212,7 @@ export default function ResumeButton() {
       },
       0,
     );
-  };
+  }, [originRect]);
 
   useLayoutEffect(() => {
     if (!isOpen || !originRect || !overlayRef.current || !panelRef.current) {
@@ -283,7 +289,7 @@ export default function ResumeButton() {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [isOpen, originRect]);
+  }, [closeResume, isOpen]);
 
   return (
     <>

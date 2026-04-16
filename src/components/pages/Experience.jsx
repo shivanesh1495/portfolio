@@ -1,30 +1,22 @@
-import React, { memo, useRef } from "react";
-import { useGSAP } from "@gsap/react";
+import React, { memo } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { useGitHubExperience } from "../../hooks/useGitHub";
-import { revealIn } from "../../utils/animations";
 
 function Experience() {
   const { experience, loading, error } = useGitHubExperience();
-  const container = useRef();
-
-  useGSAP(
-    () => {
-      revealIn(".exp-card", {
-        y: 15,
-        duration: 0.5,
-        stagger: 0.1,
-      });
-    },
-    { scope: container, dependencies: [experience] },
-  );
 
   return (
-    <div className="experience-page" ref={container}>
-      <h1 className="exp-hero-heading">
-        <span className="solid">INDUSTRY</span>
-        <span className="ghost">EXPERIENCE</span>
-      </h1>
+    <div className="experience-page">
+      <div className="page-header">
+        <h1 className="exp-hero-heading">
+          <span className="solid">INDUSTRY</span>
+          <span className="ghost">EXPERIENCE</span>
+        </h1>
+        <p className="page-subtitle">
+          Roles shaped across product, design-aware engineering, and systems
+          delivery.
+        </p>
+      </div>
 
       {loading ? (
         <div className="empty-state">
@@ -36,17 +28,17 @@ function Experience() {
         </div>
       ) : (
         <div className="exp-list">
-          {experience.map((exp, i) => (
-            <div className="exp-card" key={exp.id || exp.slug || i}>
+          {experience.map((item, index) => (
+            <div className="exp-card" key={item.id || item.slug || index}>
               <div className="exp-card-top">
                 <div>
-                  <p className="exp-company-name">{exp.company}</p>
-                  <span className="exp-role-title">{exp.role}</span>
+                  <p className="exp-company-name">{item.company}</p>
+                  <span className="exp-role-title">{item.role}</span>
                 </div>
                 <ArrowUpRight size={20} className="exp-arrow-icon" />
               </div>
-              <p className="exp-description">{exp.desc}</p>
-              <span className="exp-period">{exp.period}</span>
+              <p className="exp-description">{item.desc}</p>
+              <span className="exp-period">{item.period}</span>
             </div>
           ))}
         </div>

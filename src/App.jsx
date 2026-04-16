@@ -1,297 +1,107 @@
 import {
   lazy,
-  memo,
   Suspense,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import Lenis from "lenis";
-import Sidebar from "./components/Sidebar";
-import Navigation from "./components/Navigation";
-import { revealIn } from "./utils/animations";
+import Home from "./components/pages/Home";
+import AboutSection from "./components/pages/AboutSection";
+import Projects from "./components/pages/Projects";
+import Experience from "./components/pages/Experience";
+import Certifications from "./components/pages/Tools";
+import Writings from "./components/pages/Writings";
+import ContactSection from "./components/pages/ContactSection";
 
-const Home = lazy(() => import("./components/pages/Home"));
-const Projects = lazy(() => import("./components/pages/Projects"));
-const Experience = lazy(() => import("./components/pages/Experience"));
-const Certifications = lazy(() => import("./components/pages/Tools"));
-const Writings = lazy(() => import("./components/pages/Writings"));
 const Cinematraphie = lazy(() => import("./components/pages/Cinematraphie"));
-const MemoSidebar = memo(Sidebar);
 
-const TICKER_ITEMS = [
-  {
-    label: "C++",
-    title: "C++",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg",
-  },
-  {
-    label: "Python",
-    title: "Python",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
-  },
-  {
-    label: "Java",
-    title: "Java",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
-  },
-  {
-    label: "C",
-    title: "C",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg",
-  },
-  {
-    label: "Dart",
-    title: "Dart",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg",
-  },
-  {
-    label: "Haskell",
-    title: "Haskell",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/haskell/haskell-original.svg",
-  },
-  {
-    label: "HTML5",
-    title: "HTML5",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
-  },
-  {
-    label: "CSS3",
-    title: "CSS3",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
-  },
-  {
-    label: "JavaScript",
-    title: "JavaScript",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
-  },
-  {
-    label: "React",
-    title: "React",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-  },
-  {
-    label: "Next.js",
-    title: "Next.js",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
-  },
-  {
-    label: "Node.js",
-    title: "Node.js",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-  },
-  {
-    label: "Remix",
-    title: "Remix",
-    src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/remix.svg",
-  },
-  {
-    label: "Three.js",
-    title: "Three.js",
-    src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/threedotjs.svg",
-  },
-  {
-    label: "MongoDB",
-    title: "MongoDB",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
-  },
-  {
-    label: "MySQL",
-    title: "MySQL",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
-  },
-  {
-    label: "Flutter",
-    title: "Flutter",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg",
-  },
-  {
-    label: "Git",
-    title: "Git",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
-  },
-  {
-    label: "Linux",
-    title: "Linux",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg",
-  },
-  {
-    label: "Arduino",
-    title: "Arduino",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/arduino/arduino-original.svg",
-  },
-  {
-    label: "VS Code",
-    title: "Visual Studio Code",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
-  },
-  {
-    label: "Eclipse",
-    title: "Eclipse",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/eclipse/eclipse-original.svg",
-  },
-  {
-    label: "Postman",
-    title: "Postman",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg",
-  },
-  {
-    label: "Figma",
-    title: "Figma",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
-  },
-  {
-    label: "Android Studio",
-    title: "Android Studio",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/androidstudio/androidstudio-original.svg",
-  },
-  {
-    label: "Firebase",
-    title: "Firebase",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
-  },
-  {
-    label: "MATLAB",
-    title: "MATLAB",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matlab/matlab-original.svg",
-  },
-  {
-    label: "Shopify",
-    title: "Shopify",
-    src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/shopify.svg",
-  },
+const SECTION_CONFIG = [
+  { id: "home", navId: "home", className: "scroll-section--hero" },
+  { id: "about", navId: "home" },
+  { id: "projects", navId: "projects" },
+  { id: "experience", navId: "experience" },
+  { id: "certifications", navId: "certifications" },
+  { id: "writings", navId: "writings" },
+  { id: "contact", navId: "writings", className: "scroll-section--contact" },
 ];
-
-const PageFallback = memo(function PageFallback() {
-  return (
-    <div className="empty-state">
-      <p>Loading...</p>
-    </div>
-  );
-});
-
-const BottomTicker = memo(function BottomTicker() {
-  return (
-    <div className="bottom-ticker">
-      <div className="ticker-track">
-        <div className="ticker-group">
-          {TICKER_ITEMS.map((item, i) => (
-            <span
-              key={`ticker-a-${i}`}
-              className="ticker-item"
-              title={item.title || item.label}
-              style={item.style}
-            >
-              <img
-                className="skill-icon"
-                src={item.src}
-                alt={item.title || item.label}
-                loading="lazy"
-                draggable="false"
-              />
-            </span>
-          ))}
-        </div>
-        <div className="ticker-group" aria-hidden="true">
-          {TICKER_ITEMS.map((item, i) => (
-            <span
-              key={`ticker-b-${i}`}
-              className="ticker-item"
-              title={item.title || item.label}
-              style={item.style}
-            >
-              <img
-                className="skill-icon"
-                src={item.src}
-                alt=""
-                loading="lazy"
-                draggable="false"
-              />
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-});
 
 gsap.registerPlugin(useGSAP);
 
-function PageTransition({ children, activeTab }) {
-  const container = useRef();
-
-  useGSAP(
-    () => {
-      gsap.fromTo(
-        container.current,
-        { opacity: 0, y: 18, scale: 0.995 },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.52,
-          ease: "power3.out",
-          clearProps: "all",
-        },
-      );
-
-      const scopedTargets = container.current?.querySelectorAll(
-        ".page-header, .home-heading",
-      );
-
-      if (scopedTargets && scopedTargets.length > 0) {
-        revealIn(scopedTargets, {
-          y: 12,
-          duration: 0.45,
-          stagger: 0.04,
-        });
-      }
-    },
-    { scope: container, dependencies: [activeTab] },
-  );
-
+function ScrollSection({
+  children,
+  className = "",
+  id,
+  navId,
+  isVisible,
+  sectionRef,
+}) {
   return (
-    <div
-      ref={container}
-      style={{
-        height: "100%",
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-      }}
+    <section
+      className={`scroll-section ${className}${isVisible ? " is-visible" : ""}`}
+      data-nav-id={navId}
+      data-section-id={id}
+      id={id}
+      ref={sectionRef}
     >
-      {children}
-    </div>
+      <div className="scroll-section-shell">{children}</div>
+    </section>
   );
 }
 
 function App() {
-  const [activeTab, setActiveTab] = useState("home");
-  const [isDark, setIsDark] = useState(true);
-  const appRootRef = useRef();
-  const themeFlashRef = useRef();
-  const scrollRef = useRef();
-  const progressBarRef = useRef();
-  const lenisRef = useRef(null);
-  const rafRef = useRef(0);
+  const [isLightTheme] = useState(false);
+  const [showCinematraphie, setShowCinematraphie] = useState(false);
+  const [visibleSections, setVisibleSections] = useState({ home: true });
+
+  const appRootRef = useRef(null);
+  const themeFlashRef = useRef(null);
+  const cursorGlowRef = useRef(null);
+  const scrollRef = useRef(null);
+  const progressBarRef = useRef(null);
+  const sectionRefs = useRef({});
   const hasMountedThemeRef = useRef(false);
 
-  /* ── Cinematraphie overlay state & transition handlers ── */
-  const [showCinematraphie, setShowCinematraphie] = useState(false);
+  const setSectionRef = useCallback(
+    (id) => (node) => {
+      if (node) {
+        sectionRefs.current[id] = node;
+      }
+    },
+    [],
+  );
+
+  const scrollToSection = useCallback((id) => {
+    const target = sectionRefs.current[id];
+    if (!target) {
+      return;
+    }
+
+    target.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest",
+    });
+  }, []);
+
+  const handleNavigate = useCallback(
+    (id) => {
+      scrollToSection(id);
+    },
+    [scrollToSection],
+  );
 
   const handleOpenCinematraphie = useCallback(() => {
     gsap.killTweensOf(appRootRef.current);
-    setShowCinematraphie(true); // Mount immediately
+    setShowCinematraphie(true);
     gsap.to(appRootRef.current, {
-      filter: "blur(20px)",
-      scale: 0.97,
-      opacity: 0.45,
-      duration: 2.5,
-      ease: "expo.inOut",
+      filter: "blur(22px)",
+      scale: 0.972,
+      opacity: 0.42,
+      duration: 0.75,
+      ease: "power3.out",
       overwrite: "auto",
     });
   }, []);
@@ -303,7 +113,7 @@ function App() {
       filter: "blur(0px)",
       scale: 1,
       opacity: 1,
-      duration: 0.5,
+      duration: 0.42,
       ease: "power2.out",
       clearProps: "filter,transform,opacity",
       overwrite: "auto",
@@ -312,21 +122,15 @@ function App() {
 
   useGSAP(
     () => {
-      revealIn(".sidebar-col, .main-col", {
-        y: 14,
-        stagger: 0.08,
-        duration: 0.56,
-      });
-
       gsap.fromTo(
-        ".bottom-ticker",
-        { opacity: 0, y: 10 },
+        ".main-col",
+        { opacity: 0, y: 18 },
         {
           opacity: 1,
           y: 0,
-          delay: 0.18,
-          duration: 0.5,
-          ease: "power2.out",
+          duration: 0.58,
+          stagger: 0.08,
+          ease: "power3.out",
           clearProps: "all",
         },
       );
@@ -337,7 +141,7 @@ function App() {
   useEffect(() => {
     document.documentElement.setAttribute(
       "data-theme",
-      isDark ? "dark" : "light",
+      isLightTheme ? "light" : "dark",
     );
 
     if (!hasMountedThemeRef.current) {
@@ -354,7 +158,7 @@ function App() {
 
     const targets = Array.from(
       root.querySelectorAll(
-        ".nav-bar, .sidebar-card, .content-card, .bottom-ticker, .theme-switch",
+        ".content-card, .scroll-section-shell, .stack-showcase, .contact-showcase",
       ),
     );
 
@@ -370,17 +174,14 @@ function App() {
         {
           opacity: 1,
           scale: 1.02,
-          duration: 0.2,
+          duration: 0.18,
         },
         0,
       );
 
       timeline.fromTo(
         targets,
-        {
-          y: 8,
-          scale: 0.995,
-        },
+        { y: 8, scale: 0.995 },
         {
           y: 0,
           scale: 1,
@@ -406,69 +207,150 @@ function App() {
     return () => {
       cancelAnimationFrame(frame);
     };
-  }, [isDark]);
+  }, [isLightTheme]);
 
-  // Initialize Lenis once; avoid rebuilding RAF loop on every tab change.
   useEffect(() => {
-    if (!scrollRef.current || lenisRef.current) return;
+    const root = scrollRef.current;
+    const progressBar = progressBarRef.current;
 
-    const lenis = new Lenis({
-      wrapper: scrollRef.current,
-      content: scrollRef.current.children[1],
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-    });
-    lenisRef.current = lenis;
+    if (!root || !progressBar) {
+      return undefined;
+    }
 
-    const onScroll = ({ progress }) => {
-      if (progressBarRef.current) {
-        // set is cheaper than creating a tween on every scroll event
-        gsap.set(progressBarRef.current, { scaleX: progress });
-      }
+    const updateProgress = () => {
+      const maxScroll = root.scrollHeight - root.clientHeight;
+      const progress = maxScroll > 0 ? root.scrollTop / maxScroll : 0;
+      gsap.set(progressBar, { scaleX: progress });
+      appRootRef.current?.style.setProperty(
+        "--scroll-progress",
+        progress.toFixed(4),
+      );
     };
-    lenis.on("scroll", onScroll);
 
-    const raf = (time) => {
-      lenis.raf(time);
-      rafRef.current = requestAnimationFrame(raf);
-    };
-    rafRef.current = requestAnimationFrame(raf);
+    updateProgress();
+    root.addEventListener("scroll", updateProgress, { passive: true });
 
     return () => {
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-      }
-      lenis.destroy();
-      lenisRef.current = null;
+      root.removeEventListener("scroll", updateProgress);
     };
   }, []);
 
   useEffect(() => {
-    if (lenisRef.current) {
-      lenisRef.current.scrollTo(0, { immediate: true });
-    }
-    if (progressBarRef.current) {
-      gsap.set(progressBarRef.current, { scaleX: 0 });
-    }
-  }, [activeTab]);
+    const root = scrollRef.current;
 
-  const currentPage = useMemo(() => {
-    switch (activeTab) {
-      case "home":
-        return <Home key="home" />;
-      case "projects":
-        return <Projects key="projects" />;
-      case "experience":
-        return <Experience key="experience" />;
-      case "certifications":
-        return <Certifications key="certifications" />;
-      case "writings":
-        return <Writings key="writings" />;
-      default:
-        return <Home key="home" />;
+    if (!root) {
+      return undefined;
     }
-  }, [activeTab]);
+
+    const observedEntries = new Map();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const sectionId = entry.target.dataset.sectionId;
+          observedEntries.set(sectionId, entry);
+
+          if (entry.isIntersecting) {
+            setVisibleSections((current) => {
+              if (current[sectionId]) {
+                return current;
+              }
+
+              return {
+                ...current,
+                [sectionId]: true,
+              };
+            });
+          }
+        });
+
+        const activeEntries = Array.from(observedEntries.values()).filter(
+          (entry) => entry.isIntersecting,
+        );
+
+        if (activeEntries.length > 0) {
+          activeEntries.sort((entryA, entryB) => {
+            if (entryB.intersectionRatio !== entryA.intersectionRatio) {
+              return entryB.intersectionRatio - entryA.intersectionRatio;
+            }
+
+            return (
+              Math.abs(entryA.boundingClientRect.top) -
+              Math.abs(entryB.boundingClientRect.top)
+            );
+          });
+
+          const nextActive =
+            activeEntries[0].target.dataset.navId ||
+            activeEntries[0].target.dataset.sectionId;
+
+          if (nextActive) {
+            appRootRef.current?.style.setProperty(
+              "--active-section",
+              nextActive,
+            );
+          }
+        }
+      },
+      {
+        root,
+        rootMargin: "-12% 0px -30% 0px",
+        threshold: [0.18, 0.35, 0.55, 0.75],
+      },
+    );
+
+    SECTION_CONFIG.forEach((section) => {
+      const node = sectionRefs.current[section.id];
+      if (node) {
+        observer.observe(node);
+      }
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    const glow = cursorGlowRef.current;
+    const root = appRootRef.current;
+
+    if (!glow || !root) {
+      return undefined;
+    }
+
+    const finePointer = window.matchMedia("(pointer: fine)");
+    if (!finePointer.matches) {
+      return undefined;
+    }
+
+    const xTo = gsap.quickTo(glow, "x", {
+      duration: 0.35,
+      ease: "power3.out",
+    });
+    const yTo = gsap.quickTo(glow, "y", {
+      duration: 0.35,
+      ease: "power3.out",
+    });
+
+    const handlePointerMove = (event) => {
+      const bounds = root.getBoundingClientRect();
+      xTo(event.clientX - bounds.left - 180);
+      yTo(event.clientY - bounds.top - 180);
+      gsap.to(glow, { opacity: 1, duration: 0.2, overwrite: "auto" });
+    };
+
+    const handlePointerLeave = () => {
+      gsap.to(glow, { opacity: 0, duration: 0.35, overwrite: "auto" });
+    };
+
+    root.addEventListener("pointermove", handlePointerMove);
+    root.addEventListener("pointerleave", handlePointerLeave);
+
+    return () => {
+      root.removeEventListener("pointermove", handlePointerMove);
+      root.removeEventListener("pointerleave", handlePointerLeave);
+    };
+  }, []);
 
   return (
     <>
@@ -478,46 +360,98 @@ function App() {
           ref={themeFlashRef}
           aria-hidden="true"
         />
-        <div className="app-body">
-          {/* LEFT: Sidebar */}
-          <div className="sidebar-col">
-            <MemoSidebar onCinematraphie={handleOpenCinematraphie} />
-          </div>
+        <div
+          className="app-cursor-glow"
+          ref={cursorGlowRef}
+          aria-hidden="true"
+        />
 
-          {/* RIGHT: Nav + Content */}
+        <div className="app-body">
           <div className="main-col">
-            <Navigation
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-              isLight={isDark}
-              setIsLight={setIsDark}
-            />
-            <div
-              className="content-card"
-              ref={scrollRef}
-              style={{ overflowY: "auto", position: "relative" }}
-            >
+            <div className="content-card">
               <div className="scroll-progress-container">
                 <div className="scroll-progress-bar" ref={progressBarRef} />
               </div>
-              <div className="lenis-content-wrapper">
-                <PageTransition activeTab={activeTab}>
-                  <Suspense fallback={<PageFallback />}>{currentPage}</Suspense>
-                </PageTransition>
+
+              <div className="one-page-scroller" ref={scrollRef}>
+                <ScrollSection
+                  className="scroll-section--hero"
+                  id="home"
+                  isVisible={visibleSections.home}
+                  navId="home"
+                  sectionRef={setSectionRef("home")}
+                >
+                  <Home
+                    onCinematraphie={handleOpenCinematraphie}
+                    onNavigate={handleNavigate}
+                  />
+                </ScrollSection>
+
+                <ScrollSection
+                  id="about"
+                  isVisible={visibleSections.about}
+                  navId="home"
+                  sectionRef={setSectionRef("about")}
+                >
+                  <AboutSection />
+                </ScrollSection>
+
+                <ScrollSection
+                  id="projects"
+                  isVisible={visibleSections.projects}
+                  navId="projects"
+                  sectionRef={setSectionRef("projects")}
+                >
+                  <Projects />
+                </ScrollSection>
+
+                <ScrollSection
+                  id="experience"
+                  isVisible={visibleSections.experience}
+                  navId="experience"
+                  sectionRef={setSectionRef("experience")}
+                >
+                  <Experience />
+                </ScrollSection>
+
+                <ScrollSection
+                  id="certifications"
+                  isVisible={visibleSections.certifications}
+                  navId="certifications"
+                  sectionRef={setSectionRef("certifications")}
+                >
+                  <Certifications />
+                </ScrollSection>
+
+                <ScrollSection
+                  id="writings"
+                  isVisible={visibleSections.writings}
+                  navId="writings"
+                  sectionRef={setSectionRef("writings")}
+                >
+                  <Writings />
+                </ScrollSection>
+
+                <ScrollSection
+                  className="scroll-section--contact"
+                  id="contact"
+                  isVisible={visibleSections.contact}
+                  navId="writings"
+                  sectionRef={setSectionRef("contact")}
+                >
+                  <ContactSection onCinematraphie={handleOpenCinematraphie} />
+                </ScrollSection>
               </div>
             </div>
           </div>
         </div>
-
-        {/* BOTTOM: Scrolling Tech Ticker */}
-        <BottomTicker />
       </div>
 
-      {showCinematraphie && (
+      {showCinematraphie ? (
         <Suspense fallback={null}>
           <Cinematraphie onBack={handleCloseCinematraphie} />
         </Suspense>
-      )}
+      ) : null}
     </>
   );
 }

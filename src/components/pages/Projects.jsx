@@ -1,15 +1,13 @@
-import React, { memo, useMemo, useRef, useState } from "react";
-import { useGSAP } from "@gsap/react";
+import React, { memo, useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { useGitHubProjects } from "../../hooks/useGitHub";
-import { revealIn } from "../../utils/animations";
 import ProjectCard from "../ui/ProjectCard";
 
 const LoadingSkeleton = memo(function LoadingSkeleton() {
   return (
     <div className="projects-grid">
-      {[1, 2, 3, 4].map((i) => (
-        <div className="project-card skeleton" key={i}>
+      {[1, 2, 3, 4].map((item) => (
+        <div className="project-card skeleton" key={item}>
           <div className="skeleton-line title"></div>
           <div className="skeleton-line desc"></div>
           <div className="skeleton-line tags"></div>
@@ -23,11 +21,12 @@ function Projects() {
   const { projects, loading, error } = useGitHubProjects();
   const [filter, setFilter] = useState("all");
   const [query, setQuery] = useState("");
-  const container = useRef();
 
-  const FILTERS = useMemo(() => {
+  const filters = useMemo(() => {
     const stacks = new Set(["all"]);
-    projects.forEach((p) => p.stacks.forEach((s) => stacks.add(s)));
+    projects.forEach((project) =>
+      project.stacks.forEach((stack) => stacks.add(stack)),
+    );
     return Array.from(stacks).sort();
   }, [projects]);
 
@@ -35,32 +34,20 @@ function Projects() {
 
   const visible = useMemo(
     () =>
-      projects.filter((p) => {
-        const matchesFilter = filter === "all" || p.stacks.includes(filter);
+      projects.filter((project) => {
+        const matchesFilter =
+          filter === "all" || project.stacks.includes(filter);
         const matchesQuery =
           !normalizedQuery ||
-          p.title.toLowerCase().includes(normalizedQuery) ||
-          p.desc.toLowerCase().includes(normalizedQuery);
+          project.title.toLowerCase().includes(normalizedQuery) ||
+          project.desc.toLowerCase().includes(normalizedQuery);
         return matchesFilter && matchesQuery;
       }),
     [projects, filter, normalizedQuery],
   );
 
-  useGSAP(
-    () => {
-      if (!loading && visible.length > 0) {
-        revealIn(".card-container", {
-          y: 20,
-          duration: 0.5,
-          stagger: 0.1,
-        });
-      }
-    },
-    { dependencies: [visible, loading], scope: container },
-  );
-
   return (
-    <div className="projects-page" ref={container}>
+    <div className="projects-page">
       <div className="page-header">
         <h1 className="projects-hero-heading">
           <span className="solid">FEATURED</span>
@@ -75,19 +62,19 @@ function Projects() {
         <Search size={17} color="var(--text-muted)" />
         <input
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(event) => setQuery(event.target.value)}
           placeholder="Search projects by title, stack, or description"
         />
       </div>
 
       <div className="filter-chips">
-        {FILTERS.map((f) => (
+        {filters.map((item) => (
           <button
-            key={f}
-            className={`chip${filter === f ? " active" : ""}`}
-            onClick={() => setFilter(f)}
+            key={item}
+            className={`chip${filter === item ? " active" : ""}`}
+            onClick={() => setFilter(item)}
           >
-            {f}
+            {item}
           </button>
         ))}
       </div>
@@ -104,9 +91,9 @@ function Projects() {
         </div>
       ) : (
         <div className="projects-grid">
-          {visible.map((p) => (
-            <div key={p.id} className="card-container">
-              <ProjectCard project={p} />
+          {visible.map((project) => (
+            <div key={project.id} className="card-container">
+              <ProjectCard project={project} />
             </div>
           ))}
         </div>

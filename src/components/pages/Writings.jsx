@@ -1,8 +1,6 @@
-import React, { memo, useRef, useState } from "react";
-import { useGSAP } from "@gsap/react";
+import React, { memo, useMemo, useState } from "react";
 import { Search, ArrowUpRight, Calendar, Clock } from "lucide-react";
 import { useGitHubWritings } from "../../hooks/useGitHub";
-import { revealIn } from "../../utils/animations";
 
 const FALLBACK_FILTERS = ["all"];
 
@@ -11,7 +9,7 @@ function Writings() {
   const [filter, setFilter] = useState("all");
   const [query, setQuery] = useState("");
 
-  const filters = React.useMemo(() => {
+  const filters = useMemo(() => {
     const stacks = new Set(FALLBACK_FILTERS);
     writings.forEach((item) => {
       (item.stacks || []).forEach((stack) =>
@@ -21,20 +19,17 @@ function Writings() {
     return Array.from(stacks).sort();
   }, [writings]);
 
-  const normalizedQuery = React.useMemo(
-    () => query.trim().toLowerCase(),
-    [query],
-  );
+  const normalizedQuery = useMemo(() => query.trim().toLowerCase(), [query]);
 
-  const visible = React.useMemo(
+  const visible = useMemo(
     () =>
-      writings.filter((a) => {
-        const stacks = (a.stacks || []).map((stack) =>
+      writings.filter((item) => {
+        const stacks = (item.stacks || []).map((stack) =>
           String(stack).toLowerCase(),
         );
-        const tags = (a.tags || []).map((tag) => String(tag).toLowerCase());
+        const tags = (item.tags || []).map((tag) => String(tag).toLowerCase());
         const haystack =
-          `${a.title || ""} ${a.desc || ""} ${tags.join(" ")} ${stacks.join(" ")}`.toLowerCase();
+          `${item.title || ""} ${item.desc || ""} ${tags.join(" ")} ${stacks.join(" ")}`.toLowerCase();
         const matchesFilter = filter === "all" || stacks.includes(filter);
         const matchesQuery =
           !normalizedQuery || haystack.includes(normalizedQuery);
@@ -43,23 +38,8 @@ function Writings() {
     [writings, filter, normalizedQuery],
   );
 
-  const container = useRef();
-
-  useGSAP(
-    () => {
-      if (visible.length > 0) {
-        revealIn(".article-card", {
-          y: 15,
-          duration: 0.5,
-          stagger: 0.1,
-        });
-      }
-    },
-    { dependencies: [visible], scope: container },
-  );
-
   return (
-    <div className="writings-page" ref={container}>
+    <div className="writings-page">
       <div className="page-header">
         <h1 className="writings-hero-heading">
           <span className="solid">LATEST</span>
@@ -75,19 +55,19 @@ function Writings() {
         <Search size={17} color="var(--text-muted)" />
         <input
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(event) => setQuery(event.target.value)}
           placeholder="Search title, tags, or topics"
         />
       </div>
 
       <div className="filter-chips">
-        {filters.map((f) => (
+        {filters.map((item) => (
           <button
-            key={f}
-            className={`chip${filter === f ? " active" : ""}`}
-            onClick={() => setFilter(f)}
+            key={item}
+            className={`chip${filter === item ? " active" : ""}`}
+            onClick={() => setFilter(item)}
           >
-            {f}
+            {item}
           </button>
         ))}
       </div>
@@ -102,26 +82,26 @@ function Writings() {
         </div>
       ) : (
         <div className="articles-list">
-          {visible.map((a, i) => (
-            <div className="article-card" key={a.id || a.slug || i}>
+          {visible.map((item, index) => (
+            <div className="article-card" key={item.id || item.slug || index}>
               <div className="article-top">
-                <h3>{a.title}</h3>
+                <h3>{item.title}</h3>
                 <ArrowUpRight size={17} className="card-arrow" />
               </div>
-              <p>{a.desc}</p>
+              <p>{item.desc}</p>
               <div className="article-tags">
-                {(a.tags || []).map((t) => (
-                  <span key={t} className="tag">
-                    {t}
+                {(item.tags || []).map((tag) => (
+                  <span key={tag} className="tag">
+                    {tag}
                   </span>
                 ))}
               </div>
               <div className="article-meta">
                 <span>
-                  <Calendar size={13} /> {a.date}
+                  <Calendar size={13} /> {item.date}
                 </span>
                 <span>
-                  <Clock size={13} /> {a.read}
+                  <Clock size={13} /> {item.read}
                 </span>
               </div>
             </div>
