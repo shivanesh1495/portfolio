@@ -39,7 +39,7 @@ export default function Cinematraphie({ onBack }) {
           duration: 1.5,
           ease: "expo.out", // Much smoother deceleration
         },
-        0.9
+        0.9,
       );
 
       // ── STEP 3 (2.5s → 3.0s): Gradient background settle ──
@@ -51,7 +51,7 @@ export default function Cinematraphie({ onBack }) {
           duration: 0.8, // Slightly longer for smoothness
           ease: "power3.out",
         },
-        2.5
+        2.5,
       );
 
       // ── STEP 4 (from 2.8s): Everything else materializes ──
@@ -64,7 +64,7 @@ export default function Cinematraphie({ onBack }) {
           duration: 1.2,
           ease: "expo.out",
         },
-        2.8
+        2.8,
       );
 
       tl.to(
@@ -75,10 +75,10 @@ export default function Cinematraphie({ onBack }) {
           duration: 0.6,
           ease: "expo.out",
         },
-        2.9 // Offset slightly for staggered layer feel
+        2.9, // Offset slightly for staggered layer feel
       );
     },
-    { scope: pageRef }
+    { scope: pageRef },
   );
 
   /* ── Escape key → back ── */
@@ -96,11 +96,14 @@ export default function Cinematraphie({ onBack }) {
     if (isExitingRef.current) return;
     isExitingRef.current = true;
 
+    gsap.killTweensOf(pageRef.current);
+
     gsap.to(pageRef.current, {
       opacity: 0,
       scale: 0.98,
       duration: 0.45,
       ease: "power2.inOut",
+      overwrite: "auto",
       onComplete: () => onBack(),
     });
   };
@@ -147,16 +150,10 @@ export default function Cinematraphie({ onBack }) {
           draggable="false"
         />
         <div className="cin-rest" ref={restRef}>
-          <p className="cin-tagline">
-            for fine crafted cinematics
-          </p>
+          <p className="cin-tagline">for fine crafted cinematics</p>
           <div className="cin-buttons">
-            <button className="cin-btn">
-              Connect with me
-            </button>
-            <button className="cin-btn">
-              Check my work
-            </button>
+            <button className="cin-btn">Connect with me</button>
+            <button className="cin-btn">Check my work</button>
           </div>
         </div>
       </div>

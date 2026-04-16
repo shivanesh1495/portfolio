@@ -284,6 +284,7 @@ function App() {
   const [showCinematraphie, setShowCinematraphie] = useState(false);
 
   const handleOpenCinematraphie = useCallback(() => {
+    gsap.killTweensOf(appRootRef.current);
     setShowCinematraphie(true); // Mount immediately
     gsap.to(appRootRef.current, {
       filter: "blur(20px)",
@@ -291,10 +292,12 @@ function App() {
       opacity: 0.45,
       duration: 2.5,
       ease: "expo.inOut",
+      overwrite: "auto",
     });
   }, []);
 
   const handleCloseCinematraphie = useCallback(() => {
+    gsap.killTweensOf(appRootRef.current);
     setShowCinematraphie(false);
     gsap.to(appRootRef.current, {
       filter: "blur(0px)",
@@ -303,6 +306,7 @@ function App() {
       duration: 0.5,
       ease: "power2.out",
       clearProps: "filter,transform,opacity",
+      overwrite: "auto",
     });
   }, []);
 
@@ -468,48 +472,52 @@ function App() {
 
   return (
     <>
-    <div className="app-root" ref={appRootRef}>
-      <div className="app-theme-flash" ref={themeFlashRef} aria-hidden="true" />
-      <div className="app-body">
-        {/* LEFT: Sidebar */}
-        <div className="sidebar-col">
-          <MemoSidebar onCinematraphie={handleOpenCinematraphie} />
-        </div>
+      <div className="app-root" ref={appRootRef}>
+        <div
+          className="app-theme-flash"
+          ref={themeFlashRef}
+          aria-hidden="true"
+        />
+        <div className="app-body">
+          {/* LEFT: Sidebar */}
+          <div className="sidebar-col">
+            <MemoSidebar onCinematraphie={handleOpenCinematraphie} />
+          </div>
 
-        {/* RIGHT: Nav + Content */}
-        <div className="main-col">
-          <Navigation
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            isLight={isDark}
-            setIsLight={setIsDark}
-          />
-          <div
-            className="content-card"
-            ref={scrollRef}
-            style={{ overflowY: "auto", position: "relative" }}
-          >
-            <div className="scroll-progress-container">
-              <div className="scroll-progress-bar" ref={progressBarRef} />
-            </div>
-            <div className="lenis-content-wrapper">
-              <PageTransition activeTab={activeTab}>
-                <Suspense fallback={<PageFallback />}>{currentPage}</Suspense>
-              </PageTransition>
+          {/* RIGHT: Nav + Content */}
+          <div className="main-col">
+            <Navigation
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              isLight={isDark}
+              setIsLight={setIsDark}
+            />
+            <div
+              className="content-card"
+              ref={scrollRef}
+              style={{ overflowY: "auto", position: "relative" }}
+            >
+              <div className="scroll-progress-container">
+                <div className="scroll-progress-bar" ref={progressBarRef} />
+              </div>
+              <div className="lenis-content-wrapper">
+                <PageTransition activeTab={activeTab}>
+                  <Suspense fallback={<PageFallback />}>{currentPage}</Suspense>
+                </PageTransition>
+              </div>
             </div>
           </div>
         </div>
+
+        {/* BOTTOM: Scrolling Tech Ticker */}
+        <BottomTicker />
       </div>
 
-      {/* BOTTOM: Scrolling Tech Ticker */}
-      <BottomTicker />
-    </div>
-
-    {showCinematraphie && (
-      <Suspense fallback={null}>
-        <Cinematraphie onBack={handleCloseCinematraphie} />
-      </Suspense>
-    )}
+      {showCinematraphie && (
+        <Suspense fallback={null}>
+          <Cinematraphie onBack={handleCloseCinematraphie} />
+        </Suspense>
+      )}
     </>
   );
 }
