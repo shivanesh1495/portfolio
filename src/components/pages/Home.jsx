@@ -2,7 +2,7 @@ import React, { memo } from "react";
 
 function Home({ onCinematraphie }) {
   return (
-    <div className="hero-card">
+    <section className="hero-card" aria-label="Introduction">
       <div className="hero-glow hero-glow--left" aria-hidden="true" />
       <div className="hero-glow hero-glow--right" aria-hidden="true" />
 
@@ -37,7 +37,7 @@ function Home({ onCinematraphie }) {
       >
         cinematraphie
       </button>
-    </div>
+    </section>
   );
 }
 
