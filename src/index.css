@@ -271,8 +271,8 @@ img {
 }
 
 .hero-signature {
-  width: min(100%, 960px);
-  transform: scale(1.08);
+  width: min(100%, 820px);
+  transform: scale(1.7);
   transform-origin: center;
   filter: drop-shadow(0 10px 40px rgba(255, 255, 255, 0.06));
 }
