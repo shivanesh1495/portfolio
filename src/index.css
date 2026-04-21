@@ -40,19 +40,29 @@ body {
   color: var(--text);
   background:
     radial-gradient(
-      circle 60vmax at 50% -8%,
-      rgba(255, 255, 255, 0.13),
-      transparent 44%
+      circle 54vmax at 50% -8%,
+      rgba(255, 255, 255, 0.1),
+      transparent 42%
     ),
     radial-gradient(
-      circle 36vmax at 92% 14%,
-      rgba(255, 255, 255, 0.045),
-      transparent 50%
-    ),
-    radial-gradient(
-      circle 28vmax at 12% 62%,
-      rgba(255, 255, 255, 0.03),
+      circle 44vmax at 82% 16%,
+      rgba(255, 255, 255, 0.07),
       transparent 48%
+    ),
+    radial-gradient(
+      circle 34vmax at 14% 24%,
+      rgba(255, 255, 255, 0.045),
+      transparent 46%
+    ),
+    radial-gradient(
+      circle 30vmax at 18% 78%,
+      rgba(255, 255, 255, 0.03),
+      transparent 52%
+    ),
+    radial-gradient(
+      circle 36vmax at 86% 72%,
+      rgba(255, 255, 255, 0.04),
+      transparent 54%
     ),
     linear-gradient(180deg, #060606 0%, #050505 30%, #0a0a0a 100%);
   -webkit-font-smoothing: antialiased;
@@ -70,13 +80,25 @@ body::after {
 
 body::before {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 20%),
     radial-gradient(
-      circle 42vmax at 50% 0%,
-      rgba(255, 255, 255, 0.05),
-      transparent 54%
-    );
-  opacity: 0.9;
+      circle at 50% 0%,
+      rgba(255, 255, 255, 0.1),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 18% 18%,
+      rgba(255, 255, 255, 0.035),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 82% 20%,
+      rgba(255, 255, 255, 0.03),
+      transparent 24%
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 18%);
+  opacity: 0.82;
+  filter: blur(12px);
+  animation: auroraDrift 28s ease-in-out infinite alternate;
 }
 
 body::after {
@@ -85,7 +107,8 @@ body::after {
     transparent 48%,
     rgba(0, 0, 0, 0.32) 100%
   );
-  opacity: 0.8;
+  opacity: 0.9;
+  animation: vignettePulse 18s ease-in-out infinite alternate;
 }
 
 a,
@@ -151,8 +174,8 @@ img {
 
 .app-ambient__spot {
   border-radius: 999px;
-  filter: blur(72px);
-  opacity: 0.5;
+  filter: blur(84px);
+  opacity: 0.6;
   mix-blend-mode: screen;
   animation: ambientDrift 18s ease-in-out infinite alternate;
 }
@@ -165,8 +188,8 @@ img {
   transform: translateX(-50%);
   background: radial-gradient(
     circle,
-    rgba(255, 255, 255, 0.18),
-    transparent 65%
+    rgba(255, 255, 255, 0.16),
+    transparent 64%
   );
 }
 
@@ -475,8 +498,8 @@ img {
 }
 
 .hero-signature {
-  width: min(100%, 640px);
-  transform: none;
+  width: min(100%, 820px);
+  transform: scale(1.7);
   transform-origin: center;
   filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.08));
 }
@@ -1486,6 +1509,33 @@ img {
 
   100% {
     transform: translate3d(-2%, 2%, 0) scale(0.98);
+  }
+}
+
+@keyframes auroraDrift {
+  0% {
+    transform: translate3d(-1.5%, -1%, 0) scale(1);
+    opacity: 0.74;
+  }
+
+  50% {
+    transform: translate3d(1.5%, 1%, 0) scale(1.03);
+    opacity: 0.88;
+  }
+
+  100% {
+    transform: translate3d(-0.5%, 1.5%, 0) scale(1.01);
+    opacity: 0.8;
+  }
+}
+
+@keyframes vignettePulse {
+  0% {
+    opacity: 0.76;
+  }
+
+  100% {
+    opacity: 0.95;
   }
 }
 

@@ -53,10 +53,6 @@ function AboutSection() {
         <div className="scene__lead">
           <header className="scene__intro">
             <h2 className="section-title-serif">About</h2>
-            <p className="scene__description">
-              I design and build digital products that are both technically
-              robust and visually compelling.
-            </p>
           </header>
 
           <div className="section-copy section-copy--spacious about-copy">
