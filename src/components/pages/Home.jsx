@@ -13,9 +13,6 @@ function Home() {
 
   return (
     <section className="hero-card" aria-label="Introduction">
-      <div className="hero-glow hero-glow--left" aria-hidden="true" />
-      <div className="hero-glow hero-glow--right" aria-hidden="true" />
-
       <img
         src="/shivanesh.svg"
         alt="Shivanesh signature"
