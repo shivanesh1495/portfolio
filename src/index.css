@@ -1021,7 +1021,11 @@ img {
 }
 
 .certifications-strip {
-  padding-top: 6px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  align-items: start;
+  padding-top: 8px;
 }
 
 .certificate-row {
@@ -1030,8 +1034,17 @@ img {
   gap: 14px;
   align-content: start;
   min-height: 100%;
-  padding: 4px 0 18px;
+  padding: 18px;
   color: var(--text);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.016)),
+    rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(20px);
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .certificate-row::after {
@@ -1083,7 +1096,7 @@ img {
     rgba(255, 255, 255, 0.02)
   );
   backdrop-filter: blur(18px);
-  aspect-ratio: 1.55 / 1;
+  aspect-ratio: 1.45 / 1;
 }
 
 .certificate-image {
@@ -1096,6 +1109,7 @@ img {
 .certificate-placeholder {
   width: 100%;
   height: 100%;
+  min-height: 180px;
   padding: 18px;
   display: grid;
   align-content: end;
@@ -1121,7 +1135,7 @@ img {
 .latest-feature {
   position: relative;
   overflow: hidden;
-  min-height: 320px;
+  min-height: clamp(250px, 30vw, 340px);
   display: grid;
   align-items: end;
   border-radius: 30px;
@@ -1170,17 +1184,15 @@ img {
 .latest-feature__content {
   position: relative;
   z-index: 1;
-  width: min(100%, 640px);
+  width: min(100%, 620px);
   display: grid;
-  gap: 16px;
-  padding: clamp(24px, 4vw, 34px);
-  background: linear-gradient(
-    135deg,
-    rgba(7, 7, 7, 0.86),
-    rgba(12, 12, 12, 0.44)
-  );
+  gap: 14px;
+  margin: 18px;
+  padding: clamp(18px, 3vw, 28px);
+  background: linear-gradient(135deg, rgba(7, 7, 7, 0.9), rgba(12, 12, 12, 0.52));
   backdrop-filter: blur(28px);
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
 }
 
 .tag-row,
@@ -1217,8 +1229,8 @@ img {
 
 .latest-feature__action {
   position: absolute;
-  right: 22px;
-  bottom: 22px;
+  right: 18px;
+  bottom: 18px;
   z-index: 1;
   width: 50px;
   height: 50px;
@@ -1624,9 +1636,7 @@ img {
 
   .latest-feature__content {
     width: 100%;
-    border-right: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    margin-top: auto;
+    margin: 12px;
   }
 
   .project-row {
