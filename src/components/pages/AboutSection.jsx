@@ -12,7 +12,7 @@ function AboutSection() {
 
   return (
     <div className="content-block">
-      <article className="section-card section-card--quiet">
+     
         <h2 className="section-title-serif">About</h2>
 
         <div className="section-copy section-copy--spacious">
@@ -46,7 +46,6 @@ function AboutSection() {
             <strong>{joinedYear}</strong>
           </div>
         </div>
-      </article>
     </div>
   );
 }

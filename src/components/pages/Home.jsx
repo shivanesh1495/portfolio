@@ -1,6 +1,16 @@
 import React, { memo } from "react";
 
 function Home() {
+  const handleSectionScroll = (sectionId) => {
+    const section = document.getElementById(sectionId);
+
+    if (!section) {
+      return;
+    }
+
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <section className="hero-card" aria-label="Introduction">
       <div className="hero-glow hero-glow--left" aria-hidden="true" />
@@ -16,18 +26,34 @@ function Home() {
       <p className="hero-subtitle">full stack &amp; cloud engineer</p>
 
       <nav className="hero-nav" aria-label="Quick links">
-        <a className="hero-nav-link" href="#writings">
+        <button
+          type="button"
+          className="hero-nav-link"
+          onClick={() => handleSectionScroll("writings")}
+        >
           blogs
-        </a>
-        <a className="hero-nav-link" href="#projects">
+        </button>
+        <button
+          type="button"
+          className="hero-nav-link"
+          onClick={() => handleSectionScroll("projects")}
+        >
           projects
-        </a>
-        <a className="hero-nav-link" href="#resume">
+        </button>
+        <button
+          type="button"
+          className="hero-nav-link"
+          onClick={() => handleSectionScroll("resume")}
+        >
           resume
-        </a>
-        <a className="hero-nav-link" href="#contact">
+        </button>
+        <button
+          type="button"
+          className="hero-nav-link"
+          onClick={() => handleSectionScroll("contact")}
+        >
           contact
-        </a>
+        </button>
       </nav>
     </section>
   );

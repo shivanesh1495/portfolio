@@ -42,14 +42,14 @@ body {
   color: var(--text);
   background:
     radial-gradient(
-      circle at 50% 0%,
+      circle 56vmax at 50% 0%,
       rgba(255, 255, 255, 0.12),
-      transparent 26%
+      transparent 46%
     ),
     radial-gradient(
-      circle at 84% 10%,
+      circle 30vmax at 84% 10%,
       rgba(255, 255, 255, 0.05),
-      transparent 18%
+      transparent 46%
     ),
     linear-gradient(180deg, #101012 0%, #060606 18%, #060606 100%);
   -webkit-font-smoothing: antialiased;
@@ -64,9 +64,9 @@ body::before {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 18%),
     radial-gradient(
-      circle at 50% 0%,
+      circle 54vmax at 50% 0%,
       rgba(255, 255, 255, 0.03),
-      transparent 26%
+      transparent 48%
     );
   opacity: 0.7;
 }
@@ -233,7 +233,7 @@ img {
 .hero-card {
   position: relative;
   width: 100%;
-  min-height: clamp(560px, 82vh, 920px);
+  min-height: 100svh;
   padding: clamp(56px, 10vw, 112px) clamp(4px, 2vw, 16px) clamp(36px, 6vw, 56px);
   display: grid;
   align-content: center;
@@ -255,19 +255,19 @@ img {
 }
 
 .hero-glow--left {
-  width: 44%;
-  height: 42%;
-  left: -8%;
-  bottom: -10%;
-  background: radial-gradient(circle, var(--purple-glow), transparent 72%);
+  width: clamp(300px, 56vmin, 620px);
+  height: clamp(300px, 56vmin, 620px);
+  left: clamp(-190px, -13vmin, -120px);
+  bottom: clamp(-180px, -12vmin, -100px);
+  background: radial-gradient(circle, var(--purple-glow), transparent 74%);
 }
 
 .hero-glow--right {
-  width: 50%;
-  height: 48%;
-  right: -10%;
-  top: -10%;
-  background: radial-gradient(circle, var(--purple-glow-soft), transparent 74%);
+  width: clamp(360px, 62vmin, 700px);
+  height: clamp(360px, 62vmin, 700px);
+  right: clamp(-220px, -15vmin, -130px);
+  top: clamp(-180px, -12vmin, -100px);
+  background: radial-gradient(circle, var(--purple-glow-soft), transparent 76%);
 }
 
 .hero-signature {
@@ -725,14 +725,21 @@ img {
 
 @media (max-width: 479px) {
   .hero-nav {
-    width: 100%;
-    padding: 8px;
+    width: min(100%, 280px);
+    padding: 8px 10px;
+    display: grid;
+    gap: 2px;
   }
 
   .hero-nav-link {
-    flex: 1 1 50%;
+    width: 100%;
+    padding: 8px 12px;
     border-left: 0 !important;
     text-align: center;
+  }
+
+  .hero-nav-link + .hero-nav-link {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .hero-cta,
