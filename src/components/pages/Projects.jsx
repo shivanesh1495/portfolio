@@ -4,7 +4,14 @@ import { useGitHubProjects } from "../../hooks/useGitHub";
 
 function Projects() {
   const { projects, loading, error } = useGitHubProjects();
-  const marqueeProjects = useMemo(() => projects, [projects]);
+  const marqueeProjects = useMemo(() => {
+    if (projects.length === 0) {
+      return [];
+    }
+
+    const visibleProjects = projects.slice(0, 6);
+    return [...visibleProjects, ...visibleProjects];
+  }, [projects]);
 
   return (
     <div className="scene scene--projects">
@@ -45,19 +52,21 @@ function Projects() {
             <p>No projects are available right now.</p>
           </div>
         ) : (
-          <div className="projects-flow">
-            <div className="projects-wave" aria-hidden="true" />
-            <div className="projects-track" aria-label="GitHub repositories">
+          <div className="projects-marquee" aria-label="GitHub repositories">
+            <div className="projects-marquee__glow" aria-hidden="true" />
+            <div className="projects-marquee__track">
               {marqueeProjects.map((project, index) => (
                 <a
                   href={project.url}
                   target="_blank"
                   rel="noreferrer"
                   className="project-row"
-                  key={project.id}
+                  key={`${project.id}-${index}`}
                 >
                   <span className="project-row__index">
-                    {String(index + 1).padStart(2, "0")}
+                    {String(
+                      (index % (marqueeProjects.length / 2)) + 1,
+                    ).padStart(2, "0")}
                   </span>
 
                   <div className="project-row__content">

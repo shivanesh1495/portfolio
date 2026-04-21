@@ -45,24 +45,56 @@ const STACK_ITEMS = [
 
 function TechTicker() {
   return (
-    <div className="stack-grid" role="list" aria-label="Primary technology stack">
-      {STACK_ITEMS.map((item) => (
-        <span
-          key={item.label}
-          className="stack-grid__item"
-          title={item.title || item.label}
-          role="listitem"
-        >
-          <img
-            className="stack-grid__icon"
-            src={item.src}
-            alt={item.title || item.label}
-            draggable="false"
-            loading="lazy"
-          />
-          <span className="stack-grid__label">{item.label}</span>
-        </span>
-      ))}
+    <div className="stack-marquee" aria-label="Primary technology stack">
+      <div
+        className="stack-marquee__lane stack-marquee__lane--forward"
+        role="list"
+      >
+        <div className="stack-marquee__track">
+          {[...STACK_ITEMS, ...STACK_ITEMS].map((item, index) => (
+            <span
+              key={`${item.label}-${index}`}
+              className="stack-grid__item"
+              title={item.title || item.label}
+              role="listitem"
+            >
+              <img
+                className="stack-grid__icon"
+                src={item.src}
+                alt={item.title || item.label}
+                draggable="false"
+                loading="lazy"
+              />
+              <span className="stack-grid__label">{item.label}</span>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div
+        className="stack-marquee__lane stack-marquee__lane--reverse"
+        role="list"
+      >
+        <div className="stack-marquee__track">
+          {[...STACK_ITEMS, ...STACK_ITEMS].map((item, index) => (
+            <span
+              key={`${item.label}-reverse-${index}`}
+              className="stack-grid__item stack-grid__item--alt"
+              title={item.title || item.label}
+              role="listitem"
+            >
+              <img
+                className="stack-grid__icon"
+                src={item.src}
+                alt={item.title || item.label}
+                draggable="false"
+                loading="lazy"
+              />
+              <span className="stack-grid__label">{item.label}</span>
+            </span>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
