@@ -43,47 +43,47 @@
     /* Burnt orange glow — upper right */
     radial-gradient(
       ellipse 55% 50% at var(--bg-p1),
-      rgba(195, 90, 18, 0.68) 0%,
+      rgba(255, 255, 255, 0.22) 0%,
       transparent 70%
     ),
     /* Amber accent — mid-right */
     radial-gradient(
       ellipse 38% 38% at var(--bg-p2),
-      rgba(165, 72, 8, 0.34) 0%,
+      rgba(204, 204, 204, 0.12) 0%,
       transparent 65%
     ),
     /* Subtle warm wash — upper band */
     radial-gradient(
       ellipse 80% 40% at 58% 8%,
-      rgba(140, 55, 5, 0.2) 0%,
+      rgba(255, 255, 255, 0.08) 0%,
       transparent 60%
     ),
     /* Dark wine sweep — center & left */
     radial-gradient(
       ellipse 100% 80% at var(--bg-p3),
-      rgba(45, 5, 15, 0.94) 0%,
+      rgba(28, 28, 30, 0.94) 0%,
       transparent 65%
     ),
     /* Deep maroon — center */
     radial-gradient(
       ellipse 70% 60% at 50% 50%,
-      rgba(35, 4, 12, 0.5) 0%,
+      rgba(20, 20, 22, 0.56) 0%,
       transparent 70%
     ),
     /* Magenta glow — lower right */
     radial-gradient(
       ellipse 48% 42% at var(--bg-p4),
-      rgba(135, 22, 55, 0.5) 0%,
+      rgba(138, 138, 138, 0.16) 0%,
       transparent 70%
     ),
     /* Wine undertone — bottom edge */
     radial-gradient(
       ellipse 65% 35% at 50% 95%,
-      rgba(80, 10, 30, 0.35) 0%,
+      rgba(94, 94, 94, 0.12) 0%,
       transparent 65%
     ),
     /* Deep black base */
-    #080306;
+    #050505;
   
   animation: cin-bg-breathe 30s ease-in-out infinite alternate;
 }
@@ -96,12 +96,12 @@
   background:
     radial-gradient(
       ellipse 45% 45% at 60% 35%,
-      rgba(180, 70, 15, 0.12) 0%,
+      rgba(255, 255, 255, 0.08) 0%,
       transparent 60%
     ),
     radial-gradient(
       ellipse 40% 40% at 35% 70%,
-      rgba(100, 15, 40, 0.09) 0%,
+      rgba(150, 150, 150, 0.06) 0%,
       transparent 55%
     );
   animation: cin-glow-drift 20s ease-in-out infinite alternate;
@@ -129,9 +129,9 @@
   background: linear-gradient(
     115deg,
     transparent 30%,
-    rgba(255, 100, 50, 0.04) 45%,
-    rgba(255, 200, 150, 0.08) 50%,
-    rgba(255, 100, 50, 0.04) 55%,
+    rgba(255, 255, 255, 0.02) 45%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.02) 55%,
     transparent 70%
   );
   background-size: 200% 100%;
@@ -203,7 +203,7 @@
   font-size: clamp(1.2rem, 2.8vw, 2.2rem);
   font-weight: 300;
   font-style: italic;
-  background: linear-gradient(90deg, #8ba0ff, #c084fc, #f472b6);
+  background: linear-gradient(90deg, #f1f1f1, #cfcfcf, #969696);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

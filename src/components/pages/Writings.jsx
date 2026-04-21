@@ -1,111 +1,84 @@
-import React, { memo, useMemo, useState } from "react";
-import { Search, ArrowUpRight, Calendar, Clock } from "lucide-react";
+import React, { memo, useMemo } from "react";
+import { ArrowUpRight, Calendar, Clock } from "lucide-react";
 import { useGitHubWritings } from "../../hooks/useGitHub";
-
-const FALLBACK_FILTERS = ["all"];
 
 function Writings() {
   const { writings, loading, error } = useGitHubWritings();
-  const [filter, setFilter] = useState("all");
-  const [query, setQuery] = useState("");
-
-  const filters = useMemo(() => {
-    const stacks = new Set(FALLBACK_FILTERS);
-    writings.forEach((item) => {
-      (item.stacks || []).forEach((stack) =>
-        stacks.add(String(stack).toLowerCase()),
-      );
-    });
-    return Array.from(stacks).sort();
-  }, [writings]);
-
-  const normalizedQuery = useMemo(() => query.trim().toLowerCase(), [query]);
-
-  const visible = useMemo(
-    () =>
-      writings.filter((item) => {
-        const stacks = (item.stacks || []).map((stack) =>
-          String(stack).toLowerCase(),
-        );
-        const tags = (item.tags || []).map((tag) => String(tag).toLowerCase());
-        const haystack =
-          `${item.title || ""} ${item.desc || ""} ${tags.join(" ")} ${stacks.join(" ")}`.toLowerCase();
-        const matchesFilter = filter === "all" || stacks.includes(filter);
-        const matchesQuery =
-          !normalizedQuery || haystack.includes(normalizedQuery);
-        return matchesFilter && matchesQuery;
-      }),
-    [writings, filter, normalizedQuery],
-  );
+  const latestWritings = useMemo(() => writings.slice(0, 3), [writings]);
 
   return (
-    <div className="writings-page">
-      <div className="page-header">
-        <h1 className="writings-hero-heading">
-          <span className="solid">LATEST</span>
-          <span className="ghost">WRITINGS</span>
-        </h1>
-        <p className="page-subtitle">
+    <div className="content-block">
+      <header className="section-header">
+        <h2 className="section-title-display">Latest</h2>
+        <p className="section-copy section-copy--muted">
           Notes on systems, backend engineering, and implementation lessons from
           real builds.
         </p>
-      </div>
-
-      <div className="search-bar">
-        <Search size={17} color="var(--text-muted)" />
-        <input
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search title, tags, or topics"
-        />
-      </div>
-
-      <div className="filter-chips">
-        {filters.map((item) => (
-          <button
-            key={item}
-            className={`chip${filter === item ? " active" : ""}`}
-            onClick={() => setFilter(item)}
-          >
-            {item}
-          </button>
-        ))}
-      </div>
+      </header>
 
       {loading ? (
-        <div className="empty-state">
+        <div className="section-card section-state">
           <p>Loading writings from GitHub...</p>
         </div>
       ) : error ? (
-        <div className="error-state">
+        <div className="section-card section-state section-state--error">
           <p>Error loading writings: {error}</p>
         </div>
+      ) : latestWritings.length === 0 ? (
+        <div className="section-card section-state">
+          <p>No writings are available right now.</p>
+        </div>
       ) : (
-        <div className="articles-list">
-          {visible.map((item, index) => (
-            <div className="article-card" key={item.id || item.slug || index}>
-              <div className="article-top">
-                <h3>{item.title}</h3>
-                <ArrowUpRight size={17} className="card-arrow" />
-              </div>
-              <p>{item.desc}</p>
-              <div className="article-tags">
-                {(item.tags || []).map((tag) => (
-                  <span key={tag} className="tag">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <div className="article-meta">
-                <span>
-                  <Calendar size={13} /> {item.date}
-                </span>
-                <span>
-                  <Clock size={13} /> {item.read}
-                </span>
-              </div>
-            </div>
-          ))}
+        <div className="writing-list">
+          {latestWritings.map((item, index) => {
+            const articleHref = item.url || item.link || item.href;
+
+            return (
+              <article
+                className="section-card section-card--tight"
+                key={item.id || item.slug || index}
+              >
+                <div className="writing-card__top">
+                  <h3>{item.title}</h3>
+                  {articleHref ? <ArrowUpRight size={18} className="card-arrow" /> : null}
+                </div>
+
+                <p className="writing-card__copy">{item.desc}</p>
+
+                <div className="tag-row">
+                  {(item.tags || []).slice(0, 4).map((tag) => (
+                    <span key={tag} className="tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="meta-row">
+                  {item.date ? (
+                    <span>
+                      <Calendar size={13} /> {item.date}
+                    </span>
+                  ) : null}
+                  {item.read ? (
+                    <span>
+                      <Clock size={13} /> {item.read}
+                    </span>
+                  ) : null}
+                </div>
+
+                {articleHref ? (
+                  <a
+                    className="section-link"
+                    href={articleHref}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Read article
+                  </a>
+                ) : null}
+              </article>
+            );
+          })}
         </div>
       )}
     </div>

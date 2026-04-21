@@ -6,40 +6,41 @@ function Experience() {
   const { experience, loading, error } = useGitHubExperience();
 
   return (
-    <div className="experience-page">
-      <div className="page-header">
-        <h1 className="exp-hero-heading">
-          <span className="solid">INDUSTRY</span>
-          <span className="ghost">EXPERIENCE</span>
-        </h1>
-        <p className="page-subtitle">
+    <div className="content-block">
+      <header className="section-header">
+        <h2 className="section-title-display">Industry</h2>
+        <p className="section-copy section-copy--muted">
           Roles shaped across product, design-aware engineering, and systems
           delivery.
         </p>
-      </div>
+      </header>
 
       {loading ? (
-        <div className="empty-state">
+        <div className="section-card section-state">
           <p>Loading experience from GitHub...</p>
         </div>
       ) : error ? (
-        <div className="error-state">
+        <div className="section-card section-state section-state--error">
           <p>Error loading experience: {error}</p>
         </div>
       ) : (
-        <div className="exp-list">
+        <div className="experience-list">
           {experience.map((item, index) => (
-            <div className="exp-card" key={item.id || item.slug || index}>
-              <div className="exp-card-top">
-                <div>
-                  <p className="exp-company-name">{item.company}</p>
-                  <span className="exp-role-title">{item.role}</span>
+            <article
+              className="section-card section-card--tight"
+              key={item.id || item.slug || index}
+            >
+              <div className="experience-card__top">
+                <div className="experience-copy">
+                  <p className="experience-company">{item.company}</p>
+                  <span className="experience-role">{item.role}</span>
                 </div>
-                <ArrowUpRight size={20} className="exp-arrow-icon" />
+                <ArrowUpRight size={18} className="card-arrow" />
               </div>
-              <p className="exp-description">{item.desc}</p>
-              <span className="exp-period">{item.period}</span>
-            </div>
+
+              <p className="experience-description">{item.desc}</p>
+              <span className="experience-period">{item.period}</span>
+            </article>
           ))}
         </div>
       )}

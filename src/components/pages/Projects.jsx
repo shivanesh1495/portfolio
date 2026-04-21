@@ -1,100 +1,65 @@
-import React, { memo, useMemo, useState } from "react";
-import { Search } from "lucide-react";
+import React, { memo, useMemo } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { useGitHubProjects } from "../../hooks/useGitHub";
-import ProjectCard from "../ui/ProjectCard";
-
-const LoadingSkeleton = memo(function LoadingSkeleton() {
-  return (
-    <div className="projects-grid">
-      {[1, 2, 3, 4].map((item) => (
-        <div className="project-card skeleton" key={item}>
-          <div className="skeleton-line title"></div>
-          <div className="skeleton-line desc"></div>
-          <div className="skeleton-line tags"></div>
-        </div>
-      ))}
-    </div>
-  );
-});
 
 function Projects() {
   const { projects, loading, error } = useGitHubProjects();
-  const [filter, setFilter] = useState("all");
-  const [query, setQuery] = useState("");
-
-  const filters = useMemo(() => {
-    const stacks = new Set(["all"]);
-    projects.forEach((project) =>
-      project.stacks.forEach((stack) => stacks.add(stack)),
-    );
-    return Array.from(stacks).sort();
-  }, [projects]);
-
-  const normalizedQuery = useMemo(() => query.trim().toLowerCase(), [query]);
-
-  const visible = useMemo(
-    () =>
-      projects.filter((project) => {
-        const matchesFilter =
-          filter === "all" || project.stacks.includes(filter);
-        const matchesQuery =
-          !normalizedQuery ||
-          project.title.toLowerCase().includes(normalizedQuery) ||
-          project.desc.toLowerCase().includes(normalizedQuery);
-        return matchesFilter && matchesQuery;
-      }),
-    [projects, filter, normalizedQuery],
-  );
+  const featuredProjects = useMemo(() => projects.slice(0, 4), [projects]);
 
   return (
-    <div className="projects-page">
-      <div className="page-header">
-        <h1 className="projects-hero-heading">
-          <span className="solid">FEATURED</span>
-          <span className="ghost">PROJECTS</span>
-        </h1>
-        <p className="page-subtitle">
+    <div className="content-block">
+      <header className="section-header">
+        <h2 className="section-title-display">Featured</h2>
+        <p className="section-copy section-copy--muted">
           A curated set of builds automagically synced from GitHub.
         </p>
-      </div>
-
-      <div className="search-bar">
-        <Search size={17} color="var(--text-muted)" />
-        <input
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search projects by title, stack, or description"
-        />
-      </div>
-
-      <div className="filter-chips">
-        {filters.map((item) => (
-          <button
-            key={item}
-            className={`chip${filter === item ? " active" : ""}`}
-            onClick={() => setFilter(item)}
-          >
-            {item}
-          </button>
-        ))}
-      </div>
+        <a
+          className="section-link"
+          href="https://github.com/shivanesh1495?tab=repositories"
+          target="_blank"
+          rel="noreferrer"
+        >
+          View all repositories
+        </a>
+      </header>
 
       {loading ? (
-        <LoadingSkeleton />
+        <div className="section-card section-state">
+          <p>Loading featured projects...</p>
+        </div>
       ) : error ? (
-        <div className="error-state">
+        <div className="section-card section-state section-state--error">
           <p>Error loading projects: {error}</p>
         </div>
-      ) : visible.length === 0 ? (
-        <div className="empty-state">
-          <p>No projects found matching your criteria.</p>
+      ) : featuredProjects.length === 0 ? (
+        <div className="section-card section-state">
+          <p>No projects are available right now.</p>
         </div>
       ) : (
-        <div className="projects-grid">
-          {visible.map((project) => (
-            <div key={project.id} className="card-container">
-              <ProjectCard project={project} />
-            </div>
+        <div className="project-grid">
+          {featuredProjects.map((project) => (
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noreferrer"
+              className="project-card"
+              key={project.id}
+            >
+              <div className="project-card__top">
+                <h3>{project.title}</h3>
+                <ArrowUpRight size={18} className="card-arrow" />
+              </div>
+
+              <p className="project-card__copy">{project.desc}</p>
+
+              <div className="tag-row">
+                {project.tags.slice(0, 3).map((tag) => (
+                  <span key={tag} className="tag">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </a>
           ))}
         </div>
       )}

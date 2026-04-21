@@ -11,10 +11,11 @@ function AboutSection() {
     : 2023;
 
   return (
-    <div className="about-page">
-      <article className="about-card">
-        <h2 className="about-heading">About</h2>
-        <div className="about-copy">
+    <div className="content-block">
+      <article className="section-card section-card--quiet">
+        <h2 className="section-title-serif">About</h2>
+
+        <div className="section-copy section-copy--spacious">
           <p>
             Full-stack developer with a bias for clean code and a passion for
             building tools that solve real problems. Currently exploring systems
@@ -26,26 +27,26 @@ function AboutSection() {
             intersection of backend engineering and thoughtful design.
           </p>
         </div>
-      </article>
 
-      <div className="home-stats-grid about-stats-grid">
-        <div className="stat-card">
-          <div className="stat-number">{yearsExp}+</div>
-          <div className="stat-text">Years of active build experience</div>
+        <div className="about-stats">
+          <div className="mini-stat">
+            <span>Experience</span>
+            <strong>{yearsExp}+</strong>
+          </div>
+          <div className="mini-stat">
+            <span>Repositories</span>
+            <strong>{repositories}</strong>
+          </div>
+          <div className="mini-stat">
+            <span>Followers</span>
+            <strong>{followers}</strong>
+          </div>
+          <div className="mini-stat">
+            <span>Since</span>
+            <strong>{joinedYear}</strong>
+          </div>
         </div>
-        <div className="stat-card">
-          <div className="stat-number">{repositories}</div>
-          <div className="stat-text">Public repositories in motion</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-number">{followers}</div>
-          <div className="stat-text">Followers tracking the journey</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-number">{joinedYear}</div>
-          <div className="stat-text">GitHub presence since</div>
-        </div>
-      </div>
+      </article>
     </div>
   );
 }
