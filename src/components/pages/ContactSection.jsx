@@ -1,12 +1,8 @@
 import React, { memo } from "react";
-import {
-  GitHubIcon,
-  InstagramIcon,
-  LinkedinIcon,
-} from "../icons/BrandIcons";
+import { GitHubIcon, InstagramIcon, LinkedinIcon } from "../icons/BrandIcons";
 import ResumeButton from "../ui/ResumeButton";
 
-function ContactSection() {
+function ContactSection({ onCinematraphie }) {
   return (
     <div className="content-block content-block--contact">
       <article className="section-card">
@@ -52,6 +48,14 @@ function ContactSection() {
           <LinkedinIcon />
         </a>
       </div>
+
+      <button
+        type="button"
+        className="hero-cta contact-cta"
+        onClick={() => onCinematraphie?.()}
+      >
+        cinematraphie
+      </button>
     </div>
   );
 }

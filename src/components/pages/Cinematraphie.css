@@ -38,7 +38,7 @@
   --bg-p2: 68% 28%;
   --bg-p3: 38% 58%;
   --bg-p4: 78% 86%;
-  
+
   background:
     /* Burnt orange glow — upper right */
     radial-gradient(
@@ -48,43 +48,42 @@
     ),
     /* Amber accent — mid-right */
     radial-gradient(
-      ellipse 38% 38% at var(--bg-p2),
-      rgba(204, 204, 204, 0.12) 0%,
-      transparent 65%
-    ),
+        ellipse 38% 38% at var(--bg-p2),
+        rgba(204, 204, 204, 0.12) 0%,
+        transparent 65%
+      ),
     /* Subtle warm wash — upper band */
     radial-gradient(
-      ellipse 80% 40% at 58% 8%,
-      rgba(255, 255, 255, 0.08) 0%,
-      transparent 60%
-    ),
+        ellipse 80% 40% at 58% 8%,
+        rgba(255, 255, 255, 0.08) 0%,
+        transparent 60%
+      ),
     /* Dark wine sweep — center & left */
     radial-gradient(
-      ellipse 100% 80% at var(--bg-p3),
-      rgba(28, 28, 30, 0.94) 0%,
-      transparent 65%
-    ),
+        ellipse 100% 80% at var(--bg-p3),
+        rgba(28, 28, 30, 0.94) 0%,
+        transparent 65%
+      ),
     /* Deep maroon — center */
     radial-gradient(
-      ellipse 70% 60% at 50% 50%,
-      rgba(20, 20, 22, 0.56) 0%,
-      transparent 70%
-    ),
+        ellipse 70% 60% at 50% 50%,
+        rgba(20, 20, 22, 0.56) 0%,
+        transparent 70%
+      ),
     /* Magenta glow — lower right */
     radial-gradient(
-      ellipse 48% 42% at var(--bg-p4),
-      rgba(138, 138, 138, 0.16) 0%,
-      transparent 70%
-    ),
+        ellipse 48% 42% at var(--bg-p4),
+        rgba(138, 138, 138, 0.16) 0%,
+        transparent 70%
+      ),
     /* Wine undertone — bottom edge */
     radial-gradient(
-      ellipse 65% 35% at 50% 95%,
-      rgba(94, 94, 94, 0.12) 0%,
-      transparent 65%
-    ),
-    /* Deep black base */
-    #050505;
-  
+        ellipse 65% 35% at 50% 95%,
+        rgba(94, 94, 94, 0.12) 0%,
+        transparent 65%
+      ),
+    /* Deep black base */ #050505;
+
   animation: cin-bg-breathe 30s ease-in-out infinite alternate;
 }
 
@@ -182,7 +181,7 @@
   user-select: none;
   pointer-events: none;
   filter: drop-shadow(0 0 60px rgba(255, 255, 255, 0.06))
-          drop-shadow(0 0 120px rgba(255, 255, 255, 0.03));
+    drop-shadow(0 0 120px rgba(255, 255, 255, 0.03));
 }
 
 /* ── Rest group — tagline + buttons (animated as one in step 3) ── */
@@ -199,10 +198,9 @@
 
 /* ── Tagline — gradient text (blue → purple → pink) ── */
 .cin-tagline {
-  font-family: "Cormorant Garamond", serif;
+  font-family: sans-serif;
   font-size: clamp(1.2rem, 2.8vw, 2.2rem);
   font-weight: 300;
-  font-style: italic;
   background: linear-gradient(90deg, #f1f1f1, #cfcfcf, #969696);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -224,8 +222,7 @@
 
 /* ── Glassmorphic pill button ── */
 .cin-btn {
-  font-family: "Lora", serif;
-  font-style: italic;
+  font-family: sans-serif;
   font-size: clamp(0.85rem, 1.1vw, 1.1rem);
   color: rgba(255, 255, 255, 0.85);
   background: rgba(255, 255, 255, 0.04);
@@ -349,23 +346,49 @@
 
 /* Light beam sweep animation */
 @keyframes cin-sweep-move {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* Film grain micro-jitter */
 @keyframes cin-grain-jitter {
-  0% { transform: translate(0,0); }
-  10% { transform: translate(-1%,-1%); }
-  20% { transform: translate(1%,1%); }
-  30% { transform: translate(-2%,0); }
-  40% { transform: translate(2%,-1%); }
-  50% { transform: translate(-1%,2%); }
-  60% { transform: translate(1%,-2%); }
-  70% { transform: translate(-2%,1%); }
-  80% { transform: translate(2%,2%); }
-  90% { transform: translate(-1%,-2%); }
-  100% { transform: translate(0,0); }
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-1%, -1%);
+  }
+  20% {
+    transform: translate(1%, 1%);
+  }
+  30% {
+    transform: translate(-2%, 0);
+  }
+  40% {
+    transform: translate(2%, -1%);
+  }
+  50% {
+    transform: translate(-1%, 2%);
+  }
+  60% {
+    transform: translate(1%, -2%);
+  }
+  70% {
+    transform: translate(-2%, 1%);
+  }
+  80% {
+    transform: translate(2%, 2%);
+  }
+  90% {
+    transform: translate(-1%, -2%);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 /* ────────────────────────────────────────────────────────────────────

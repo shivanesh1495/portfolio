@@ -35,10 +35,12 @@ function App() {
 
   return (
     <>
-      <div className={`app-shell${showCinematraphie ? " app-shell--blurred" : ""}`}>
+      <div
+        className={`app-shell${showCinematraphie ? " app-shell--blurred" : ""}`}
+      >
         <main className="portfolio-main">
           <section className="page-section page-section--hero" id="home">
-            <Home onCinematraphie={handleOpenCinematraphie} />
+            <Home />
           </section>
 
           <section className="page-section" id="about">
@@ -66,7 +68,7 @@ function App() {
           </section>
 
           <section className="page-section" id="contact">
-            <ContactSection />
+            <ContactSection onCinematraphie={handleOpenCinematraphie} />
           </section>
         </main>
       </div>

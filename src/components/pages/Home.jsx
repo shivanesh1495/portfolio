@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 
-function Home({ onCinematraphie }) {
+function Home() {
   return (
     <section className="hero-card" aria-label="Introduction">
       <div className="hero-glow hero-glow--left" aria-hidden="true" />
@@ -29,14 +29,6 @@ function Home({ onCinematraphie }) {
           contact
         </a>
       </nav>
-
-      <button
-        type="button"
-        className="hero-cta"
-        onClick={() => onCinematraphie?.()}
-      >
-        cinematraphie
-      </button>
     </section>
   );
 }
