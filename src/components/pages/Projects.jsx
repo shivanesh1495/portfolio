@@ -1,4 +1,5 @@
 import React, { memo, useMemo } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { useGitHubProjects } from "../../hooks/useGitHub";
 
 function Projects() {
@@ -6,59 +7,73 @@ function Projects() {
   const marqueeProjects = useMemo(() => projects, [projects]);
 
   return (
-    <div className="content-block">
-      <header className="section-header">
-        <h2 className="section-title-display">Projects</h2>
-        <a
-          className="section-link"
-          href="https://github.com/shivanesh1495?tab=repositories"
-          target="_blank"
-          rel="noreferrer"
-        >
-          View all repositories
-        </a>
-      </header>
+    <div className="scene scene--projects">
+      <div className="scene__rail" aria-hidden="true">
+        <span className="scene__index">02</span>
+        <span className="scene__line" />
+      </div>
 
-      {loading ? (
-        <div className="section-card section-state">
-          <p>Loading projects...</p>
-        </div>
-      ) : error ? (
-        <div className="section-card section-state section-state--error">
-          <p>Error loading projects: {error}</p>
-        </div>
-      ) : marqueeProjects.length === 0 ? (
-        <div className="section-card section-state">
-          <p>No projects are available right now.</p>
-        </div>
-      ) : (
-        <div
-          className="project-marquee"
-          aria-label="GitHub repositories marquee"
-        >
-          {[0, 1].map((lane) => (
-            <div
-              className="project-marquee__lane"
-              aria-hidden={lane === 1}
-              key={`lane-${lane}`}
-            >
-              {marqueeProjects.map((project) => (
+      <div className="scene__body">
+        <header className="scene__header">
+          <div className="scene__intro">
+            <h2 className="section-title-display">Projects</h2>
+            <p className="scene__description">
+              Selected repositories, backend experiments, and products shaped
+              through systems thinking.
+            </p>
+          </div>
+          <a
+            className="section-link"
+            href="https://github.com/shivanesh1495?tab=repositories"
+            target="_blank"
+            rel="noreferrer"
+          >
+            View all repositories
+          </a>
+        </header>
+
+        {loading ? (
+          <div className="scene-state">
+            <p>Loading projects...</p>
+          </div>
+        ) : error ? (
+          <div className="scene-state section-state--error">
+            <p>Error loading projects: {error}</p>
+          </div>
+        ) : marqueeProjects.length === 0 ? (
+          <div className="scene-state">
+            <p>No projects are available right now.</p>
+          </div>
+        ) : (
+          <div className="projects-flow">
+            <div className="projects-wave" aria-hidden="true" />
+            <div className="projects-track" aria-label="GitHub repositories">
+              {marqueeProjects.map((project, index) => (
                 <a
                   href={project.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="project-card project-card--marquee"
-                  key={`${lane}-${project.id}`}
+                  className="project-row"
+                  key={project.id}
                 >
-                  <h3>{project.title}</h3>
+                  <span className="project-row__index">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
 
-                  <p className="project-card__copy">{project.desc}</p>
+                  <div className="project-row__content">
+                    <div className="project-row__top">
+                      <h3>{project.title}</h3>
+                      <ArrowUpRight size={18} className="project-row__arrow" />
+                    </div>
+
+                    <p className="project-row__copy">{project.desc}</p>
+                  </div>
                 </a>
               ))}
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

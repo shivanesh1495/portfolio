@@ -60,7 +60,7 @@ function TechTicker() {
             draggable="false"
             loading="lazy"
           />
-          <span>{item.label}</span>
+          <span className="stack-grid__label">{item.label}</span>
         </span>
       ))}
     </div>

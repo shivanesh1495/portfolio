@@ -33,11 +33,65 @@ function App() {
     };
   }, [showCinematraphie]);
 
+  useEffect(() => {
+    const sections = Array.from(
+      document.querySelectorAll(".page-section:not(.page-section--hero)"),
+    );
+
+    if (sections.length === 0) {
+      return undefined;
+    }
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    );
+
+    if (prefersReducedMotion.matches) {
+      sections.forEach((section) => {
+        section.classList.add("page-section--visible");
+      });
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          entry.target.classList.add("page-section--visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        rootMargin: "0px 0px -12% 0px",
+        threshold: 0.16,
+      },
+    );
+
+    sections.forEach((section) => {
+      observer.observe(section);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
     <>
       <div
         className={`app-shell${showCinematraphie ? " app-shell--blurred" : ""}`}
       >
+        <div className="app-ambient" aria-hidden="true">
+          <div className="app-ambient__spot app-ambient__spot--north" />
+          <div className="app-ambient__spot app-ambient__spot--east" />
+          <div className="app-ambient__spot app-ambient__spot--south" />
+          <div className="app-ambient__grid" />
+          <div className="app-ambient__noise" />
+        </div>
+
         <main className="portfolio-main">
           <section className="page-section page-section--hero" id="home">
             <Home />

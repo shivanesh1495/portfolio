@@ -43,27 +43,54 @@ function AboutSection() {
   }, []);
 
   return (
-    <div className="content-block">
-      <h2 className="section-title-serif">About</h2>
-
-      <div className="section-copy section-copy--spacious">
-        {bioParagraphs.map((paragraph, index) => (
-          <p key={`about-bio-${index}`}>{paragraph}</p>
-        ))}
+    <div className="scene scene--about">
+      <div className="scene__rail" aria-hidden="true">
+        <span className="scene__index">01</span>
+        <span className="scene__line" />
       </div>
 
-      <div className="about-stats">
-        <div className="mini-stat">
-          <span>Experience</span>
-          <strong>{yearsExp}+</strong>
+      <div className="scene__body scene__body--about">
+        <div className="scene__lead">
+          <header className="scene__intro">
+            <h2 className="section-title-serif">About</h2>
+            <p className="scene__description">
+              I design and build digital products that are both technically
+              robust and visually compelling.
+            </p>
+          </header>
+
+          <div className="section-copy section-copy--spacious about-copy">
+            {bioParagraphs.map((paragraph, index) => (
+              <p key={`about-bio-${index}`}>{paragraph}</p>
+            ))}
+          </div>
+
+          <div className="about-metrics" role="list" aria-label="About metrics">
+            <div className="about-metric" role="listitem">
+              <span>Experience</span>
+              <strong>{yearsExp}+</strong>
+              <small>Years</small>
+            </div>
+            <div className="about-metric" role="listitem">
+              <span>Repositories</span>
+              <strong>{repositories}+</strong>
+              <small>Shipped work</small>
+            </div>
+            <div className="about-metric" role="listitem">
+              <span>Focused Since</span>
+              <strong>{joinedYear}</strong>
+              <small>Building systems</small>
+            </div>
+          </div>
         </div>
-        <div className="mini-stat">
-          <span>Repositories</span>
-          <strong>{repositories}</strong>
-        </div>
-        <div className="mini-stat">
-          <span>Since</span>
-          <strong>{joinedYear}</strong>
+
+        <div className="about-visual" aria-hidden="true">
+          <div className="about-orb">
+            <span className="about-orb__ring about-orb__ring--1" />
+            <span className="about-orb__ring about-orb__ring--2" />
+            <span className="about-orb__ring about-orb__ring--3" />
+            <span className="about-orb__core" />
+          </div>
         </div>
       </div>
     </div>
