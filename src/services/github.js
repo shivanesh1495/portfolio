@@ -4,16 +4,6 @@ const DATA_REPO_OWNER = "shivanesh1495";
 const DATA_REPO_NAME = "PORTFOLIO-DB";
 const DATA_REPO_BRANCH = "main";
 const BIO_FILE_URL = `https://raw.githubusercontent.com/${DATA_REPO_OWNER}/${DATA_REPO_NAME}/${DATA_REPO_BRANCH}/bio.txt`;
-const EXCLUDED_REPO_NAMES = new Set([
-  "portfolio",
-  "portfolio-db",
-  "shivanesh1495",
-  "leetcode_solutions",
-]);
-
-function normalizeRepoName(name) {
-  return name.toLowerCase().replace(/\s+/g, "-");
-}
 
 async function fetchJson(url) {
   const response = await fetch(url);
@@ -124,25 +114,8 @@ export async function fetchGitHubProjects() {
     if (!response.ok) throw new Error("Failed to fetch repositories");
 
     const data = await response.json();
-    const visibleRepos = data.filter(
-      (repo) => !EXCLUDED_REPO_NAMES.has(normalizeRepoName(repo.name)),
-    );
 
-    // Filter by 'portfolio' topic if any exist
-    let filtered = data.filter(
-      (repo) => repo.topics && repo.topics.includes(PORTFOLIO_TOPIC),
-    );
-
-    filtered = filtered.filter(
-      (repo) => !EXCLUDED_REPO_NAMES.has(normalizeRepoName(repo.name)),
-    );
-
-    // If no repos have the topic, fallback to all public repositories.
-    if (filtered.length === 0) {
-      filtered = visibleRepos;
-    }
-
-    return filtered.map((repo) => ({
+    return data.map((repo) => ({
       id: repo.id,
       title: repo.name
         .split("-")

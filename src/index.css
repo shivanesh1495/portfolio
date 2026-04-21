@@ -375,6 +375,33 @@ img {
   gap: 16px;
 }
 
+.project-marquee {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  overflow: hidden;
+  width: 100%;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    rgba(0, 0, 0, 1) 4%,
+    rgba(0, 0, 0, 1) 96%,
+    transparent 100%
+  );
+}
+
+.project-marquee__lane {
+  display: flex;
+  gap: 16px;
+  min-width: max-content;
+  flex-shrink: 0;
+  animation: projects-marquee 42s linear infinite;
+}
+
+.project-marquee:hover .project-marquee__lane {
+  animation-play-state: paused;
+}
+
 .project-card,
 .certificate-card {
   border-radius: var(--radius-md);
@@ -391,6 +418,10 @@ img {
   padding: 20px 18px;
   display: grid;
   gap: 14px;
+}
+
+.project-card--marquee {
+  width: clamp(270px, 34vw, 420px);
 }
 
 .project-card:hover,
@@ -675,6 +706,16 @@ img {
   backdrop-filter: blur(2px);
 }
 
+@keyframes projects-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-100% - 16px));
+  }
+}
+
 @media (min-width: 640px) {
   .portfolio-main {
     padding: 20px 20px 80px;
@@ -750,6 +791,10 @@ img {
   .contact-actions {
     justify-content: stretch;
   }
+
+  .project-card--marquee {
+    width: clamp(248px, 80vw, 320px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -762,5 +807,10 @@ img {
   *::after {
     animation: none !important;
     transition: none !important;
+  }
+
+  .project-marquee {
+    overflow-x: auto;
+    mask-image: none;
   }
 }

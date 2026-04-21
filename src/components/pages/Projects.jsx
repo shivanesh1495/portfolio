@@ -4,15 +4,12 @@ import { useGitHubProjects } from "../../hooks/useGitHub";
 
 function Projects() {
   const { projects, loading, error } = useGitHubProjects();
-  const featuredProjects = useMemo(() => projects.slice(0, 4), [projects]);
+  const marqueeProjects = useMemo(() => projects, [projects]);
 
   return (
     <div className="content-block">
       <header className="section-header">
         <h2 className="section-title-display">Projects</h2>
-        <p className="section-copy section-copy--muted">
-          A curated set of builds automagically synced from GitHub.
-        </p>
         <a
           className="section-link"
           href="https://github.com/shivanesh1495?tab=repositories"
@@ -25,41 +22,52 @@ function Projects() {
 
       {loading ? (
         <div className="section-card section-state">
-          <p>Loading featured projects...</p>
+          <p>Loading projects...</p>
         </div>
       ) : error ? (
         <div className="section-card section-state section-state--error">
           <p>Error loading projects: {error}</p>
         </div>
-      ) : featuredProjects.length === 0 ? (
+      ) : marqueeProjects.length === 0 ? (
         <div className="section-card section-state">
           <p>No projects are available right now.</p>
         </div>
       ) : (
-        <div className="project-grid">
-          {featuredProjects.map((project) => (
-            <a
-              href={project.url}
-              target="_blank"
-              rel="noreferrer"
-              className="project-card"
-              key={project.id}
+        <div
+          className="project-marquee"
+          aria-label="GitHub repositories marquee"
+        >
+          {[0, 1].map((lane) => (
+            <div
+              className="project-marquee__lane"
+              aria-hidden={lane === 1}
+              key={`lane-${lane}`}
             >
-              <div className="project-card__top">
-                <h3>{project.title}</h3>
-                <ArrowUpRight size={18} className="card-arrow" />
-              </div>
+              {marqueeProjects.map((project) => (
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="project-card project-card--marquee"
+                  key={`${lane}-${project.id}`}
+                >
+                  <div className="project-card__top">
+                    <h3>{project.title}</h3>
+                    <ArrowUpRight size={18} className="card-arrow" />
+                  </div>
 
-              <p className="project-card__copy">{project.desc}</p>
+                  <p className="project-card__copy">{project.desc}</p>
 
-              <div className="tag-row">
-                {project.tags.slice(0, 3).map((tag) => (
-                  <span key={tag} className="tag">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </a>
+                  <div className="tag-row">
+                    {project.tags.slice(0, 3).map((tag) => (
+                      <span key={tag} className="tag">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </a>
+              ))}
+            </div>
           ))}
         </div>
       )}
