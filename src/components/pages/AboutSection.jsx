@@ -1,51 +1,71 @@
-import React, { memo } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useGitHubProfile } from "../../hooks/useGitHub";
+import { fetchGitHubBio } from "../../services/github";
+
+const FALLBACK_BIO_PARAGRAPHS = [
+  "Full-stack developer with a bias for clean code and a passion for building tools that solve real problems. Currently exploring systems programming with Go while shipping web apps that actually matter.",
+  "I believe in shipping fast and iterating faster, turning complex problems into elegant, minimal solutions. Always at the intersection of backend engineering and thoughtful design.",
+];
 
 function AboutSection() {
   const { profile } = useGitHubProfile();
+  const [bioParagraphs, setBioParagraphs] = useState(FALLBACK_BIO_PARAGRAPHS);
   const yearsExp = profile?.yearsExperience || 3;
   const repositories = profile?.public_repos || 15;
-  const followers = profile?.followers ?? "--";
   const joinedYear = profile?.created_at
     ? new Date(profile.created_at).getFullYear()
     : 2023;
 
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadBio() {
+      try {
+        const bioText = await fetchGitHubBio();
+        const parsedParagraphs = bioText
+          .split(/\r?\n\s*\r?\n/g)
+          .map((paragraph) => paragraph.replace(/\s+/g, " ").trim())
+          .filter(Boolean);
+
+        if (!cancelled && parsedParagraphs.length > 0) {
+          setBioParagraphs(parsedParagraphs);
+        }
+      } catch {
+        // Keep fallback copy when remote fetch fails.
+      }
+    }
+
+    loadBio();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <div className="content-block">
-     
-        <h2 className="section-title-serif">About</h2>
+      <h2 className="section-title-serif">About</h2>
 
-        <div className="section-copy section-copy--spacious">
-          <p>
-            Full-stack developer with a bias for clean code and a passion for
-            building tools that solve real problems. Currently exploring systems
-            programming with Go while shipping web apps that actually matter.
-          </p>
-          <p>
-            I believe in shipping fast and iterating faster, turning complex
-            problems into elegant, minimal solutions. Always at the
-            intersection of backend engineering and thoughtful design.
-          </p>
-        </div>
+      <div className="section-copy section-copy--spacious">
+        {bioParagraphs.map((paragraph, index) => (
+          <p key={`about-bio-${index}`}>{paragraph}</p>
+        ))}
+      </div>
 
-        <div className="about-stats">
-          <div className="mini-stat">
-            <span>Experience</span>
-            <strong>{yearsExp}+</strong>
-          </div>
-          <div className="mini-stat">
-            <span>Repositories</span>
-            <strong>{repositories}</strong>
-          </div>
-          <div className="mini-stat">
-            <span>Followers</span>
-            <strong>{followers}</strong>
-          </div>
-          <div className="mini-stat">
-            <span>Since</span>
-            <strong>{joinedYear}</strong>
-          </div>
+      <div className="about-stats">
+        <div className="mini-stat">
+          <span>Experience</span>
+          <strong>{yearsExp}+</strong>
         </div>
+        <div className="mini-stat">
+          <span>Repositories</span>
+          <strong>{repositories}</strong>
+        </div>
+        <div className="mini-stat">
+          <span>Since</span>
+          <strong>{joinedYear}</strong>
+        </div>
+      </div>
     </div>
   );
 }

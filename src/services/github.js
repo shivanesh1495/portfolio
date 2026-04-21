@@ -3,6 +3,7 @@ const PORTFOLIO_TOPIC = "portfolio";
 const DATA_REPO_OWNER = "shivanesh1495";
 const DATA_REPO_NAME = "PORTFOLIO-DB";
 const DATA_REPO_BRANCH = "main";
+const BIO_FILE_URL = `https://raw.githubusercontent.com/${DATA_REPO_OWNER}/${DATA_REPO_NAME}/${DATA_REPO_BRANCH}/bio.txt`;
 const EXCLUDED_REPO_NAMES = new Set([
   "portfolio",
   "portfolio-db",
@@ -73,6 +74,17 @@ async function fetchStructuredFile(downloadUrl) {
 
   const text = await response.text();
   return parseStructuredTextFile(text);
+}
+
+export async function fetchGitHubBio() {
+  const cacheBustedUrl = `${BIO_FILE_URL}?t=${Date.now()}`;
+  const response = await fetch(cacheBustedUrl, { cache: "no-store" });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch bio: ${response.status}`);
+  }
+
+  return response.text();
 }
 
 export async function fetchGitHubUserProfile() {
