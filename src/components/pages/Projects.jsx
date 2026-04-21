@@ -9,7 +9,7 @@ function Projects() {
   return (
     <div className="content-block">
       <header className="section-header">
-        <h2 className="section-title-display">Featured</h2>
+        <h2 className="section-title-display">Projects</h2>
         <p className="section-copy section-copy--muted">
           A curated set of builds automagically synced from GitHub.
         </p>
