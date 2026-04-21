@@ -1,5 +1,4 @@
 import React, { memo, useMemo } from "react";
-import { ArrowUpRight } from "lucide-react";
 import { useGitHubProjects } from "../../hooks/useGitHub";
 
 function Projects() {
@@ -51,20 +50,9 @@ function Projects() {
                   className="project-card project-card--marquee"
                   key={`${lane}-${project.id}`}
                 >
-                  <div className="project-card__top">
-                    <h3>{project.title}</h3>
-                    <ArrowUpRight size={18} className="card-arrow" />
-                  </div>
+                  <h3>{project.title}</h3>
 
                   <p className="project-card__copy">{project.desc}</p>
-
-                  <div className="tag-row">
-                    {project.tags.slice(0, 3).map((tag) => (
-                      <span key={tag} className="tag">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
                 </a>
               ))}
             </div>
