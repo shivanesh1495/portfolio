@@ -8,7 +8,7 @@ function Experience() {
   return (
     <div className="content-block">
       <header className="section-header">
-        <h2 className="section-title-display">Industry</h2>
+        <h2 className="section-title-display">Industry Experience</h2>
         <p className="section-copy section-copy--muted">
           Roles shaped across product, design-aware engineering, and systems
           delivery.
