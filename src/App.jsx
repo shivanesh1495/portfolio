@@ -1,4 +1,5 @@
 import { lazy, Suspense, useCallback, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import Home from "./components/pages/Home";
 import AboutSection from "./components/pages/AboutSection";
 import Projects from "./components/pages/Projects";
@@ -12,6 +13,13 @@ const Cinematraphie = lazy(() => import("./components/pages/Cinematraphie"));
 
 function App() {
   const [showCinematraphie, setShowCinematraphie] = useState(false);
+
+  const scrollRevealProps = {
+    initial: { opacity: 0, y: 34 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.24 },
+    transition: { duration: 0.78, ease: [0.22, 1, 0.36, 1] },
+  };
 
   const handleOpenCinematraphie = useCallback(() => {
     setShowCinematraphie(true);
@@ -34,48 +42,45 @@ function App() {
   }, [showCinematraphie]);
 
   useEffect(() => {
-    const sections = Array.from(
-      document.querySelectorAll(".page-section:not(.page-section--hero)"),
-    );
+    let frame = 0;
 
-    if (sections.length === 0) {
-      return undefined;
-    }
+    const applyPosition = (x, y) => {
+      document.documentElement.style.setProperty("--cursor-x", `${x}px`);
+      document.documentElement.style.setProperty("--cursor-y", `${y}px`);
+      document.documentElement.style.setProperty("--cursor-light-opacity", "1");
+    };
 
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    );
+    const handlePointerMove = (event) => {
+      if (frame) {
+        return;
+      }
 
-    if (prefersReducedMotion.matches) {
-      sections.forEach((section) => {
-        section.classList.add("page-section--visible");
+      const { clientX, clientY } = event;
+
+      frame = window.requestAnimationFrame(() => {
+        applyPosition(clientX, clientY);
+        frame = 0;
       });
-      return undefined;
-    }
+    };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) {
-            return;
-          }
+    const handlePointerLeave = () => {
+      document.documentElement.style.setProperty("--cursor-light-opacity", "0");
+    };
 
-          entry.target.classList.add("page-section--visible");
-          observer.unobserve(entry.target);
-        });
-      },
-      {
-        rootMargin: "0px 0px -12% 0px",
-        threshold: 0.16,
-      },
-    );
-
-    sections.forEach((section) => {
-      observer.observe(section);
+    window.addEventListener("pointermove", handlePointerMove, {
+      passive: true,
+    });
+    window.addEventListener("pointerleave", handlePointerLeave, {
+      passive: true,
     });
 
     return () => {
-      observer.disconnect();
+      if (frame) {
+        window.cancelAnimationFrame(frame);
+      }
+
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerleave", handlePointerLeave);
     };
   }, []);
 
@@ -84,6 +89,8 @@ function App() {
       <div
         className={`app-shell${showCinematraphie ? " app-shell--blurred" : ""}`}
       >
+        <div className="app-cursor-light" aria-hidden="true" />
+
         <div className="app-ambient" aria-hidden="true">
           <div className="app-ambient__spot app-ambient__spot--north" />
           <div className="app-ambient__spot app-ambient__spot--east" />
@@ -97,33 +104,61 @@ function App() {
             <Home />
           </section>
 
-          <section className="page-section" id="about">
+          <motion.section
+            className="page-section"
+            id="about"
+            {...scrollRevealProps}
+          >
             <AboutSection />
-          </section>
+          </motion.section>
 
-          <section className="page-section" id="projects">
+          <motion.section
+            className="page-section"
+            id="projects"
+            {...scrollRevealProps}
+          >
             <Projects />
-          </section>
+          </motion.section>
 
-          <section className="page-section" id="experience">
+          <motion.section
+            className="page-section"
+            id="experience"
+            {...scrollRevealProps}
+          >
             <Experience />
-          </section>
+          </motion.section>
 
-          <section className="page-section" id="certifications">
+          <motion.section
+            className="page-section"
+            id="certifications"
+            {...scrollRevealProps}
+          >
             <Certifications />
-          </section>
+          </motion.section>
 
-          <section className="page-section" id="writings">
+          <motion.section
+            className="page-section"
+            id="writings"
+            {...scrollRevealProps}
+          >
             <Writings />
-          </section>
+          </motion.section>
 
-          <section className="page-section" id="stack">
+          <motion.section
+            className="page-section"
+            id="stack"
+            {...scrollRevealProps}
+          >
             <StackSection />
-          </section>
+          </motion.section>
 
-          <section className="page-section" id="contact">
+          <motion.section
+            className="page-section"
+            id="contact"
+            {...scrollRevealProps}
+          >
             <ContactSection onCinematraphie={handleOpenCinematraphie} />
-          </section>
+          </motion.section>
         </main>
       </div>
 

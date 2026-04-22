@@ -1,6 +1,8 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useGitHubProfile } from "../../hooks/useGitHub";
 import { fetchGitHubBio } from "../../services/github";
+import FloatingOrb from "../ui/FloatingOrb";
 
 const FALLBACK_BIO_PARAGRAPHS = [
   "Full-stack developer with a bias for clean code and a passion for building tools that solve real problems. Currently exploring systems programming with Go while shipping web apps that actually matter.",
@@ -8,6 +10,7 @@ const FALLBACK_BIO_PARAGRAPHS = [
 ];
 
 function AboutSection() {
+  const sectionRef = useRef(null);
   const { profile } = useGitHubProfile();
   const [bioParagraphs, setBioParagraphs] = useState(FALLBACK_BIO_PARAGRAPHS);
   const yearsExp = profile?.yearsExperience || 3;
@@ -15,6 +18,29 @@ function AboutSection() {
   const joinedYear = profile?.created_at
     ? new Date(profile.created_at).getFullYear()
     : 2023;
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const visualParallax = useSpring(
+    useTransform(scrollYProgress, [0, 0.5, 1], [56, 0, -56]),
+    {
+      stiffness: 110,
+      damping: 22,
+      mass: 0.3,
+    },
+  );
+
+  const copyParallax = useSpring(
+    useTransform(scrollYProgress, [0, 1], [24, -24]),
+    {
+      stiffness: 110,
+      damping: 20,
+      mass: 0.26,
+    },
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -43,51 +69,84 @@ function AboutSection() {
   }, []);
 
   return (
-    <div className="scene scene--about">
+    <div className="scene scene--about" ref={sectionRef}>
       <div className="scene__rail" aria-hidden="true">
         <span className="scene__index">01</span>
         <span className="scene__line" />
       </div>
 
       <div className="scene__body scene__body--about">
-        <div className="scene__lead">
-          <header className="scene__intro">
+        <motion.div className="scene__lead" style={{ y: copyParallax }}>
+          <motion.header
+            className="scene__intro"
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          >
             <h2 className="section-title-serif">About</h2>
-          </header>
+          </motion.header>
 
           <div className="section-copy section-copy--spacious about-copy">
             {bioParagraphs.map((paragraph, index) => (
-              <p key={`about-bio-${index}`}>{paragraph}</p>
+              <motion.p
+                key={`about-bio-${index}`}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.26 }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.08,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              >
+                {paragraph}
+              </motion.p>
             ))}
           </div>
 
-          <div className="about-metrics" role="list" aria-label="About metrics">
-            <div className="about-metric" role="listitem">
+          <motion.div
+            className="about-metrics"
+            role="list"
+            aria-label="About metrics"
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <motion.div
+              className="about-metric"
+              role="listitem"
+              whileHover={{ y: -2 }}
+            >
               <span>Experience</span>
               <strong>{yearsExp}+</strong>
               <small>Years</small>
-            </div>
-            <div className="about-metric" role="listitem">
+            </motion.div>
+            <motion.div
+              className="about-metric"
+              role="listitem"
+              whileHover={{ y: -2 }}
+            >
               <span>Repositories</span>
               <strong>{repositories}+</strong>
               <small>Shipped work</small>
-            </div>
-            <div className="about-metric" role="listitem">
+            </motion.div>
+            <motion.div
+              className="about-metric"
+              role="listitem"
+              whileHover={{ y: -2 }}
+            >
               <span>Focused Since</span>
               <strong>{joinedYear}</strong>
               <small>Building systems</small>
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
 
-        <div className="about-visual" aria-hidden="true">
-          <div className="about-orb">
-            <span className="about-orb__ring about-orb__ring--1" />
-            <span className="about-orb__ring about-orb__ring--2" />
-            <span className="about-orb__ring about-orb__ring--3" />
-            <span className="about-orb__core" />
-          </div>
-        </div>
+        <motion.div className="about-visual" style={{ y: visualParallax }}>
+          <FloatingOrb />
+        </motion.div>
       </div>
     </div>
   );
