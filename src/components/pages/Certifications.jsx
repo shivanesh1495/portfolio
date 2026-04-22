@@ -14,6 +14,7 @@ const SLIDE_INTERVAL_MS = 3000;
 const HOLD_THRESHOLD_MS = 180;
 const PDF_PREVIEW_SIZE_STEP = 120;
 const pdfPreviewMemoryCache = new Map();
+const pdfPreviewPromiseCache = new Map();
 
 GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -29,8 +30,63 @@ function getPdfPreviewCacheKey(url, width, height) {
   return `${url}:${roundedWidth}x${roundedHeight}`;
 }
 
+async function renderPdfPreviewToImage(url, width, height) {
+  const cacheKey = getPdfPreviewCacheKey(url, width, height);
+  const cachedPreview = pdfPreviewMemoryCache.get(cacheKey);
+
+  if (cachedPreview) {
+    return cachedPreview;
+  }
+
+  const existingPromise = pdfPreviewPromiseCache.get(cacheKey);
+
+  if (existingPromise) {
+    return existingPromise;
+  }
+
+  const renderPromise = (async () => {
+    let pdfDocument = null;
+
+    try {
+      const loadingTask = getDocument(url);
+      pdfDocument = await loadingTask.promise;
+      const page = await pdfDocument.getPage(1);
+      const unscaledViewport = page.getViewport({ scale: 1 });
+      const widthScale = width / unscaledViewport.width;
+      const heightScale = height / unscaledViewport.height;
+      const scale = Math.min(widthScale, heightScale);
+      const viewport = page.getViewport({ scale });
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+
+      if (!context) {
+        throw new Error("Unable to create PDF preview context");
+      }
+
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+
+      const renderTask = page.render({ canvasContext: context, viewport });
+      await renderTask.promise;
+
+      const previewSrc = canvas.toDataURL("image/webp", 0.92);
+      pdfPreviewMemoryCache.set(cacheKey, previewSrc);
+      return previewSrc;
+    } finally {
+      pdfPreviewPromiseCache.delete(cacheKey);
+
+      if (pdfDocument) {
+        await pdfDocument.destroy().catch(() => {});
+      }
+    }
+  })();
+
+  pdfPreviewPromiseCache.set(cacheKey, renderPromise);
+  return renderPromise;
+}
+
 function PdfCertificatePreview({ title, url, shouldRender }) {
-  const canvasRef = useRef(null);
+  const stageRef = useRef(null);
   const [previewSrc, setPreviewSrc] = useState(null);
   const [renderError, setRenderError] = useState(false);
 
@@ -40,68 +96,40 @@ function PdfCertificatePreview({ title, url, shouldRender }) {
     }
 
     let cancelled = false;
-    let renderTask = null;
-    let pdfDocument = null;
-
     async function renderPreview() {
       try {
         setRenderError(false);
-        const loadingTask = getDocument(url);
-        pdfDocument = await loadingTask.promise;
+        const stage = stageRef.current;
 
-        if (cancelled) {
+        if (!stage) {
           return;
         }
 
-        const page = await pdfDocument.getPage(1);
-        const canvas = canvasRef.current;
+        const parentWidth = stage.clientWidth || 1200;
+        const parentHeight = stage.clientHeight || 720;
 
-        if (!canvas || cancelled) {
+        if (parentWidth < 40 || parentHeight < 40) {
+          window.requestAnimationFrame(() => {
+            if (!cancelled) {
+              renderPreview();
+            }
+          });
           return;
         }
 
-        const parentWidth = canvas.parentElement?.clientWidth || 1200;
-        const parentHeight = canvas.parentElement?.clientHeight || 800;
-        const cacheKey = getPdfPreviewCacheKey(url, parentWidth, parentHeight);
-        const cachedPreview = pdfPreviewMemoryCache.get(cacheKey);
-
-        if (cachedPreview) {
-          setPreviewSrc(cachedPreview);
-          return;
-        }
-
-        const unscaledViewport = page.getViewport({ scale: 1 });
-        const widthScale = parentWidth / unscaledViewport.width;
-        const heightScale = parentHeight / unscaledViewport.height;
-        const scale = Math.min(widthScale, heightScale);
-        const viewport = page.getViewport({ scale });
-        const context = canvas.getContext("2d");
-
-        if (!context) {
-          return;
-        }
-
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
-        canvas.style.width = `${viewport.width}px`;
-        canvas.style.height = `${viewport.height}px`;
-
-        renderTask = page.render({ canvasContext: context, viewport });
-        await renderTask.promise;
+        const nextPreviewSrc = await renderPdfPreviewToImage(
+          url,
+          parentWidth,
+          parentHeight,
+        );
 
         if (!cancelled) {
-          const nextPreviewSrc = canvas.toDataURL("image/webp", 0.92);
-          pdfPreviewMemoryCache.set(cacheKey, nextPreviewSrc);
           setPreviewSrc(nextPreviewSrc);
         }
       } catch (error) {
         if (!cancelled) {
           console.error("Error rendering certificate PDF preview:", error);
           setRenderError(true);
-        }
-      } finally {
-        if (pdfDocument) {
-          pdfDocument.destroy().catch(() => {});
         }
       }
     }
@@ -110,14 +138,6 @@ function PdfCertificatePreview({ title, url, shouldRender }) {
 
     return () => {
       cancelled = true;
-
-      if (renderTask) {
-        renderTask.cancel();
-      }
-
-      if (pdfDocument) {
-        pdfDocument.destroy().catch(() => {});
-      }
     };
   }, [previewSrc, shouldRender, url]);
 
@@ -150,7 +170,7 @@ function PdfCertificatePreview({ title, url, shouldRender }) {
     );
   }
 
-  return <canvas ref={canvasRef} className="certificate-pdf-canvas" />;
+  return <div ref={stageRef} className="certificate-pdf-stage" />;
 }
 
 function CertificateCard({ certification, index, shouldRenderPreview }) {
@@ -221,7 +241,6 @@ function CertificationsBrowser({ visibleCertifications }) {
     visibleCertifications.length === 0
       ? 0
       : activeIndex % visibleCertifications.length;
-  const activeCertification = visibleCertifications[activePreviewIndex];
   const preloadedIndexes = useMemo(() => {
     if (visibleCertifications.length === 0) {
       return new Set();
@@ -368,7 +387,6 @@ function CertificationsBrowser({ visibleCertifications }) {
           <div className="certifications-browser__header">
             <div className="certifications-browser__meta">
               <span className="certifications-browser__eyebrow">Certificates</span>
-              <strong>{activeCertification?.title || "Certificate preview"}</strong>
             </div>
 
             <div className="certifications-browser__status">

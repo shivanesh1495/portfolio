@@ -1164,6 +1164,7 @@ img {
   filter: brightness(0.98) contrast(1.02);
 }
 
+.certificate-pdf-stage,
 .certificate-pdf-canvas {
   max-width: 100%;
   max-height: 100%;
@@ -1321,7 +1322,7 @@ img {
 
 .certifications-browser__viewport {
   position: relative;
-  min-height: clamp(560px, 74vw, 860px);
+  min-height: clamp(440px, 58vw, 700px);
   padding: clamp(18px, 3vw, 28px);
   background:
     radial-gradient(
@@ -1380,12 +1381,12 @@ img {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  padding: 4px 4px 0;
+  padding: 2px 4px 0;
 }
 
 .certifications-browser__meta {
   display: grid;
-  gap: 6px;
+  gap: 0;
 }
 
 .certifications-browser__eyebrow {
@@ -1394,12 +1395,6 @@ img {
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-}
-
-.certifications-browser__meta strong {
-  font-size: clamp(1rem, 1.5vw, 1.2rem);
-  font-weight: 600;
-  letter-spacing: -0.03em;
 }
 
 .certifications-browser__status {
@@ -1426,7 +1421,7 @@ img {
 .certifications-browser__carousel {
   position: relative;
   overflow: hidden;
-  min-height: clamp(500px, 68vw, 800px);
+  min-height: clamp(380px, 48vw, 620px);
   height: 100%;
   border-radius: 28px;
   border: 1px solid rgba(255, 255, 255, 0.07);
@@ -1456,8 +1451,8 @@ img {
   display: flex;
   align-items: stretch;
   justify-content: center;
-  min-height: clamp(500px, 68vw, 800px);
-  padding: clamp(16px, 2vw, 22px);
+  min-height: clamp(380px, 48vw, 620px);
+  padding: clamp(14px, 1.8vw, 20px);
   overflow: hidden;
 }
 
@@ -1575,7 +1570,7 @@ img {
 .certifications-browser__hint {
   margin: 0;
   color: rgba(255, 255, 255, 0.52);
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   line-height: 1.6;
 }
 
