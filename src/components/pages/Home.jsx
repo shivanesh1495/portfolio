@@ -39,9 +39,9 @@ function Home({ introActive = false, signatureRef = null }) {
         <button
           type="button"
           className="hero-nav-link"
-          onClick={() => handleSectionScroll("writings")}
+          onClick={() => handleSectionScroll("education")}
         >
-          blogs
+          education
         </button>
         <button
           type="button"

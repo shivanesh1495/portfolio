@@ -1509,6 +1509,123 @@ button.certifications-browser__mode:hover {
   opacity: 1;
 }
 
+/* Education Section */
+.education-list {
+  display: grid;
+  gap: 24px;
+  width: min(100%, 1020px);
+}
+
+.education-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: clamp(24px, 4vw, 42px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.01)
+  );
+  backdrop-filter: blur(24px);
+  transition:
+    transform 0.3s var(--ease-smooth),
+    border-color 0.3s ease;
+}
+
+.education-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-strong);
+}
+
+.education-card__content {
+  flex: 1;
+  display: grid;
+  gap: 16px;
+}
+
+.education-card__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.education-card__degree {
+  margin: 0;
+  font-size: clamp(1.15rem, 2.5vw, 1.45rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.education-card__period {
+  font-size: 0.88rem;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.education-card__institution {
+  display: grid;
+  gap: 4px;
+}
+
+.education-card__name {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--muted-strong);
+  font-weight: 500;
+}
+
+.education-card__location {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.education-card__logo {
+  flex-shrink: 0;
+  width: clamp(60px, 10vw, 100px);
+  height: clamp(60px, 10vw, 100px);
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 12px;
+  overflow: hidden;
+}
+
+.education-card__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(1.1) contrast(1.1);
+}
+
+@media (max-width: 767px) {
+  .education-card {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px;
+  }
+
+  .education-card__logo {
+    width: 64px;
+    height: 64px;
+  }
+
+  .education-card__header {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
 .latest-feature {
   position: relative;
   overflow: hidden;

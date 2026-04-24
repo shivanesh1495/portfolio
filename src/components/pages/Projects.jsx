@@ -18,7 +18,7 @@ function Projects() {
   return (
     <div className="scene scene--projects">
       <div className="scene__rail" aria-hidden="true">
-        <span className="scene__index">02</span>
+        <span className="scene__index">03</span>
         <span className="scene__line" />
       </div>
 

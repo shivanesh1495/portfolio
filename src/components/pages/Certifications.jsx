@@ -510,7 +510,7 @@ function Certifications() {
   return (
     <div className="scene scene--certifications" ref={sectionRef}>
       <div className="scene__rail" aria-hidden="true">
-        <span className="scene__index">04</span>
+        <span className="scene__index">05</span>
         <span className="scene__line" />
       </div>
 

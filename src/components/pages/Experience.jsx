@@ -8,7 +8,7 @@ function Experience() {
   return (
     <div className="scene scene--experience">
       <div className="scene__rail" aria-hidden="true">
-        <span className="scene__index">03</span>
+        <span className="scene__index">04</span>
         <span className="scene__line" />
       </div>
 

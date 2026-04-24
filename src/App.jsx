@@ -15,7 +15,7 @@ const AboutSection = lazy(() => import("./components/pages/AboutSection"));
 const Projects = lazy(() => import("./components/pages/Projects"));
 const Experience = lazy(() => import("./components/pages/Experience"));
 const Certifications = lazy(() => import("./components/pages/Certifications"));
-const Writings = lazy(() => import("./components/pages/Writings"));
+const Education = lazy(() => import("./components/pages/Education"));
 const StackSection = lazy(() => import("./components/pages/StackSection"));
 const ContactSection = lazy(() => import("./components/pages/ContactSection"));
 const Cinematraphie = lazy(() => import("./components/pages/Cinematraphie"));
@@ -209,6 +209,16 @@ function App() {
           <Suspense fallback={<SectionFallback />}>
             <motion.section
               className="page-section"
+              id="education"
+              {...SCROLL_REVEAL_PROPS}
+            >
+              <Education />
+            </motion.section>
+          </Suspense>
+
+          <Suspense fallback={<SectionFallback />}>
+            <motion.section
+              className="page-section"
               id="projects"
               {...SCROLL_REVEAL_PROPS}
             >
@@ -233,16 +243,6 @@ function App() {
               {...SCROLL_REVEAL_PROPS}
             >
               <Certifications />
-            </motion.section>
-          </Suspense>
-
-          <Suspense fallback={<SectionFallback />}>
-            <motion.section
-              className="page-section"
-              id="writings"
-              {...SCROLL_REVEAL_PROPS}
-            >
-              <Writings />
             </motion.section>
           </Suspense>
 
