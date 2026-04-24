@@ -43,43 +43,43 @@
     /* Blue glow — upper right */
     radial-gradient(
       ellipse 55% 50% at var(--bg-p1),
-      rgba(97, 139, 185, 0.22) 0%,
+      rgba(160, 190, 230, 0.32) 0%,
       transparent 70%
     ),
     /* Blue accent — mid-right */
     radial-gradient(
         ellipse 38% 38% at var(--bg-p2),
-        rgba(97, 139, 185, 0.12) 0%,
+        rgba(160, 190, 230, 0.18) 0%,
         transparent 65%
       ),
     /* Subtle blue wash — upper band */
     radial-gradient(
         ellipse 80% 40% at 58% 8%,
-        rgba(97, 139, 185, 0.08) 0%,
+        rgba(160, 190, 230, 0.12) 0%,
         transparent 60%
       ),
     /* Deep blue sweep — center & left */
     radial-gradient(
         ellipse 100% 80% at var(--bg-p3),
-        rgba(30, 48, 67, 0.94) 0%,
+        rgba(40, 60, 85, 0.96) 0%,
         transparent 65%
       ),
     /* Deep blue — center */
     radial-gradient(
         ellipse 70% 60% at 50% 50%,
-        rgba(30, 48, 67, 0.56) 0%,
+        rgba(40, 60, 85, 0.62) 0%,
         transparent 70%
       ),
     /* Blue glow — lower right */
     radial-gradient(
         ellipse 48% 42% at var(--bg-p4),
-        rgba(97, 139, 185, 0.16) 0%,
+        rgba(160, 190, 230, 0.22) 0%,
         transparent 70%
       ),
     /* Blue undertone — bottom edge */
     radial-gradient(
         ellipse 65% 35% at 50% 95%,
-        rgba(97, 139, 185, 0.12) 0%,
+        rgba(160, 190, 230, 0.16) 0%,
         transparent 65%
       ),
     /* Deep black base */ #050505;
@@ -95,12 +95,12 @@
   background:
     radial-gradient(
       ellipse 45% 45% at 60% 35%,
-      rgba(97, 139, 185, 0.08) 0%,
+      rgba(160, 190, 230, 0.12) 0%,
       transparent 60%
     ),
     radial-gradient(
       ellipse 40% 40% at 35% 70%,
-      rgba(97, 139, 185, 0.06) 0%,
+      rgba(160, 190, 230, 0.08) 0%,
       transparent 55%
     );
   animation: cin-glow-drift 20s ease-in-out infinite alternate;
