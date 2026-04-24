@@ -1,8 +1,7 @@
 import React, { memo } from "react";
 import { GitHubIcon, InstagramIcon, LinkedinIcon } from "../icons/BrandIcons";
-import ResumeButton from "../ui/ResumeButton";
 
-function ContactSection({ onCinematraphie }) {
+function ContactSection() {
   return (
     <div className="scene scene--contact">
       <div className="scene__rail" aria-hidden="true">
@@ -19,17 +18,6 @@ function ContactSection({ onCinematraphie }) {
                 Available for collaborations, internships, and thoughtful
                 product work where engineering craft matters.
               </p>
-            </div>
-
-            <div className="contact-actions" id="resume">
-              <ResumeButton />
-              <button
-                type="button"
-                className="hero-cta contact-cta"
-                onClick={() => onCinematraphie?.()}
-              >
-                cinematraphie
-              </button>
             </div>
 
             <div className="contact-socials">

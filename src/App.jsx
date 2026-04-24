@@ -252,7 +252,7 @@ function App() {
               id="contact"
               {...SCROLL_REVEAL_PROPS}
             >
-              <ContactSection onCinematraphie={handleOpenCinematraphie} />
+              <ContactSection />
             </motion.section>
           </Suspense>
         </main>

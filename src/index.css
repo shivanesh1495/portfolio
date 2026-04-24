@@ -1521,13 +1521,6 @@ img {
   perspective: 1200px;
 }
 
-.contact-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-}
-
 .action-button,
 .hero-cta {
   min-height: 50px;
@@ -1544,8 +1537,7 @@ img {
   flex-shrink: 0;
 }
 
-.action-button--primary,
-.contact-cta {
+.action-button--primary {
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0.07),
@@ -1806,10 +1798,6 @@ img {
   .action-button,
   .hero-cta {
     width: 100%;
-  }
-
-  .contact-actions {
-    align-items: stretch;
   }
 
   .stack-grid__item {
