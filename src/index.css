@@ -511,28 +511,105 @@ img {
   position: relative;
   width: 100%;
   min-height: 100svh;
-  padding: 0 40px;
+  padding: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0; /* Removing gap to use manual positioning */
   text-align: center;
   overflow: hidden;
 }
 
-.hero-card > * {
-  position: relative;
-  z-index: 1;
-}
-
 .hero-signature {
   width: min(100%, 1020px);
-  transform: scale(1.7) translateY(-8vh); /* Significantly pulled up */
+  transform: scale(1.15); /* Reverting scale for desktop */
   transform-origin: center;
   filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.08));
   margin-inline: auto;
   will-change: transform;
+}
+
+.hero-subtitle-wrap {
+  position: relative;
+  width: min(100%, 980px);
+  padding: 0 clamp(6px, 1vw, 14px);
+  margin-top: 4vh; /* Default desktop spacing */
+  transition: opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px;
+  margin-top: 4vh; /* Default desktop spacing */
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  transition: opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Mobile Portrait: aspect ratio taller than 1:1 */
+@media (max-aspect-ratio: 1/1) {
+  .hero-card {
+    padding: 20px;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .hero-signature {
+    width: 100%;
+    max-width: 480px;
+    transform: scale(1.5);
+    margin: 0;
+    max-height: 42vh;
+  }
+
+  .hero-subtitle-wrap {
+    width: 100%;
+    margin-top: -14vh; /* Stacked vertical grouping */
+    padding: 0;
+  }
+
+  .hero-nav {
+    width: fit-content;
+    max-width: 100%;
+    padding: 6px;
+    gap: 4px;
+    margin-top: 2vh;
+  }
+
+  .hero-nav-link {
+    min-height: 36px;
+    padding: 0 14px;
+    font-size: 0.7rem;
+  }
+}
+
+/* Desktop/Tablet Landscape: aspect ratio wider than 1:1 */
+@media (min-aspect-ratio: 1/1) {
+  .hero-card {
+    padding: 60px 40px;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .hero-signature {
+    width: min(100%, 1020px);
+    transform: scale(1.15) translateY(-6vh); /* Optical center for landscape */
+  }
+
+  .hero-subtitle-wrap {
+    margin-top: -12vh;
+  }
+
+  .hero-nav {
+    margin-top: 2vh;
+  }
 }
 
 .hero-intro {
@@ -557,34 +634,6 @@ img {
   backface-visibility: hidden;
   transform: translateZ(0);
   filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.08));
-}
-
-.hero-subtitle-wrap {
-  position: relative;
-  width: min(100%, 980px);
-  padding: 0 clamp(6px, 1vw, 14px);
-  margin-top: -14vh; /* Pulled much closer to signature */
-  transition: opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.hero-subtitle-wrap::before {
-  content: "";
-  position: absolute;
-  inset: -22% 12% -28%;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(255, 255, 255, 0.14),
-    rgba(255, 255, 255, 0.03) 42%,
-    transparent 72%
-  );
-  filter: blur(28px);
-  opacity: 0.9;
-  pointer-events: none;
-}
-
-.hero-subtitle-effect {
-  position: relative;
-  z-index: 1;
 }
 
 .text-hover-effect {
@@ -642,22 +691,6 @@ img {
   transition:
     opacity 0.22s ease,
     filter 0.22s ease;
-}
-
-.hero-nav {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 10px;
-  margin-top: 2vh; /* Positioning relative to subtitle */
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  transition: opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .hero-card--intro-active .hero-subtitle-wrap,
@@ -2305,12 +2338,6 @@ img {
   }
 }
 
-@supports (content-visibility: auto) {
-  .page-section:not(.page-section--hero) {
-    content-visibility: auto;
-    contain-intrinsic-size: 920px;
-  }
-}
 @supports (content-visibility: auto) {
   .page-section:not(.page-section--hero) {
     content-visibility: auto;
