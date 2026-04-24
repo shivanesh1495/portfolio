@@ -1,0 +1,6 @@
+ {
+    company: 'Zofonix',
+    role: 'Lead Product Engineer',
+    period: 'Jan 2020 – Present',
+    desc: 'Led the design team in creating user-centric mobile and web applications, improving the user experience and increasing user engagement.',
+  }
