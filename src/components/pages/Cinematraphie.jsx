@@ -27,36 +27,61 @@ export default function Cinematraphie({ onBack }) {
       const tl = gsap.timeline();
 
       // Hide everything initially
+      gsap.set(pageRef.current, { opacity: 0 });
+      gsap.set([bgRef.current, restRef.current, instaSectionRef.current], {
+        filter: "blur(20px)",
+      });
       gsap.set(titleRef.current, { clipPath: "inset(0 100% 0 0)" });
       gsap.set(bgRef.current, { opacity: 0, scale: 1.05 }); // Pre-scale for "zoom out" settle
       gsap.set(restRef.current, { opacity: 0, y: 15, scale: 0.95 }); // Slimmer slide, subtle scale
       gsap.set(backRef.current, { opacity: 0, x: -10 });
       gsap.set(instaSectionRef.current, { opacity: 0, y: 50 });
 
-      // ── STEP 2 (0.9s → 2.4s): Title sweep reveal ──
+      // ── STEP 1: Page fade & de-blur (0s → 1.8s) ──
+      tl.to(
+        pageRef.current,
+        {
+          opacity: 1,
+          duration: 0.8,
+          ease: "power2.out",
+        },
+        0,
+      );
+
+      tl.to(
+        [bgRef.current, restRef.current, instaSectionRef.current],
+        {
+          filter: "blur(0px)",
+          duration: 1.8,
+          ease: "power2.out",
+        },
+        0,
+      );
+
+      // ── STEP 2: Title sweep reveal (0.3s → 2s) ──
       tl.to(
         titleRef.current,
         {
           clipPath: "inset(0 0% 0 0)",
-          duration: 1.5,
-          ease: "expo.out", // Much smoother deceleration
+          duration: 1.7, // 2s - 0.3s
+          ease: "expo.out",
         },
-        0.9,
+        0.3,
       );
 
-      // ── STEP 3 (2.5s → 3.0s): Gradient background settle ──
+      // ── STEP 3: Background layers materialize (starts at 0.8s) ──
       tl.to(
         bgRef.current,
         {
           opacity: 1,
           scale: 1,
-          duration: 0.8, // Slightly longer for smoothness
+          duration: 1.2,
           ease: "power3.out",
         },
-        2.5,
+        0.8,
       );
 
-      // ── STEP 4 (from 2.8s): Everything else materializes ──
+      // ── STEP 4: Everything else materializes (staggered after title) ──
       tl.to(
         restRef.current,
         {
@@ -66,7 +91,7 @@ export default function Cinematraphie({ onBack }) {
           duration: 1.2,
           ease: "expo.out",
         },
-        2.8,
+        1.8, // Start near the end of the blur/title sequence
       );
 
       tl.to(
@@ -77,7 +102,7 @@ export default function Cinematraphie({ onBack }) {
           duration: 0.6,
           ease: "expo.out",
         },
-        2.9, // Offset slightly for staggered layer feel
+        2.0,
       );
 
       tl.to(
@@ -88,7 +113,7 @@ export default function Cinematraphie({ onBack }) {
           duration: 1.5,
           ease: "expo.out",
         },
-        3.2,
+        2.2,
       );
     },
     { scope: pageRef },
