@@ -9,7 +9,10 @@ function Home({ introActive = false, signatureRef = null }) {
       return;
     }
 
-    section.scrollIntoView({ behavior: "smooth", block: "start" });
+    const scrollBehavior = document.body.classList.contains("is-hydrated")
+      ? "smooth"
+      : "auto";
+    section.scrollIntoView({ behavior: scrollBehavior, block: "start" });
   };
 
   return (

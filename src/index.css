@@ -28,7 +28,11 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto !important;
+}
+
+.is-hydrated html {
+  scroll-behavior: smooth !important;
 }
 
 html,

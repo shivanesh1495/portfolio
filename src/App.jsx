@@ -67,6 +67,33 @@ function App() {
     showCinematraphie || showHeroIntroOverlay || showHeroIntroBlur;
 
   useLayoutEffect(() => {
+    // Disable browser scroll restoration
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
+    // Immediate scroll to top on mount
+    window.scrollTo(0, 0);
+
+    // Secondary reinforcement for browsers that might restore later
+    const handleLoad = () => {
+      window.scrollTo(0, 0);
+      document.body.classList.add("is-hydrated");
+    };
+
+    window.addEventListener("load", handleLoad);
+
+    // If load event already fired
+    if (document.readyState === "complete") {
+      handleLoad();
+    }
+
+    return () => {
+      window.removeEventListener("load", handleLoad);
+    };
+  }, []);
+
+  useLayoutEffect(() => {
     const root = document.documentElement;
     const body = document.body;
 
