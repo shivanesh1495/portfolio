@@ -40,46 +40,46 @@
   --bg-p4: 78% 86%;
 
   background:
-    /* Burnt orange glow — upper right */
+    /* Blue glow — upper right */
     radial-gradient(
       ellipse 55% 50% at var(--bg-p1),
-      rgba(255, 255, 255, 0.22) 0%,
+      rgba(97, 139, 185, 0.22) 0%,
       transparent 70%
     ),
-    /* Amber accent — mid-right */
+    /* Blue accent — mid-right */
     radial-gradient(
         ellipse 38% 38% at var(--bg-p2),
-        rgba(204, 204, 204, 0.12) 0%,
+        rgba(97, 139, 185, 0.12) 0%,
         transparent 65%
       ),
-    /* Subtle warm wash — upper band */
+    /* Subtle blue wash — upper band */
     radial-gradient(
         ellipse 80% 40% at 58% 8%,
-        rgba(255, 255, 255, 0.08) 0%,
+        rgba(97, 139, 185, 0.08) 0%,
         transparent 60%
       ),
-    /* Dark wine sweep — center & left */
+    /* Deep blue sweep — center & left */
     radial-gradient(
         ellipse 100% 80% at var(--bg-p3),
-        rgba(28, 28, 30, 0.94) 0%,
+        rgba(30, 48, 67, 0.94) 0%,
         transparent 65%
       ),
-    /* Deep maroon — center */
+    /* Deep blue — center */
     radial-gradient(
         ellipse 70% 60% at 50% 50%,
-        rgba(20, 20, 22, 0.56) 0%,
+        rgba(30, 48, 67, 0.56) 0%,
         transparent 70%
       ),
-    /* Magenta glow — lower right */
+    /* Blue glow — lower right */
     radial-gradient(
         ellipse 48% 42% at var(--bg-p4),
-        rgba(138, 138, 138, 0.16) 0%,
+        rgba(97, 139, 185, 0.16) 0%,
         transparent 70%
       ),
-    /* Wine undertone — bottom edge */
+    /* Blue undertone — bottom edge */
     radial-gradient(
         ellipse 65% 35% at 50% 95%,
-        rgba(94, 94, 94, 0.12) 0%,
+        rgba(97, 139, 185, 0.12) 0%,
         transparent 65%
       ),
     /* Deep black base */ #050505;
@@ -95,12 +95,12 @@
   background:
     radial-gradient(
       ellipse 45% 45% at 60% 35%,
-      rgba(255, 255, 255, 0.08) 0%,
+      rgba(97, 139, 185, 0.08) 0%,
       transparent 60%
     ),
     radial-gradient(
       ellipse 40% 40% at 35% 70%,
-      rgba(150, 150, 150, 0.06) 0%,
+      rgba(97, 139, 185, 0.06) 0%,
       transparent 55%
     );
   animation: cin-glow-drift 20s ease-in-out infinite alternate;
