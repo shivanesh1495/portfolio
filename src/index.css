@@ -2298,6 +2298,12 @@ img {
     contain-intrinsic-size: 920px;
   }
 }
+@supports (content-visibility: auto) {
+  .page-section:not(.page-section--hero) {
+    content-visibility: auto;
+    contain-intrinsic-size: 920px;
+  }
+}
 
 @media (pointer: coarse) {
   .app-cursor-light {

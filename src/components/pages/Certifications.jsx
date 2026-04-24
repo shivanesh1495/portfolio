@@ -535,6 +535,7 @@ function CertificationsBrowser({ visibleCertifications }) {
 }
 
 function Certifications() {
+  const sectionRef = useRef(null);
   const { certifications, loading, error } = useGitHubCertifications();
   const visibleCertifications = useMemo(
     () => certifications.slice(0, 6),
@@ -547,7 +548,7 @@ function Certifications() {
   );
 
   return (
-    <div className="scene scene--certifications">
+    <div className="scene scene--certifications" ref={sectionRef}>
       <div className="scene__rail" aria-hidden="true">
         <span className="scene__index">04</span>
         <span className="scene__line" />

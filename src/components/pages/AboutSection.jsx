@@ -2,6 +2,7 @@ import React, { memo, useEffect, useRef, useState } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useGitHubProfile } from "../../hooks/useGitHub";
 import { fetchGitHubBio } from "../../services/github";
+import { useInView } from "../../hooks/useInView";
 
 const FALLBACK_BIO_PARAGRAPHS = [
   "Full-stack developer with a bias for clean code and a passion for building tools that solve real problems. Currently exploring systems programming with Go while shipping web apps that actually matter.",
@@ -10,7 +11,8 @@ const FALLBACK_BIO_PARAGRAPHS = [
 
 function AboutSection() {
   const sectionRef = useRef(null);
-  const { profile } = useGitHubProfile();
+  const { isInView, targetRef } = useInView();
+  const { profile } = useGitHubProfile(isInView);
   const [bioParagraphs, setBioParagraphs] = useState(FALLBACK_BIO_PARAGRAPHS);
   const yearsExp = profile?.yearsExperience || 3;
   const repositories = profile?.public_repos || 15;
@@ -33,6 +35,10 @@ function AboutSection() {
   );
 
   useEffect(() => {
+    if (!isInView) {
+      return undefined;
+    }
+
     let cancelled = false;
 
     async function loadBio() {
@@ -56,10 +62,16 @@ function AboutSection() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [isInView]);
 
   return (
-    <div className="scene scene--about" ref={sectionRef}>
+    <div
+      className="scene scene--about"
+      ref={(node) => {
+        sectionRef.current = node;
+        targetRef.current = node;
+      }}
+    >
       <div className="scene__rail" aria-hidden="true">
         <span className="scene__index">01</span>
         <span className="scene__line" />

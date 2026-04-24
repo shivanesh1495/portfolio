@@ -9,17 +9,31 @@ import {
 } from "react";
 import { motion } from "framer-motion";
 import Home from "./components/pages/Home";
-import AboutSection from "./components/pages/AboutSection";
-import Projects from "./components/pages/Projects";
-import Experience from "./components/pages/Experience";
-import Certifications from "./components/pages/Certifications";
-import Writings from "./components/pages/Writings";
-import StackSection from "./components/pages/StackSection";
-import ContactSection from "./components/pages/ContactSection";
 import HeroSignatureIntro from "./components/ui/HeroSignatureIntro";
 
+const AboutSection = lazy(() => import("./components/pages/AboutSection"));
+const Projects = lazy(() => import("./components/pages/Projects"));
+const Experience = lazy(() => import("./components/pages/Experience"));
+const Certifications = lazy(() => import("./components/pages/Certifications"));
+const Writings = lazy(() => import("./components/pages/Writings"));
+const StackSection = lazy(() => import("./components/pages/StackSection"));
+const ContactSection = lazy(() => import("./components/pages/ContactSection"));
 const Cinematraphie = lazy(() => import("./components/pages/Cinematraphie"));
 const HERO_INTRO_SETTLE_MS = 460;
+const SCROLL_REVEAL_PROPS = {
+  initial: { opacity: 0, y: 28 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.18 },
+  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+};
+
+function SectionFallback() {
+  return (
+    <div className="scene-state scene-state--skeleton" aria-hidden="true">
+      <p>Loading section...</p>
+    </div>
+  );
+}
 
 function App() {
   const [showCinematraphie, setShowCinematraphie] = useState(false);
@@ -27,13 +41,6 @@ function App() {
   const [showHeroIntroBlur, setShowHeroIntroBlur] = useState(true);
   const heroSignatureRef = useRef(null);
   const heroIntroTimeoutRef = useRef(null);
-
-  const scrollRevealProps = {
-    initial: { opacity: 0, y: 34 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0.24 },
-    transition: { duration: 0.78, ease: [0.22, 1, 0.36, 1] },
-  };
 
   const handleOpenCinematraphie = useCallback(() => {
     setShowCinematraphie(true);
@@ -162,61 +169,75 @@ function App() {
             />
           </section>
 
-          <motion.section
-            className="page-section"
-            id="about"
-            {...scrollRevealProps}
-          >
-            <AboutSection />
-          </motion.section>
+          <Suspense fallback={<SectionFallback />}>
+            <motion.section
+              className="page-section"
+              id="about"
+              {...SCROLL_REVEAL_PROPS}
+            >
+              <AboutSection />
+            </motion.section>
+          </Suspense>
 
-          <motion.section
-            className="page-section"
-            id="projects"
-            {...scrollRevealProps}
-          >
-            <Projects />
-          </motion.section>
+          <Suspense fallback={<SectionFallback />}>
+            <motion.section
+              className="page-section"
+              id="projects"
+              {...SCROLL_REVEAL_PROPS}
+            >
+              <Projects />
+            </motion.section>
+          </Suspense>
 
-          <motion.section
-            className="page-section"
-            id="experience"
-            {...scrollRevealProps}
-          >
-            <Experience />
-          </motion.section>
+          <Suspense fallback={<SectionFallback />}>
+            <motion.section
+              className="page-section"
+              id="experience"
+              {...SCROLL_REVEAL_PROPS}
+            >
+              <Experience />
+            </motion.section>
+          </Suspense>
 
-          <motion.section
-            className="page-section"
-            id="certifications"
-            {...scrollRevealProps}
-          >
-            <Certifications />
-          </motion.section>
+          <Suspense fallback={<SectionFallback />}>
+            <motion.section
+              className="page-section"
+              id="certifications"
+              {...SCROLL_REVEAL_PROPS}
+            >
+              <Certifications />
+            </motion.section>
+          </Suspense>
 
-          <motion.section
-            className="page-section"
-            id="writings"
-            {...scrollRevealProps}
-          >
-            <Writings />
-          </motion.section>
+          <Suspense fallback={<SectionFallback />}>
+            <motion.section
+              className="page-section"
+              id="writings"
+              {...SCROLL_REVEAL_PROPS}
+            >
+              <Writings />
+            </motion.section>
+          </Suspense>
 
-          <motion.section
-            className="page-section"
-            id="stack"
-            {...scrollRevealProps}
-          >
-            <StackSection />
-          </motion.section>
+          <Suspense fallback={<SectionFallback />}>
+            <motion.section
+              className="page-section"
+              id="stack"
+              {...SCROLL_REVEAL_PROPS}
+            >
+              <StackSection />
+            </motion.section>
+          </Suspense>
 
-          <motion.section
-            className="page-section"
-            id="contact"
-            {...scrollRevealProps}
-          >
-            <ContactSection onCinematraphie={handleOpenCinematraphie} />
-          </motion.section>
+          <Suspense fallback={<SectionFallback />}>
+            <motion.section
+              className="page-section"
+              id="contact"
+              {...SCROLL_REVEAL_PROPS}
+            >
+              <ContactSection onCinematraphie={handleOpenCinematraphie} />
+            </motion.section>
+          </Suspense>
         </main>
       </div>
 
