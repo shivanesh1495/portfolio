@@ -709,6 +709,14 @@ img {
   text-transform: uppercase;
 }
 
+.stack-grid__label {
+  display: block;
+  max-width: 14ch;
+  line-height: 1.35;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
 .about-metric strong {
   font-size: clamp(1.7rem, 3vw, 2.1rem);
   font-weight: 600;
@@ -2047,7 +2055,13 @@ img {
 
 @media (max-width: 767px) {
   .portfolio-main {
+    padding-left: clamp(12px, 4vw, 20px);
+    padding-right: clamp(12px, 4vw, 20px);
     padding-bottom: 88px;
+  }
+
+  .page-section {
+    padding: clamp(36px, 8vw, 68px) 0;
   }
 
   .scene {
@@ -2087,9 +2101,16 @@ img {
   }
 
   .stack-grid__item {
-    min-width: 104px;
+    min-width: clamp(108px, 30vw, 148px);
     min-height: 96px;
   }
+
+  .stack-grid__label {
+    max-width: 12ch;
+    font-size: 0.67rem;
+    letter-spacing: 0.12em;
+  }
+
   .certifications-browser__header,
   .certifications-browser__footer {
     align-items: start;
@@ -2102,6 +2123,10 @@ img {
 }
 
 @media (max-width: 479px) {
+  .portfolio-main {
+    padding-bottom: 72px;
+  }
+
   .hero-nav {
     width: min(100%, 320px);
     display: grid;
@@ -2156,14 +2181,83 @@ img {
   }
 
   .stack-grid__item {
-    min-width: 96px;
+    min-width: clamp(100px, 40vw, 140px);
     min-height: 92px;
     padding: 14px 12px;
+  }
+
+  .stack-grid__label {
+    max-width: 11ch;
+    font-size: 0.64rem;
+    letter-spacing: 0.1em;
   }
 
   .hero-signature {
     width: min(100%, 520px);
     transform: none;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+  .portfolio-main {
+    padding-bottom: 54px;
+  }
+
+  .page-section {
+    padding: 26px 0;
+  }
+
+  .hero-card {
+    min-height: auto;
+    padding-top: 58px;
+    padding-bottom: 28px;
+    gap: 10px;
+  }
+
+  .hero-signature {
+    width: min(100%, 560px);
+    transform: none;
+  }
+
+  .hero-nav {
+    padding: 6px;
+  }
+
+  .hero-nav-link {
+    min-height: 34px;
+    padding: 0 12px;
+  }
+
+  .project-row,
+  .writing-row {
+    min-height: 220px;
+  }
+
+  .certifications-browser__viewport {
+    min-height: 320px;
+  }
+
+  .certifications-browser__carousel,
+  .certifications-browser__slide {
+    min-height: 300px;
+  }
+}
+
+@media (max-aspect-ratio: 10/16) {
+  .hero-card {
+    padding-top: clamp(88px, 16vw, 130px);
+  }
+
+  .scene__description,
+  .section-copy {
+    line-height: 1.75;
+  }
+
+  .latest-feature__action {
+    position: static;
+    width: 100%;
+    height: 46px;
+    margin-top: 8px;
   }
 }
 

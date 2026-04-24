@@ -1,47 +1,74 @@
 import React, { memo } from "react";
 
-const STACK_ITEMS = [
-  {
-    label: "PostgreSQL",
-    title: "PostgreSQL",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
-  },
-  {
-    label: "Go",
-    title: "Go",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg",
-  },
-  {
-    label: "HTML5",
-    title: "HTML5",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
-  },
-  {
-    label: "CSS3",
-    title: "CSS3",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
-  },
-  {
-    label: "JavaScript",
-    title: "JavaScript",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
-  },
-  {
-    label: "TypeScript",
-    title: "TypeScript",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
-  },
-  {
-    label: "Node.js",
-    title: "Node.js",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-  },
-  {
-    label: "Express",
-    title: "Express",
-    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",
-  },
+const DEVICON_BASE = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
+
+const STACK_LABELS = [
+  "C++",
+  "Python",
+  "Java",
+  "C",
+  "Dart",
+  "Haskell",
+  "HTML5",
+  "CSS3",
+  "JavaScript",
+  "React",
+  "Next.js",
+  "Node.js",
+  "Remix",
+  "Three.js",
+  "MongoDB",
+  "MySQL",
+  "Flutter",
+  "Git",
+  "Linux",
+  "Arduino",
+  "Visual Studio Code",
+  "Eclipse",
+  "Postman",
+  "Figma",
+  "shopify",
+  "Android Studio",
+  "Firebase",
+  "MATLAB",
 ];
+
+const ICON_PATHS = {
+  "C++": "cplusplus/cplusplus-original.svg",
+  Python: "python/python-original.svg",
+  Java: "java/java-original.svg",
+  C: "c/c-original.svg",
+  Dart: "dart/dart-original.svg",
+  Haskell: "haskell/haskell-original.svg",
+  HTML5: "html5/html5-original.svg",
+  CSS3: "css3/css3-original.svg",
+  JavaScript: "javascript/javascript-original.svg",
+  React: "react/react-original.svg",
+  "Next.js": "nextjs/nextjs-original.svg",
+  "Node.js": "nodejs/nodejs-original.svg",
+  Remix: "remix/remix-original.svg",
+  "Three.js": "threejs/threejs-original.svg",
+  MongoDB: "mongodb/mongodb-original.svg",
+  MySQL: "mysql/mysql-original.svg",
+  Flutter: "flutter/flutter-original.svg",
+  Git: "git/git-original.svg",
+  Linux: "linux/linux-original.svg",
+  Arduino: "arduino/arduino-original.svg",
+  "Visual Studio Code": "vscode/vscode-original.svg",
+  Eclipse: "eclipse/eclipse-original.svg",
+  Postman: "postman/postman-original.svg",
+  Figma: "figma/figma-original.svg",
+  shopify: "shopify/shopify-original.svg",
+  "Android Studio": "androidstudio/androidstudio-original.svg",
+  Firebase: "firebase/firebase-original.svg",
+  MATLAB: "matlab/matlab-original.svg",
+};
+
+const STACK_ITEMS = STACK_LABELS.map((label) => ({
+  label,
+  title: label,
+  src: ICON_PATHS[label] ? `${DEVICON_BASE}/${ICON_PATHS[label]}` : null,
+}));
 
 function TechTicker() {
   return (
@@ -64,6 +91,9 @@ function TechTicker() {
                 alt={item.title || item.label}
                 draggable="false"
                 loading="lazy"
+                onError={(event) => {
+                  event.currentTarget.style.display = "none";
+                }}
               />
               <span className="stack-grid__label">{item.label}</span>
             </span>
@@ -89,6 +119,9 @@ function TechTicker() {
                 alt={item.title || item.label}
                 draggable="false"
                 loading="lazy"
+                onError={(event) => {
+                  event.currentTarget.style.display = "none";
+                }}
               />
               <span className="stack-grid__label">{item.label}</span>
             </span>
