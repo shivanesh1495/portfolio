@@ -526,6 +526,7 @@ img {
   transform: scale(1.7);
   transform-origin: center;
   filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.08));
+  margin-inline: auto;
 }
 
 .hero-intro {
@@ -2135,15 +2136,44 @@ img {
     padding-bottom: 72px;
   }
 
+  .hero-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100svh;
+    padding-top: clamp(64px, 14vh, 92px);
+    padding-bottom: clamp(28px, 6vh, 42px);
+    gap: 0;
+  }
+
+  .hero-signature {
+    width: min(96vw, 640px);
+    margin-inline: auto;
+    transform: translateY(10px) scale(1.12);
+  }
+
+  .hero-subtitle-wrap {
+    margin-top: clamp(10px, 3vh, 22px);
+  }
+
   .hero-nav {
-    width: min(100%, 320px);
-    display: grid;
-    gap: 4px;
+    width: min(100%, 100%);
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 8px;
     border-radius: 24px;
+    margin-top: clamp(34px, 8vh, 64px);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .hero-nav-link {
-    width: 100%;
+    flex: 0 0 auto;
+    width: auto;
+    min-width: max-content;
+    padding: 0 14px;
   }
 
   .text-hover-effect__layer {
