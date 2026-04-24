@@ -2205,7 +2205,11 @@ img {
   }
 
   .project-row {
-    flex-basis: min(82vw, 270px);
+    flex-basis: min(72vw, 240px); /* Reduced from 82vw, 270px */
+  }
+
+  .project-card {
+    padding: 16px; /* More compact padding for mobile */
   }
 
   .projects-marquee__track,
@@ -2286,7 +2290,8 @@ img {
 
   .project-row,
   .writing-row {
-    min-height: 220px;
+    min-height: 180px; /* Reduced from 220px */
+    flex-basis: min(60vw, 220px); /* Added compact width for landscape */
   }
 
   .certifications-browser__viewport {
