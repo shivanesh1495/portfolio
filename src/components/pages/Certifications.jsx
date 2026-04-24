@@ -223,10 +223,12 @@ function CertificateCard({ certification, index, shouldRenderPreview }) {
 }
 
 function CertificationsBrowser({ visibleCertifications }) {
+  const browserRef = useRef(null);
   const canAutoScroll = visibleCertifications.length > 1;
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isTransitionEnabled, setIsTransitionEnabled] = useState(true);
+  const [isInView, setIsInView] = useState(false);
   const holdStartedAtRef = useRef(0);
   const suppressClickRef = useRef(false);
   const slides = useMemo(() => {
@@ -241,7 +243,7 @@ function CertificationsBrowser({ visibleCertifications }) {
       ? 0
       : activeIndex % visibleCertifications.length;
   const preloadedIndexes = useMemo(() => {
-    if (visibleCertifications.length === 0) {
+    if (!isInView || visibleCertifications.length === 0) {
       return new Set();
     }
 
@@ -252,6 +254,36 @@ function CertificationsBrowser({ visibleCertifications }) {
         visibleCertifications.length,
     ]);
   }, [activePreviewIndex, visibleCertifications.length]);
+
+  useEffect(() => {
+    const node = browserRef.current;
+
+    if (!node) {
+      return undefined;
+    }
+
+    if (typeof IntersectionObserver === "undefined") {
+      setIsInView(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      {
+        root: null,
+        rootMargin: "220px 0px",
+        threshold: 0.01,
+      },
+    );
+
+    observer.observe(node);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     if (!canAutoScroll || isTransitionEnabled) {
@@ -268,7 +300,7 @@ function CertificationsBrowser({ visibleCertifications }) {
   }, [canAutoScroll, isTransitionEnabled]);
 
   useEffect(() => {
-    if (!canAutoScroll || isPaused || !isTransitionEnabled) {
+    if (!isInView || !canAutoScroll || isPaused || !isTransitionEnabled) {
       return undefined;
     }
 
@@ -279,7 +311,7 @@ function CertificationsBrowser({ visibleCertifications }) {
     return () => {
       window.clearTimeout(timeout);
     };
-  }, [activeIndex, canAutoScroll, isPaused, isTransitionEnabled]);
+  }, [activeIndex, canAutoScroll, isInView, isPaused, isTransitionEnabled]);
 
   const handlePressStart = (event) => {
     if (!canAutoScroll) {
@@ -359,7 +391,8 @@ function CertificationsBrowser({ visibleCertifications }) {
   return (
     <div
       className="certifications-browser"
-      data-paused={isPaused ? "true" : "false"}
+      data-paused={isPaused || !isInView ? "true" : "false"}
+      ref={browserRef}
     >
       <div className="certifications-browser__toolbar" aria-hidden="true">
         <div className="certifications-browser__actions">

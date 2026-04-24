@@ -1,9 +1,11 @@
 import React, { memo, useMemo } from "react";
 import { ArrowUpRight, Calendar, Clock } from "lucide-react";
 import { useGitHubWritings } from "../../hooks/useGitHub";
+import { useInView } from "../../hooks/useInView";
 
 function Writings() {
   const { writings, loading, error } = useGitHubWritings();
+  const { targetRef, isInView } = useInView();
   const marqueeWritings = useMemo(() => {
     if (writings.length === 0) {
       return [];
@@ -46,7 +48,11 @@ function Writings() {
             <p>No writings are available right now.</p>
           </div>
         ) : (
-          <div className="writings-marquee" aria-label="Writing archive">
+          <div
+            className={`writings-marquee${isInView ? " is-active" : ""}`}
+            ref={targetRef}
+            aria-label="Writing archive"
+          >
             <div className="writings-marquee__track">
               {marqueeWritings.map((writing, index) => {
                 const articleHref =
@@ -63,7 +69,10 @@ function Writings() {
                       <div className="writing-row__top">
                         <h3>{writing.title}</h3>
                         {articleHref ? (
-                          <ArrowUpRight size={18} className="writing-row__arrow" />
+                          <ArrowUpRight
+                            size={18}
+                            className="writing-row__arrow"
+                          />
                         ) : null}
                       </div>
 
@@ -109,7 +118,10 @@ function Writings() {
                     {content}
                   </a>
                 ) : (
-                  <article className="writing-row" key={`${writing.id}-${index}`}>
+                  <article
+                    className="writing-row"
+                    key={`${writing.id}-${index}`}
+                  >
                     {content}
                   </article>
                 );

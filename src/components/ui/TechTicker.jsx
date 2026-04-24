@@ -1,4 +1,5 @@
 import React, { memo } from "react";
+import { useInView } from "../../hooks/useInView";
 
 const DEVICON_BASE = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
 
@@ -58,8 +59,7 @@ const ICON_PATHS = {
   Eclipse: "eclipse/eclipse-original.svg",
   Postman: "postman/postman-original.svg",
   Figma: "figma/figma-original.svg",
-  shopify:
-    "https://upload.wikimedia.org/wikipedia/commons/0/0e/Shopify_logo_2018.svg",
+  shopify: "/shopify-logo.svg",
   "Android Studio": "androidstudio/androidstudio-original.svg",
   Firebase: "firebase/firebase-original.svg",
   MATLAB: "matlab/matlab-original.svg",
@@ -76,8 +76,14 @@ const STACK_ITEMS = STACK_LABELS.map((label) => ({
 }));
 
 function TechTicker() {
+  const { targetRef, isInView } = useInView();
+
   return (
-    <div className="stack-marquee" aria-label="Primary technology stack">
+    <div
+      className={`stack-marquee${isInView ? " is-active" : ""}`}
+      ref={targetRef}
+      aria-label="Primary technology stack"
+    >
       <div
         className="stack-marquee__lane stack-marquee__lane--forward"
         role="list"

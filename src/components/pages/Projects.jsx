@@ -1,9 +1,11 @@
 import React, { memo, useMemo } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { useGitHubProjects } from "../../hooks/useGitHub";
+import { useInView } from "../../hooks/useInView";
 
 function Projects() {
   const { projects, loading, error } = useGitHubProjects();
+  const { targetRef, isInView } = useInView();
   const marqueeProjects = useMemo(() => {
     if (projects.length === 0) {
       return [];
@@ -52,7 +54,11 @@ function Projects() {
             <p>No projects are available right now.</p>
           </div>
         ) : (
-          <div className="projects-marquee" aria-label="Project repositories">
+          <div
+            className={`projects-marquee${isInView ? " is-active" : ""}`}
+            ref={targetRef}
+            aria-label="Project repositories"
+          >
             <div className="projects-marquee__track">
               {marqueeProjects.map((project, index) => (
                 <a

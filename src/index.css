@@ -742,6 +742,13 @@ img {
   width: max-content;
   padding: 12px 0 10px;
   animation: marqueeForward 34s linear infinite;
+  animation-play-state: paused;
+}
+
+.projects-marquee.is-active .projects-marquee__track,
+.writings-marquee.is-active .writings-marquee__track,
+.stack-marquee.is-active .stack-marquee__track {
+  animation-play-state: running;
 }
 
 .projects-marquee:hover .projects-marquee__track,
@@ -1778,6 +1785,7 @@ img {
   width: max-content;
   padding: 10px 0;
   animation: marqueeReverse 44s linear infinite;
+  animation-play-state: paused;
 }
 
 .stack-marquee__lane--forward .stack-marquee__track {
@@ -2281,6 +2289,13 @@ img {
 
   .app-cursor-light {
     opacity: 0 !important;
+  }
+}
+
+@supports (content-visibility: auto) {
+  .page-section:not(.page-section--hero) {
+    content-visibility: auto;
+    contain-intrinsic-size: 920px;
   }
 }
 
