@@ -1777,7 +1777,7 @@ img {
   gap: 14px;
   width: max-content;
   padding: 10px 0;
-  animation: marqueeReverse 26s linear infinite;
+  animation: marqueeReverse 44s linear infinite;
 }
 
 .stack-marquee__lane--forward .stack-marquee__track {
@@ -1785,7 +1785,7 @@ img {
 }
 
 .stack-marquee__lane--reverse .stack-marquee__track {
-  animation-duration: 30s;
+  animation-duration: 52s;
 }
 
 .stack-grid__item {
@@ -1849,7 +1849,7 @@ img {
 .stack-grid__icon {
   width: 34px;
   height: 34px;
-  filter: grayscale(1) brightness(1.8);
+  filter: saturate(1.12) brightness(1.02);
   opacity: 0.9;
   transition:
     transform 0.28s var(--ease-smooth),
@@ -1859,7 +1859,7 @@ img {
 .stack-grid__item:hover .stack-grid__icon,
 .stack-grid__item:focus-visible .stack-grid__icon {
   transform: translateY(-2px);
-  filter: grayscale(1) brightness(2.05);
+  filter: saturate(1.28) brightness(1.08);
 }
 
 .contact-stage {

@@ -58,7 +58,7 @@ const ICON_PATHS = {
   Eclipse: "eclipse/eclipse-original.svg",
   Postman: "postman/postman-original.svg",
   Figma: "figma/figma-original.svg",
-  shopify: "shopify/shopify-original.svg",
+  shopify: "https://cdn.simpleicons.org/shopify/95BF47",
   "Android Studio": "androidstudio/androidstudio-original.svg",
   Firebase: "firebase/firebase-original.svg",
   MATLAB: "matlab/matlab-original.svg",
@@ -67,7 +67,11 @@ const ICON_PATHS = {
 const STACK_ITEMS = STACK_LABELS.map((label) => ({
   label,
   title: label,
-  src: ICON_PATHS[label] ? `${DEVICON_BASE}/${ICON_PATHS[label]}` : null,
+  src: ICON_PATHS[label]
+    ? ICON_PATHS[label].startsWith("http")
+      ? ICON_PATHS[label]
+      : `${DEVICON_BASE}/${ICON_PATHS[label]}`
+    : null,
 }));
 
 function TechTicker() {
