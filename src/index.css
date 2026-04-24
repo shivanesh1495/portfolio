@@ -506,12 +506,12 @@ img {
 .hero-card {
   position: relative;
   width: 100%;
-  min-height: 100svh;
-  padding: clamp(72px, 12vw, 148px) clamp(4px, 2vw, 16px) clamp(42px, 6vw, 58px);
+  min-height: 85vh;
+  padding: clamp(30px, 6vw, 80px) clamp(4px, 2vw, 16px) clamp(20px, 4vw, 30px);
   display: grid;
-  align-content: start;
+  align-content: center;
   justify-items: center;
-  gap: clamp(14px, 2vw, 20px);
+  gap: clamp(8px, 1vw, 12px);
   text-align: center;
   overflow: hidden;
 }
@@ -523,7 +523,7 @@ img {
 
 .hero-signature {
   width: min(100%, 980px);
-  transform: scale(2.15);
+  transform: scale(1.65);
   transform-origin: center;
   filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.08));
   margin-inline: auto;
@@ -557,6 +557,7 @@ img {
   position: relative;
   width: min(100%, 980px);
   padding: 0 clamp(6px, 1vw, 14px);
+  margin-top: -12vh;
   transition: opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -644,6 +645,7 @@ img {
   flex-wrap: wrap;
   gap: 6px;
   padding: 8px;
+  margin-top: -4vh;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.03);
@@ -2141,20 +2143,20 @@ img {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    min-height: 100svh;
-    padding-top: clamp(64px, 14vh, 92px);
-    padding-bottom: clamp(28px, 6vh, 42px);
+    min-height: 90svh;
+    padding-top: clamp(20px, 6vh, 40px);
+    padding-bottom: clamp(20px, 4vh, 30px);
     gap: 0;
   }
 
   .hero-signature {
     width: min(99vw, 760px);
     margin-inline: auto;
-    transform: translateY(10px) scale(1.26);
+    transform: translateY(0) scale(1.15);
   }
 
   .hero-subtitle-wrap {
-    margin-top: clamp(10px, 3vh, 22px);
+    margin-top: clamp(-10px, -2vh, -20px);
   }
 
   .hero-nav {
@@ -2164,7 +2166,7 @@ img {
     justify-content: center;
     gap: 8px;
     border-radius: 24px;
-    margin-top: clamp(34px, 8vh, 64px);
+    margin-top: clamp(10px, 4vh, 20px);
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
