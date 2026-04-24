@@ -17,15 +17,15 @@ function Experience() {
           <div className="scene__intro">
             <h2 className="section-title-display">Industry Experience</h2>
             <p className="scene__description">
-              Roles shaped across product, design-aware engineering, and
-              systems delivery.
+              Roles shaped across product, design-aware engineering, and systems
+              delivery.
             </p>
           </div>
         </header>
 
         {loading ? (
           <div className="scene-state">
-            <p>Loading experience from GitHub...</p>
+            <p>Loading experience...</p>
           </div>
         ) : error ? (
           <div className="scene-state section-state--error">
@@ -44,7 +44,10 @@ function Experience() {
                       <p className="experience-company">{item.company}</p>
                       <span className="experience-role">{item.role}</span>
                     </div>
-                    <ArrowUpRight size={18} className="experience-entry__arrow" />
+                    <ArrowUpRight
+                      size={18}
+                      className="experience-entry__arrow"
+                    />
                   </div>
 
                   <p className="experience-description">{item.desc}</p>

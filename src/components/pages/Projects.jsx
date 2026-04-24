@@ -52,7 +52,7 @@ function Projects() {
             <p>No projects are available right now.</p>
           </div>
         ) : (
-          <div className="projects-marquee" aria-label="GitHub repositories">
+          <div className="projects-marquee" aria-label="Project repositories">
             <div className="projects-marquee__track">
               {marqueeProjects.map((project, index) => (
                 <a

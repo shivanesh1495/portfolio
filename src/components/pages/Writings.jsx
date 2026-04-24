@@ -28,7 +28,7 @@ function Writings() {
 
         {loading ? (
           <div className="scene-state">
-            <p>Loading writings from GitHub...</p>
+            <p>Loading writings...</p>
           </div>
         ) : error ? (
           <div className="scene-state section-state--error">

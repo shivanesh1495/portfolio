@@ -1,10 +1,4 @@
-import React, {
-  memo,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { memo, useEffect, useMemo, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { GlobalWorkerOptions, getDocument } from "pdfjs-dist";
 import { useGitHubCertifications } from "../../hooks/useGitHub";
@@ -23,9 +17,11 @@ GlobalWorkerOptions.workerSrc = new URL(
 
 function getPdfPreviewCacheKey(url, width, height) {
   const roundedWidth =
-    Math.max(Math.round(width / PDF_PREVIEW_SIZE_STEP), 1) * PDF_PREVIEW_SIZE_STEP;
+    Math.max(Math.round(width / PDF_PREVIEW_SIZE_STEP), 1) *
+    PDF_PREVIEW_SIZE_STEP;
   const roundedHeight =
-    Math.max(Math.round(height / PDF_PREVIEW_SIZE_STEP), 1) * PDF_PREVIEW_SIZE_STEP;
+    Math.max(Math.round(height / PDF_PREVIEW_SIZE_STEP), 1) *
+    PDF_PREVIEW_SIZE_STEP;
 
   return `${url}:${roundedWidth}x${roundedHeight}`;
 }
@@ -152,7 +148,10 @@ function PdfCertificatePreview({ title, url, shouldRender }) {
 
   if (!shouldRender && !previewSrc) {
     return (
-      <div className="certificate-placeholder certificate-placeholder--loading" aria-hidden="true">
+      <div
+        className="certificate-placeholder certificate-placeholder--loading"
+        aria-hidden="true"
+      >
         <strong>{title}</strong>
         <span>Preparing preview</span>
       </div>
@@ -231,11 +230,11 @@ function CertificationsBrowser({ visibleCertifications }) {
   const holdStartedAtRef = useRef(0);
   const suppressClickRef = useRef(false);
   const slides = useMemo(() => {
-      if (!canAutoScroll) {
-        return visibleCertifications;
-      }
+    if (!canAutoScroll) {
+      return visibleCertifications;
+    }
 
-      return [...visibleCertifications, visibleCertifications[0]];
+    return [...visibleCertifications, visibleCertifications[0]];
   }, [canAutoScroll, visibleCertifications]);
   const activePreviewIndex =
     visibleCertifications.length === 0
@@ -386,7 +385,9 @@ function CertificationsBrowser({ visibleCertifications }) {
         <div className="certifications-browser__page">
           <div className="certifications-browser__header">
             <div className="certifications-browser__meta">
-              <span className="certifications-browser__eyebrow">Certificates</span>
+              <span className="certifications-browser__eyebrow">
+                Certificates
+              </span>
             </div>
 
             <div className="certifications-browser__status">
@@ -461,7 +462,10 @@ function CertificationsBrowser({ visibleCertifications }) {
                 <ChevronLeft size={16} />
               </button>
 
-              <div className="certifications-browser__progress" aria-label="Carousel progress">
+              <div
+                className="certifications-browser__progress"
+                aria-label="Carousel progress"
+              >
                 {visibleCertifications.map((certification, index) => (
                   <button
                     key={certification.id}
@@ -504,7 +508,8 @@ function Certifications() {
     [certifications],
   );
   const carouselKey = useMemo(
-    () => visibleCertifications.map((certification) => certification.id).join(":"),
+    () =>
+      visibleCertifications.map((certification) => certification.id).join(":"),
     [visibleCertifications],
   );
 
@@ -520,8 +525,8 @@ function Certifications() {
           <div className="scene__intro">
             <h2 className="section-title-display">Certificates</h2>
             <p className="scene__description">
-              Recent recognitions synced from GitHub and surfaced with a lighter
-              editorial layout.
+              Recent recognitions sourced from local records and surfaced with a
+              lighter editorial layout.
             </p>
           </div>
         </header>

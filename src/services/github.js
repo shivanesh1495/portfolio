@@ -1,17 +1,23 @@
-const GITHUB_USERNAME = "shivanesh1495";
-const PORTFOLIO_TOPIC = "portfolio";
-const DATA_REPO_OWNER = "shivanesh1495";
-const DATA_REPO_NAME = "PORTFOLIO-DB";
-const DATA_REPO_BRANCH = "main";
-const BIO_FILE_URL = `https://raw.githubusercontent.com/${DATA_REPO_OWNER}/${DATA_REPO_NAME}/${DATA_REPO_BRANCH}/bio.txt`;
+const TEXT_FILE_MODULES = import.meta.glob("../../database/**/*.txt", {
+  query: "?raw",
+  import: "default",
+});
 
-async function fetchJson(url) {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Request failed: ${response.status}`);
-  }
+const CERTIFICATION_ASSET_MODULES = import.meta.glob(
+  "../../database/certifications/*.{pdf,png,jpg,jpeg,webp,svg}",
+  { import: "default" },
+);
 
-  return response.json();
+const RESUME_ASSET_MODULES = import.meta.glob(
+  "../../database/resume/*.{pdf,png,jpg,jpeg,webp,svg}",
+  { import: "default" },
+);
+
+const START_YEAR = 2023;
+
+function getCurrentYearsExperience() {
+  const yearsExperience = new Date().getFullYear() - START_YEAR;
+  return Math.max(yearsExperience, 1);
 }
 
 function hasAllowedExtension(fileName, extensions) {
@@ -27,18 +33,37 @@ function formatRepositoryAssetName(fileName) {
     .trim();
 }
 
-async function fetchRepoFolderFiles(folder, extensions = [".txt"]) {
-  const url = `https://api.github.com/repos/${DATA_REPO_OWNER}/${DATA_REPO_NAME}/contents/${folder}?ref=${DATA_REPO_BRANCH}`;
-  const files = await fetchJson(url);
+function toRelativeDatabasePath(modulePath) {
+  return modulePath.replace(/^\.\.\/\.\.\/database\//, "").replace(/\\/g, "/");
+}
 
-  if (!Array.isArray(files)) {
-    throw new Error(`Expected a file list from ${folder}`);
-  }
+function getFileNameFromPath(path) {
+  return path.split("/").pop() || path;
+}
 
-  return files.filter(
-    (file) =>
-      file.type === "file" && hasAllowedExtension(file.name, extensions),
-  );
+async function fetchDatabaseFolderFiles(folder, extensions = [".txt"]) {
+  const prefix = `${folder}/`;
+
+  const entries = Object.keys(TEXT_FILE_MODULES)
+    .map((modulePath) => {
+      const relativePath = toRelativeDatabasePath(modulePath);
+      const name = getFileNameFromPath(relativePath);
+
+      return {
+        relativePath,
+        name,
+        folder,
+        loader: TEXT_FILE_MODULES[modulePath],
+      };
+    })
+    .filter(
+      (file) =>
+        file.relativePath.startsWith(prefix) &&
+        hasAllowedExtension(file.name, extensions),
+    )
+    .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
+
+  return entries;
 }
 
 function parseStructuredTextFile(content) {
@@ -56,100 +81,82 @@ function parseStructuredTextFile(content) {
   }
 }
 
-async function fetchStructuredFile(downloadUrl) {
-  const response = await fetch(downloadUrl);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch file: ${response.status}`);
-  }
-
-  const text = await response.text();
+async function fetchStructuredFile(loader) {
+  const text = await loader();
   return parseStructuredTextFile(text);
 }
 
 export async function fetchGitHubBio() {
-  const cacheBustedUrl = `${BIO_FILE_URL}?t=${Date.now()}`;
-  const response = await fetch(cacheBustedUrl, { cache: "no-store" });
+  const bioLoader = TEXT_FILE_MODULES["../../database/bio.txt"];
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch bio: ${response.status}`);
+  if (!bioLoader) {
+    throw new Error("Missing database/bio.txt");
   }
 
-  return response.text();
+  return bioLoader();
 }
 
 export async function fetchGitHubUserProfile() {
   try {
-    const response = await fetch(
-      `https://api.github.com/users/${GITHUB_USERNAME}`,
-    );
-    if (!response.ok) throw new Error("Failed to fetch user profile");
+    const profileFiles = await fetchDatabaseFolderFiles("profile");
+    let profileData = {};
 
-    const data = await response.json();
-
-    // Calculate years of experience from 2023
-    const startYear = 2023;
-    const currentYear = new Date().getFullYear();
-    const yearsExperience = currentYear - startYear;
+    if (profileFiles.length > 0) {
+      profileData = await fetchStructuredFile(profileFiles[0].loader);
+    }
 
     return {
-      avatar_url: data.avatar_url,
-      created_at: data.created_at,
-      yearsExperience: Math.max(yearsExperience, 1), // At least 1 year
-      public_repos: data.public_repos,
-      followers: data.followers,
-      name: data.name,
-      bio: data.bio,
+      avatar_url: profileData.avatar_url || null,
+      created_at: profileData.created_at || `${START_YEAR}-01-01T00:00:00Z`,
+      yearsExperience:
+        profileData.yearsExperience || getCurrentYearsExperience(),
+      public_repos: profileData.public_repos || 15,
+      followers: profileData.followers || 0,
+      name: profileData.name || "Shivanesh",
+      bio: profileData.bio || null,
     };
   } catch (error) {
-    console.error("Error fetching GitHub user profile:", error);
+    console.error("Error fetching local profile:", error);
     return null;
   }
 }
 
 export async function fetchGitHubProjects() {
   try {
-    const response = await fetch(
-      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`,
+    const files = await fetchDatabaseFolderFiles("projects");
+    const projects = await Promise.all(
+      files.map(async (file, index) => {
+        const data = await fetchStructuredFile(file.loader);
+        const nameWithoutExt = file.name.replace(/\.[^.]+$/, "");
+
+        return {
+          id: data.id || file.relativePath || `${index + 1}`,
+          title: data.title || formatRepositoryAssetName(nameWithoutExt),
+          desc: data.desc || "No description provided.",
+          tags: Array.isArray(data.tags) ? data.tags : [],
+          stacks: Array.isArray(data.stacks) ? data.stacks : [],
+          stars: Number.isFinite(data.stars) ? data.stars : 0,
+          forks: Number.isFinite(data.forks) ? data.forks : 0,
+          url: data.url || data.link || data.href || "#",
+        };
+      }),
     );
-    if (!response.ok) throw new Error("Failed to fetch repositories");
 
-    const data = await response.json();
-
-    return data.map((repo) => ({
-      id: repo.id,
-      title: repo.name
-        .split("-")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" "),
-      desc: repo.description || "No description provided.",
-      tags: [
-        repo.language,
-        ...(repo.topics || []).filter((t) => t !== PORTFOLIO_TOPIC),
-      ].filter(Boolean),
-      stacks: [
-        repo.language,
-        ...(repo.topics || []).filter((t) => t !== PORTFOLIO_TOPIC),
-      ]
-        .filter(Boolean)
-        .map((t) => t.toLowerCase()),
-      stars: repo.stargazers_count,
-      forks: repo.forks_count,
-      url: repo.html_url,
-    }));
+    return projects;
   } catch (error) {
-    console.error("Error fetching GitHub projects:", error);
+    console.error("Error fetching local projects:", error);
     return [];
   }
 }
 
 export async function fetchGitHubWritings() {
   try {
-    const files = await fetchRepoFolderFiles("writings");
+    const files = await fetchDatabaseFolderFiles("writings");
     const writings = await Promise.all(
       files.map(async (file) => {
-        const data = await fetchStructuredFile(file.download_url);
+        const data = await fetchStructuredFile(file.loader);
         return {
-          id: file.sha || file.name,
+          id: file.relativePath || file.name,
           slug: file.name.replace(/\.txt$/i, ""),
           ...data,
         };
@@ -162,19 +169,19 @@ export async function fetchGitHubWritings() {
       return bDate - aDate;
     });
   } catch (error) {
-    console.error("Error fetching writings:", error);
+    console.error("Error fetching local writings:", error);
     return [];
   }
 }
 
 export async function fetchGitHubExperience() {
   try {
-    const files = await fetchRepoFolderFiles("experience");
+    const files = await fetchDatabaseFolderFiles("experience");
     const experience = await Promise.all(
       files.map(async (file) => {
-        const data = await fetchStructuredFile(file.download_url);
+        const data = await fetchStructuredFile(file.loader);
         return {
-          id: file.sha || file.name,
+          id: file.relativePath || file.name,
           slug: file.name.replace(/\.txt$/i, ""),
           ...data,
         };
@@ -183,61 +190,81 @@ export async function fetchGitHubExperience() {
 
     return experience;
   } catch (error) {
-    console.error("Error fetching experience:", error);
+    console.error("Error fetching local experience:", error);
     return [];
   }
 }
 
 export async function fetchGitHubCertifications() {
   try {
-    const files = await fetchRepoFolderFiles("certifications", [
-      ".pdf",
-      ".png",
-      ".jpg",
-      ".jpeg",
-      ".webp",
-      ".svg",
-    ]);
+    const files = await Promise.all(
+      Object.entries(CERTIFICATION_ASSET_MODULES).map(
+        async ([path, loader]) => {
+          const relativePath = toRelativeDatabasePath(path);
+          const name = getFileNameFromPath(relativePath);
+          const url = await loader();
 
-    return files.map((file) => ({
-      id: file.sha || file.name,
-      title: formatRepositoryAssetName(file.name),
-      type: file.name.split(".").pop().toUpperCase(),
-      previewUrl: file.download_url,
-      url: file.html_url,
-    }));
+          return {
+            id: relativePath,
+            name,
+            relativePath,
+            url,
+          };
+        },
+      ),
+    );
+
+    return files
+      .sort((a, b) =>
+        a.name.localeCompare(b.name, undefined, { numeric: true }),
+      )
+      .map((file) => ({
+        id: file.id,
+        title: formatRepositoryAssetName(file.name),
+        type: file.name.split(".").pop().toUpperCase(),
+        previewUrl: file.url,
+        url: file.url,
+      }));
   } catch (error) {
-    console.error("Error fetching certifications:", error);
+    console.error("Error fetching local certifications:", error);
     return [];
   }
 }
 
 export async function fetchGitHubResume() {
   try {
-    const files = await fetchRepoFolderFiles("resume", [
-      ".pdf",
-      ".png",
-      ".jpg",
-      ".jpeg",
-      ".webp",
-      ".svg",
-    ]);
+    const files = await Promise.all(
+      Object.entries(RESUME_ASSET_MODULES).map(async ([path, loader]) => {
+        const relativePath = toRelativeDatabasePath(path);
+        const name = getFileNameFromPath(relativePath);
+        const url = await loader();
+
+        return {
+          id: relativePath,
+          name,
+          url,
+        };
+      }),
+    );
+
+    files.sort((a, b) =>
+      a.name.localeCompare(b.name, undefined, { numeric: true }),
+    );
 
     if (files.length === 0) {
       return null;
     }
 
-    // Repo contract: only one resume file exists; use the first one when present.
     const file = files[0];
 
     return {
-      id: file.sha || file.name,
+      id: file.id,
       type: file.name.split(".").pop().toUpperCase(),
-      previewUrl: file.download_url,
-      url: file.html_url,
+      previewUrl: file.url,
+      url: file.url,
     };
   } catch (error) {
-    console.error("Error fetching resume:", error);
+    console.error("Error fetching local resume:", error);
     return null;
   }
 }
