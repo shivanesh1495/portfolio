@@ -506,13 +506,13 @@ img {
 .hero-card {
   position: relative;
   width: 100%;
-  min-height: 100svh; /* Back to full height for better centering */
-  padding: clamp(40px, 8vw, 100px) clamp(20px, 4vw, 40px);
+  min-height: 100svh;
+  padding: 0 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(20px, 4vh, 48px); /* Fluid gap for consistent spacing */
+  gap: 0; /* Removing gap to use manual positioning */
   text-align: center;
   overflow: hidden;
 }
@@ -524,7 +524,7 @@ img {
 
 .hero-signature {
   width: min(100%, 1020px);
-  transform: scale(1.4); /* Reduced from 1.9 to prevent overlap */
+  transform: scale(1.1) translateY(-8vh); /* Significantly pulled up */
   transform-origin: center;
   filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.08));
   margin-inline: auto;
@@ -559,7 +559,7 @@ img {
   position: relative;
   width: min(100%, 980px);
   padding: 0 clamp(6px, 1vw, 14px);
-  margin-top: 0; /* Removed negative margin */
+  margin-top: -14vh; /* Pulled much closer to signature */
   transition: opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -647,7 +647,7 @@ img {
   flex-wrap: wrap;
   gap: 8px;
   padding: 10px;
-  margin-top: 0; /* Removed negative margin */
+  margin-top: 2vh; /* Positioning relative to subtitle */
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.03);
