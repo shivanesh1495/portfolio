@@ -1,8 +1,20 @@
 import React, { memo } from "react";
 import TextHoverEffect from "../ui/TextHoverEffect";
+import { useGitHubResume } from "../../hooks/useGitHub";
 
-function Home({ introActive = false, signatureRef = null }) {
+function Home({
+  introActive = false,
+  signatureRef = null,
+  onCinematraphie = null,
+}) {
+  const { resume } = useGitHubResume();
+
   const handleSectionScroll = (sectionId) => {
+    if (sectionId === "cinematraphie") {
+      onCinematraphie?.();
+      return;
+    }
+
     const section = document.getElementById(sectionId);
 
     if (!section) {
@@ -39,13 +51,6 @@ function Home({ introActive = false, signatureRef = null }) {
         <button
           type="button"
           className="hero-nav-link"
-          onClick={() => handleSectionScroll("education")}
-        >
-          education
-        </button>
-        <button
-          type="button"
-          className="hero-nav-link"
           onClick={() => handleSectionScroll("projects")}
         >
           projects
@@ -53,16 +58,41 @@ function Home({ introActive = false, signatureRef = null }) {
         <button
           type="button"
           className="hero-nav-link"
-          onClick={() => handleSectionScroll("resume")}
+          onClick={() => handleSectionScroll("experience")}
         >
-          resume
+          experience
         </button>
+        {resume ? (
+          <a
+            href={resume.previewUrl || resume.url}
+            target="_blank"
+            rel="noreferrer"
+            className="hero-nav-link"
+          >
+            resume
+          </a>
+        ) : (
+          <button
+            type="button"
+            className="hero-nav-link"
+            onClick={() => handleSectionScroll("resume")}
+          >
+            resume
+          </button>
+        )}
         <button
           type="button"
           className="hero-nav-link"
           onClick={() => handleSectionScroll("contact")}
         >
           contact
+        </button>
+        <button
+          type="button"
+          className="hero-nav-link"
+          onClick={() => handleSectionScroll("cinematraphie")}
+        >
+          cinematraphie
         </button>
       </nav>
     </section>

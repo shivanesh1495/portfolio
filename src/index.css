@@ -543,15 +543,18 @@ img {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 8px;
-  padding: 10px;
-  margin-top: 0; /* Removing fixed vh margins */
+  gap: 12px;
+  padding: 8px;
+  margin-top: 0;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  transition: opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  box-shadow:
+    0 4px 24px -1px rgba(0, 0, 0, 0.2),
+    0 0 1px 0 rgba(255, 255, 255, 0.1) inset;
+  transition: all 0.4s var(--ease-smooth);
 }
 
 /* Mobile Portrait: aspect ratio taller than 1:1 */
@@ -574,15 +577,16 @@ img {
 
   .hero-nav {
     width: fit-content;
-    max-width: 100%;
+    max-width: calc(100vw - 32px);
     padding: 6px;
     gap: 4px;
   }
 
   .hero-nav-link {
-    min-height: 36px;
-    padding: 0 14px;
-    font-size: 0.7rem;
+    min-height: 38px;
+    padding: 0 16px;
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
   }
 }
 
@@ -695,23 +699,32 @@ img {
 }
 
 .hero-nav-link {
-  min-height: 38px;
-  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 20px;
   border-radius: 999px;
-  color: #d8d8d8;
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
+  color: #a0a0a0;
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
   text-transform: lowercase;
+  border: 1px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
   transition:
-    color 0.25s ease,
-    background 0.25s ease,
-    transform 0.25s ease;
+    color 0.3s ease,
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
 }
 
 .hero-nav-link:hover,
 .hero-nav-link:focus-visible {
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.8);
   transform: translateY(-1px);
 }
 
