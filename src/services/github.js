@@ -3,11 +3,6 @@ const TEXT_FILE_MODULES = import.meta.glob("../../database/**/*.txt", {
   import: "default",
 });
 
-const CERTIFICATION_ASSET_MODULES = import.meta.glob(
-  "../../database/certifications/*.{pdf,png,jpg,jpeg,webp,svg}",
-  { import: "default" },
-);
-
 const RESUME_ASSET_MODULES = import.meta.glob(
   "../../database/resume/*.{pdf,png,jpg,jpeg,webp,svg}",
   { import: "default" },
@@ -190,42 +185,6 @@ export async function fetchGitHubExperience() {
     return experience;
   } catch (error) {
     console.error("Error fetching local experience:", error);
-    return [];
-  }
-}
-
-export async function fetchGitHubCertifications() {
-  try {
-    const files = await Promise.all(
-      Object.entries(CERTIFICATION_ASSET_MODULES).map(
-        async ([path, loader]) => {
-          const relativePath = toRelativeDatabasePath(path);
-          const name = getFileNameFromPath(relativePath);
-          const url = await loader();
-
-          return {
-            id: relativePath,
-            name,
-            relativePath,
-            url,
-          };
-        },
-      ),
-    );
-
-    return files
-      .sort((a, b) =>
-        a.name.localeCompare(b.name, undefined, { numeric: true }),
-      )
-      .map((file) => ({
-        id: file.id,
-        title: formatRepositoryAssetName(file.name),
-        type: file.name.split(".").pop().toUpperCase(),
-        previewUrl: file.url,
-        url: file.url,
-      }));
-  } catch (error) {
-    console.error("Error fetching local certifications:", error);
     return [];
   }
 }

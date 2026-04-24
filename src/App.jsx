@@ -14,7 +14,6 @@ import HeroSignatureIntro from "./components/ui/HeroSignatureIntro";
 const AboutSection = lazy(() => import("./components/pages/AboutSection"));
 const Projects = lazy(() => import("./components/pages/Projects"));
 const Experience = lazy(() => import("./components/pages/Experience"));
-const Certifications = lazy(() => import("./components/pages/Certifications"));
 const Education = lazy(() => import("./components/pages/Education"));
 const StackSection = lazy(() => import("./components/pages/StackSection"));
 const ContactSection = lazy(() => import("./components/pages/ContactSection"));
@@ -193,6 +192,7 @@ function App() {
             <Home
               introActive={showHeroIntroOverlay || showHeroIntroBlur}
               signatureRef={heroSignatureRef}
+              onCinematraphie={handleOpenCinematraphie}
             />
           </section>
 
@@ -233,16 +233,6 @@ function App() {
               {...SCROLL_REVEAL_PROPS}
             >
               <Experience />
-            </motion.section>
-          </Suspense>
-
-          <Suspense fallback={<SectionFallback />}>
-            <motion.section
-              className="page-section"
-              id="certifications"
-              {...SCROLL_REVEAL_PROPS}
-            >
-              <Certifications />
             </motion.section>
           </Suspense>
 

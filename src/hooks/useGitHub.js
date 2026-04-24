@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import {
-  fetchGitHubCertifications,
   fetchGitHubExperience,
   fetchGitHubProjects,
   fetchGitHubResume,
@@ -8,13 +7,10 @@ import {
   fetchGitHubUserProfile,
 } from "../services/github";
 
-const CERTIFICATIONS_CACHE_KEY = "portfolio:certifications-cache";
 const PROFILE_CACHE_KEY = "portfolio:profile-cache";
 const RESUME_CACHE_KEY = "portfolio:resume-cache";
 let profileMemoryCache = null;
 let profileMemoryPromise = null;
-let certificationsMemoryCache = null;
-let certificationsMemoryPromise = null;
 let resumeMemoryCache = null;
 let resumeMemoryPromise = null;
 
@@ -38,34 +34,6 @@ function writeProfileSessionCache(value) {
 
   try {
     window.sessionStorage.setItem(PROFILE_CACHE_KEY, JSON.stringify(value));
-  } catch {
-    // Ignore storage quota and privacy mode errors.
-  }
-}
-
-function readCertificationsSessionCache() {
-  if (typeof window === "undefined") {
-    return null;
-  }
-
-  try {
-    const raw = window.sessionStorage.getItem(CERTIFICATIONS_CACHE_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
-}
-
-function writeCertificationsSessionCache(value) {
-  if (typeof window === "undefined") {
-    return;
-  }
-
-  try {
-    window.sessionStorage.setItem(
-      CERTIFICATIONS_CACHE_KEY,
-      JSON.stringify(value),
-    );
   } catch {
     // Ignore storage quota and privacy mode errors.
   }
@@ -100,7 +68,6 @@ if (typeof window !== "undefined") {
   window.addEventListener("beforeunload", () => {
     try {
       window.sessionStorage.removeItem(PROFILE_CACHE_KEY);
-      window.sessionStorage.removeItem(CERTIFICATIONS_CACHE_KEY);
       window.sessionStorage.removeItem(RESUME_CACHE_KEY);
     } catch {
       // Ignore unload cleanup failures.
@@ -236,66 +203,6 @@ export function useGitHubExperience() {
   }, []);
 
   return { experience, loading, error };
-}
-
-export function useGitHubCertifications() {
-  const [certifications, setCertifications] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function load() {
-      try {
-        const sessionCache =
-          certificationsMemoryCache || readCertificationsSessionCache();
-
-        if (sessionCache) {
-          certificationsMemoryCache = sessionCache;
-          if (!cancelled) {
-            setCertifications(sessionCache);
-          }
-          return;
-        }
-
-        if (!certificationsMemoryPromise) {
-          certificationsMemoryPromise = fetchGitHubCertifications()
-            .then((data) => {
-              certificationsMemoryCache = data;
-              writeCertificationsSessionCache(data);
-              certificationsMemoryPromise = null;
-              return data;
-            })
-            .catch((err) => {
-              certificationsMemoryPromise = null;
-              throw err;
-            });
-        }
-
-        const data = await certificationsMemoryPromise;
-        if (!cancelled) {
-          setCertifications(data);
-        }
-      } catch (err) {
-        if (!cancelled) {
-          setError(err.message);
-        }
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    }
-
-    load();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  return { certifications, loading, error };
 }
 
 export function useGitHubResume() {
