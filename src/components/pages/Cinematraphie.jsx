@@ -18,6 +18,7 @@ export default function Cinematraphie({ onBack }) {
   const restRef = useRef();
   const backRef = useRef();
   const bgRef = useRef();
+  const instaSectionRef = useRef();
   const isExitingRef = useRef(false);
 
   /* ── Entry animation timeline ── */
@@ -30,6 +31,7 @@ export default function Cinematraphie({ onBack }) {
       gsap.set(bgRef.current, { opacity: 0, scale: 1.05 }); // Pre-scale for "zoom out" settle
       gsap.set(restRef.current, { opacity: 0, y: 15, scale: 0.95 }); // Slimmer slide, subtle scale
       gsap.set(backRef.current, { opacity: 0, x: -10 });
+      gsap.set(instaSectionRef.current, { opacity: 0, y: 50 });
 
       // ── STEP 2 (0.9s → 2.4s): Title sweep reveal ──
       tl.to(
@@ -77,6 +79,17 @@ export default function Cinematraphie({ onBack }) {
         },
         2.9, // Offset slightly for staggered layer feel
       );
+
+      tl.to(
+        instaSectionRef.current,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.5,
+          ease: "expo.out",
+        },
+        3.2,
+      );
     },
     { scope: pageRef },
   );
@@ -111,12 +124,14 @@ export default function Cinematraphie({ onBack }) {
   return (
     <div className="cin-page" ref={pageRef}>
       {/* ── Background layers (grouped for fade-in) ── */}
-      <div className="cin-bg-wrapper" ref={bgRef}>
-        <div className="cin-bg" />
-        <div className="cin-bg-glow" />
-        <div className="cin-bg-sweep" />
-        <div className="cin-noise" />
-        <div className="cin-vignette" />
+      <div className="cin-bg-wrapper">
+        <div className="cin-bg-inner" ref={bgRef}>
+          <div className="cin-bg" />
+          <div className="cin-bg-glow" />
+          <div className="cin-bg-sweep" />
+          <div className="cin-noise" />
+          <div className="cin-vignette" />
+        </div>
       </div>
 
       {/* ── Back button ── */}
@@ -140,20 +155,35 @@ export default function Cinematraphie({ onBack }) {
         </svg>
       </button>
 
-      {/* ── Centered content ── */}
-      <div className="cin-content">
-        <img
-          className="cin-title"
-          ref={titleRef}
-          src="/Cinematraphie.svg"
-          alt="Cinematraphie"
-          draggable="false"
-        />
-        <div className="cin-rest" ref={restRef}>
-          <p className="cin-tagline">for fine crafted cinematics</p>
-          <div className="cin-buttons">
-            <button className="cin-btn">Connect with me</button>
-            <button className="cin-btn">Check my work</button>
+      {/* ── Scrollable Content Wrapper ── */}
+      <div className="cin-scroll-container">
+        {/* ── Centered content (Hero Section) ── */}
+        <div className="cin-content">
+          <img
+            className="cin-title"
+            ref={titleRef}
+            src="/Cinematraphie.svg"
+            alt="Cinematraphie"
+            draggable="false"
+          />
+          <div className="cin-rest" ref={restRef}>
+            <p className="cin-tagline">for fine crafted cinematics</p>
+            <div className="cin-buttons">
+              <button className="cin-btn">Connect with me</button>
+              <button className="cin-btn">Check my work</button>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Instagram Preview Section ── */}
+        <div className="cin-insta-section" ref={instaSectionRef}>
+          <div className="cin-insta-content">
+            <img
+              src="/cine.png"
+              alt="Instagram Preview"
+              className="cin-insta-img"
+              draggable="false"
+            />
           </div>
         </div>
       </div>

@@ -8,21 +8,40 @@
   position: fixed;
   inset: 0;
   z-index: 9999;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: block;
   will-change: opacity, transform;
+  scrollbar-width: none; /* Firefox */
+}
+
+.cin-page::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* ── Scrollable Content Wrapper ── */
+.cin-scroll-container {
+  position: relative;
+  z-index: 3;
+  width: 100%;
 }
 
 /* ── Background Wrapper ── */
 .cin-bg-wrapper {
-  position: absolute;
+  position: fixed; /* Keep fixed to viewport */
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0; /* Start hidden to prevent flash before animation */
-  will-change: opacity;
+  background: #050101; /* Solid base */
+}
+
+.cin-bg-inner {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0; /* Animated via GSAP bgRef */
+  will-change: transform, opacity;
 }
 
 /* ────────────────────────────────────────────────────────────────────
@@ -163,8 +182,42 @@
   justify-content: center;
   text-align: center;
   width: 100%;
+  min-height: 100vh; /* Ensure it covers the first view */
   padding: 0;
 }
+
+/* ── Instagram Section ── */
+.cin-insta-section {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  opacity: 0; /* Animated via GSAP */
+}
+
+.cin-insta-content {
+  max-width: 800px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cin-insta-img {
+  width: 100%;
+  height: auto;
+  max-width: 1200px; /* Further increased size */
+  display: block;
+  filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.5));
+  user-select: none;
+  pointer-events: none; /* Disable interaction to prevent hover/click issues */
+}
+
+/* Removed hover effects */
 
 /* ── Main title — SVG signature stretching full width ── */
 .cin-title {
@@ -267,7 +320,7 @@
 
 /* ── Back button — subtle, circular, top-left ── */
 .cin-back {
-  position: absolute;
+  position: fixed; /* Changed to fixed so it stays while scrolling */
   top: 2rem;
   left: 2rem;
   z-index: 10;
