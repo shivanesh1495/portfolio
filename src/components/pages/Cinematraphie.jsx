@@ -124,8 +124,8 @@ export default function Cinematraphie({ onBack }) {
   return (
     <div className="cin-page" ref={pageRef}>
       {/* ── Background layers (grouped for fade-in) ── */}
-      <div className="cin-bg-wrapper">
-        <div className="cin-bg-inner" ref={bgRef}>
+      <div className="cin-bg-wrapper" ref={bgRef}>
+        <div className="cin-bg-inner">
           <div className="cin-bg" />
           <div className="cin-bg-glow" />
           <div className="cin-bg-sweep" />
