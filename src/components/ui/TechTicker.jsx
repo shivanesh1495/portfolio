@@ -59,20 +59,28 @@ const ICON_PATHS = {
   Eclipse: "eclipse/eclipse-original.svg",
   Postman: "postman/postman-original.svg",
   Figma: "figma/figma-original.svg",
-  shopify: "/shopify-logo.svg",
+  shopify: "/shopify_glyph.svg",
   "Android Studio": "androidstudio/androidstudio-original.svg",
   Firebase: "firebase/firebase-original.svg",
   MATLAB: "matlab/matlab-original.svg",
 };
 
+function resolveIconSrc(path) {
+  if (!path) {
+    return null;
+  }
+
+  if (path.startsWith("http") || path.startsWith("/")) {
+    return path;
+  }
+
+  return `${DEVICON_BASE}/${path}`;
+}
+
 const STACK_ITEMS = STACK_LABELS.map((label) => ({
   label,
   title: label,
-  src: ICON_PATHS[label]
-    ? ICON_PATHS[label].startsWith("http")
-      ? ICON_PATHS[label]
-      : `${DEVICON_BASE}/${ICON_PATHS[label]}`
-    : null,
+  src: resolveIconSrc(ICON_PATHS[label]),
 }));
 
 function TechTicker() {
