@@ -48,30 +48,22 @@ body {
   font-family: var(--font-body);
   color: var(--text);
   background:
-    conic-gradient(
-      from 45deg at 50% -8%,
-      rgba(160, 190, 230, 0.08),
-      rgba(160, 190, 230, 0.04) 30%,
+    radial-gradient(
+      ellipse 60vmax 40vmax at 50% -10%,
+      rgba(160, 190, 230, 0.15),
       transparent 80%
     ),
-    linear-gradient(135deg, rgba(160, 190, 230, 0.06) 0%, transparent 80%),
     radial-gradient(
-      ellipse 50vmax at 82% 16%,
-      rgba(160, 190, 230, 0.05),
+      ellipse 50vmax 30vmax at 90% 20%,
+      rgba(160, 190, 230, 0.1),
       transparent 70%
     ),
-    conic-gradient(
-      from 225deg at 14% 24%,
-      rgba(160, 190, 230, 0.04),
+    radial-gradient(
+      ellipse 40vmax 25vmax at 10% 30%,
+      rgba(160, 190, 230, 0.08),
       transparent 60%
     ),
-    linear-gradient(
-      45deg,
-      transparent 20%,
-      rgba(160, 190, 230, 0.03) 50%,
-      transparent 90%
-    ),
-    linear-gradient(180deg, #030303 0%, #000000 40%, #020202 100%);
+    linear-gradient(180deg, #0a0a0a 0%, #050505 50%, #0a0a0a 100%);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
@@ -87,37 +79,34 @@ body::after {
 
 body::before {
   background:
-    conic-gradient(
-      from 0deg at 50% 0%,
-      rgba(160, 190, 230, 0.12),
-      rgba(160, 190, 230, 0.05) 40%,
-      transparent 80%
-    ),
-    linear-gradient(120deg, rgba(160, 190, 230, 0.04) 0%, transparent 60%),
     radial-gradient(
-      ellipse at 82% 20%,
-      rgba(160, 190, 230, 0.03),
-      transparent 60%
-    ),
-    conic-gradient(
-      from 180deg at 18% 18%,
-      rgba(160, 190, 230, 0.04),
+      ellipse at 50% 0%,
+      rgba(160, 190, 230, 0.2),
       transparent 70%
     ),
-    linear-gradient(180deg, rgba(160, 190, 230, 0.05), transparent 40%);
-  opacity: 0.7;
-  filter: blur(40px);
-  animation: auroraDrift 35s ease-in-out infinite alternate;
+    radial-gradient(
+      ellipse at 20% 30%,
+      rgba(160, 190, 230, 0.12),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 80% 40%,
+      rgba(160, 190, 230, 0.1),
+      transparent 50%
+    );
+  opacity: 0.85;
+  filter: blur(45px);
+  animation: auroraDrift 40s ease-in-out infinite alternate;
 }
 
 body::after {
   background: radial-gradient(
     circle at 50% 50%,
-    transparent 30%,
-    rgba(0, 0, 0, 0.7) 100%
+    transparent 45%,
+    rgba(0, 0, 0, 0.4) 100%
   );
-  opacity: 0.95;
-  animation: vignettePulse 22s ease-in-out infinite alternate;
+  opacity: 0.8;
+  animation: vignettePulse 25s ease-in-out infinite alternate;
 }
 
 a,
