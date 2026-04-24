@@ -3,7 +3,13 @@
    ║  Full-screen · No-scroll · Film-studio aesthetic                ║
    ╚══════════════════════════════════════════════════════════════════╝ */
 
-/* ── Page container ── */
+/* Register variables for smooth background breathing animation */
+@property --bg-p1 { syntax: '<position>'; inherits: false; initial-value: 82% 12%; }
+@property --bg-p2 { syntax: '<position>'; inherits: false; initial-value: 68% 28%; }
+@property --bg-p3 { syntax: '<position>'; inherits: false; initial-value: 38% 58%; }
+@property --bg-p4 { syntax: '<position>'; inherits: false; initial-value: 78% 86%; }
+
+/* ── Page container (Now holds the main background!) ── */
 .cin-page {
   position: fixed;
   inset: 0;
@@ -11,8 +17,30 @@
   overflow-x: hidden;
   overflow-y: auto;
   display: block;
-  will-change: opacity, transform;
+  will-change: opacity; /* Removed 'transform' to fix scroll trapping */
   scrollbar-width: none; /* Firefox */
+
+  /* Deep cinematic gradient background applied directly to scrolling container */
+  background-color: #050101;
+  background-image: 
+    /* Wine Red glow — upper right */
+    radial-gradient(ellipse 55% 50% at var(--bg-p1), rgba(150, 10, 10, 0.35) 0%, transparent 70%),
+    /* Burnt Orange accent — mid-right */
+    radial-gradient(ellipse 38% 38% at var(--bg-p2), rgba(200, 60, 10, 0.2) 0%, transparent 65%),
+    /* Subtle maroon wash — upper band */
+    radial-gradient(ellipse 80% 40% at 58% 8%, rgba(80, 0, 0, 0.15) 0%, transparent 60%),
+    /* Deep maroon sweep — center & left */
+    radial-gradient(ellipse 100% 80% at var(--bg-p3), rgba(45, 10, 10, 0.98) 0%, transparent 65%),
+    /* Deep wine — center */
+    radial-gradient(ellipse 70% 60% at 50% 50%, rgba(40, 5, 5, 0.65) 0%, transparent 70%),
+    /* Red glow — lower right */
+    radial-gradient(ellipse 48% 42% at var(--bg-p4), rgba(180, 20, 20, 0.25) 0%, transparent 70%),
+    /* Deep red undertone — bottom edge */
+    radial-gradient(ellipse 65% 35% at 50% 95%, rgba(100, 0, 0, 0.2) 0%, transparent 65%),
+    /* NEW: Extra bottom glow to ensure the phone mockup isn't in a dark void */
+    radial-gradient(ellipse 60% 50% at 50% 80%, rgba(150, 20, 20, 0.25) 0%, transparent 70%);
+    
+  animation: cin-bg-breathe 30s ease-in-out infinite alternate;
 }
 
 .cin-page::-webkit-scrollbar {
@@ -26,109 +54,26 @@
   width: 100%;
 }
 
-/* ── Background Wrapper ── */
-.cin-bg-wrapper {
-  position: fixed; /* Keep fixed to viewport */
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0; /* Start hidden for the fade-in animation */
-  will-change: opacity, transform;
-}
-
-.cin-bg-inner {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
 /* ────────────────────────────────────────────────────────────────────
-   BACKGROUND — Deep cinematic gradient
-   Maroon → Wine Red → Burnt Orange → Black
-   Multi-layer radial + linear gradients for depth
+   BACKGROUND EFFECTS — Changed to Fixed so they don't scroll away
    ──────────────────────────────────────────────────────────────────── */
-.cin-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  --bg-p1: 82% 12%;
-  --bg-p2: 68% 28%;
-  --bg-p3: 38% 58%;
-  --bg-p4: 78% 86%;
-
-  background:
-    /* Wine Red glow — upper right */
-    radial-gradient(
-      ellipse 55% 50% at var(--bg-p1),
-      rgba(150, 10, 10, 0.35) 0%,
-      transparent 70%
-    ),
-    /* Burnt Orange accent — mid-right */
-    radial-gradient(
-        ellipse 38% 38% at var(--bg-p2),
-        rgba(200, 60, 10, 0.2) 0%,
-        transparent 65%
-      ),
-    /* Subtle maroon wash — upper band */
-    radial-gradient(
-        ellipse 80% 40% at 58% 8%,
-        rgba(80, 0, 0, 0.15) 0%,
-        transparent 60%
-      ),
-    /* Deep maroon sweep — center & left */
-    radial-gradient(
-        ellipse 100% 80% at var(--bg-p3),
-        rgba(45, 10, 10, 0.98) 0%,
-        transparent 65%
-      ),
-    /* Deep wine — center */
-    radial-gradient(
-        ellipse 70% 60% at 50% 50%,
-        rgba(40, 5, 5, 0.65) 0%,
-        transparent 70%
-      ),
-    /* Red glow — lower right */
-    radial-gradient(
-        ellipse 48% 42% at var(--bg-p4),
-        rgba(180, 20, 20, 0.25) 0%,
-        transparent 70%
-      ),
-    /* Deep red undertone — bottom edge */
-    radial-gradient(
-        ellipse 65% 35% at 50% 95%,
-        rgba(100, 0, 0, 0.2) 0%,
-        transparent 65%
-      ),
-    /* Deep black base */ #050101;
-
-  animation: cin-bg-breathe 30s ease-in-out infinite alternate;
-}
 
 /* Animated glow layer — slow, living background movement */
 .cin-bg-glow {
-  position: absolute;
+  position: fixed;
   inset: -30%;
   z-index: 0;
   background:
-    radial-gradient(
-      ellipse 45% 45% at 60% 35%,
-      rgba(180, 20, 20, 0.15) 0%,
-      transparent 60%
-    ),
-    radial-gradient(
-      ellipse 40% 40% at 35% 70%,
-      rgba(220, 60, 10, 0.1) 0%,
-      transparent 55%
-    );
+    radial-gradient(ellipse 45% 45% at 60% 35%, rgba(180, 20, 20, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 35% 70%, rgba(220, 60, 10, 0.1) 0%, transparent 55%);
   animation: cin-glow-drift 20s ease-in-out infinite alternate;
   pointer-events: none;
 }
 
-/* Noise / film grain overlay — now with subtle jitter for 'live' grain */
+/* Noise / film grain overlay — subtle jitter for 'live' grain */
 .cin-noise {
-  position: absolute;
-  inset: -50%; /* Larger to allow for jitter without edges showing */
+  position: fixed;
+  inset: -50%; 
   z-index: 1;
   pointer-events: none;
   opacity: 0.05;
@@ -140,7 +85,7 @@
 
 /* Very subtle light sweep beam */
 .cin-bg-sweep {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 0;
   background: linear-gradient(
@@ -158,7 +103,7 @@
 
 /* Soft vignette edges */
 .cin-vignette {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 2;
   pointer-events: none;
@@ -208,14 +153,12 @@
 .cin-insta-img {
   width: 100%;
   height: auto;
-  max-width: 1200px; /* Further increased size */
+  max-width: 1200px;
   display: block;
   filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.5));
   user-select: none;
-  pointer-events: none; /* Disable interaction to prevent hover/click issues */
+  pointer-events: none;
 }
-
-/* Removed hover effects */
 
 /* ── Main title — SVG signature stretching full width ── */
 .cin-title {
@@ -224,7 +167,7 @@
   height: auto;
   display: block;
   padding: 0 4vw;
-  clip-path: inset(0 100% 0 0); /* Start hidden to prevent flash */
+  clip-path: inset(0 100% 0 0);
   will-change: clip-path;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -235,15 +178,15 @@
     drop-shadow(0 0 120px rgba(255, 255, 255, 0.03));
 }
 
-/* ── Rest group — tagline + buttons (animated as one in step 3) ── */
+/* ── Rest group — tagline + buttons ── */
 .cin-rest {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: -8vw; /* Pull up to overlay/bring near the SVG signature */
+  margin-top: -8vw;
   position: relative;
   z-index: 4;
-  opacity: 0; /* Start hidden */
+  opacity: 0;
   will-change: opacity, transform;
 }
 
@@ -267,7 +210,7 @@
 .cin-buttons {
   display: flex;
   gap: 2rem;
-  margin-top: 1.5rem; /* Reduced space between tagline and buttons */
+  margin-top: 1.5rem;
   align-items: center;
 }
 
@@ -318,7 +261,7 @@
 
 /* ── Back button — subtle, circular, top-left ── */
 .cin-back {
-  position: fixed; /* Changed to fixed so it stays while scrolling */
+  position: fixed;
   top: 2rem;
   left: 2rem;
   z-index: 10;
@@ -334,7 +277,7 @@
   cursor: pointer;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  opacity: 0; /* Start hidden */
+  opacity: 0;
   transition:
     transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
     border-color 0.3s ease,
@@ -353,124 +296,48 @@
    KEYFRAMES
    ──────────────────────────────────────────────────────────────────── */
 
-/* Very slow, infinite background glow movement */
 @keyframes cin-glow-drift {
-  0% {
-    transform: translate(0, 0) rotate(0deg) scale(1);
-    opacity: 0.6;
-  }
-  33% {
-    transform: translate(5%, -3%) rotate(1deg) scale(1.06);
-    opacity: 0.9;
-  }
-  66% {
-    transform: translate(-3%, 4%) rotate(-0.5deg) scale(1.03);
-    opacity: 0.7;
-  }
-  100% {
-    transform: translate(2%, -2%) rotate(0.5deg) scale(1.08);
-    opacity: 0.9;
-  }
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0.6; }
+  33% { transform: translate(5%, -3%) rotate(1deg) scale(1.06); opacity: 0.9; }
+  66% { transform: translate(-3%, 4%) rotate(-0.5deg) scale(1.03); opacity: 0.7; }
+  100% { transform: translate(2%, -2%) rotate(0.5deg) scale(1.08); opacity: 0.9; }
 }
 
-/* New: Breathing main background gradient positions */
 @keyframes cin-bg-breathe {
-  0% {
-    --bg-p1: 82% 12%;
-    --bg-p2: 68% 28%;
-    --bg-p3: 38% 58%;
-    --bg-p4: 78% 86%;
-  }
-  50% {
-    --bg-p1: 75% 18%;
-    --bg-p2: 72% 35%;
-    --bg-p3: 45% 52%;
-    --bg-p4: 82% 78%;
-  }
-  100% {
-    --bg-p1: 85% 8%;
-    --bg-p2: 65% 22%;
-    --bg-p3: 32% 62%;
-    --bg-p4: 74% 92%;
-  }
+  0% { --bg-p1: 82% 12%; --bg-p2: 68% 28%; --bg-p3: 38% 58%; --bg-p4: 78% 86%; }
+  50% { --bg-p1: 75% 18%; --bg-p2: 72% 35%; --bg-p3: 45% 52%; --bg-p4: 82% 78%; }
+  100% { --bg-p1: 85% 8%; --bg-p2: 65% 22%; --bg-p3: 32% 62%; --bg-p4: 74% 92%; }
 }
 
-/* Light beam sweep animation */
 @keyframes cin-sweep-move {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
-/* Film grain micro-jitter */
 @keyframes cin-grain-jitter {
-  0% {
-    transform: translate(0, 0);
-  }
-  10% {
-    transform: translate(-1%, -1%);
-  }
-  20% {
-    transform: translate(1%, 1%);
-  }
-  30% {
-    transform: translate(-2%, 0);
-  }
-  40% {
-    transform: translate(2%, -1%);
-  }
-  50% {
-    transform: translate(-1%, 2%);
-  }
-  60% {
-    transform: translate(1%, -2%);
-  }
-  70% {
-    transform: translate(-2%, 1%);
-  }
-  80% {
-    transform: translate(2%, 2%);
-  }
-  90% {
-    transform: translate(-1%, -2%);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-1%, -1%); }
+  20% { transform: translate(1%, 1%); }
+  30% { transform: translate(-2%, 0); }
+  40% { transform: translate(2%, -1%); }
+  50% { transform: translate(-1%, 2%); }
+  60% { transform: translate(1%, -2%); }
+  70% { transform: translate(-2%, 1%); }
+  80% { transform: translate(2%, 2%); }
+  90% { transform: translate(-1%, -2%); }
+  100% { transform: translate(0, 0); }
 }
 
 /* ────────────────────────────────────────────────────────────────────
    RESPONSIVE
    ──────────────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .cin-content {
-    padding: 1.5rem;
-  }
-
-  .cin-buttons {
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 2.5rem;
-  }
-
-  .cin-btn {
-    padding: 0.8rem 2.5rem;
-    min-width: 200px;
-  }
-
-  .cin-back {
-    top: 1rem;
-    left: 1rem;
-    width: 36px;
-    height: 36px;
-  }
+  .cin-content { padding: 1.5rem; }
+  .cin-buttons { flex-direction: column; gap: 1rem; margin-top: 2.5rem; }
+  .cin-btn { padding: 0.8rem 2.5rem; min-width: 200px; }
+  .cin-back { top: 1rem; left: 1rem; width: 36px; height: 36px; }
 }
 
 @media (max-width: 480px) {
-  .cin-title {
-    padding: 0 2vw;
-  }
+  .cin-title { padding: 0 2vw; }
 }
