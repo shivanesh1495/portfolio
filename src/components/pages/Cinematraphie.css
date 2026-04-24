@@ -40,49 +40,49 @@
   --bg-p4: 78% 86%;
 
   background:
-    /* Blue glow — upper right */
+    /* Wine Red glow — upper right */
     radial-gradient(
       ellipse 55% 50% at var(--bg-p1),
-      rgba(160, 190, 230, 0.32) 0%,
+      rgba(150, 10, 10, 0.35) 0%,
       transparent 70%
     ),
-    /* Blue accent — mid-right */
+    /* Burnt Orange accent — mid-right */
     radial-gradient(
         ellipse 38% 38% at var(--bg-p2),
-        rgba(160, 190, 230, 0.18) 0%,
+        rgba(200, 60, 10, 0.2) 0%,
         transparent 65%
       ),
-    /* Subtle blue wash — upper band */
+    /* Subtle maroon wash — upper band */
     radial-gradient(
         ellipse 80% 40% at 58% 8%,
-        rgba(160, 190, 230, 0.12) 0%,
+        rgba(80, 0, 0, 0.15) 0%,
         transparent 60%
       ),
-    /* Deep blue sweep — center & left */
+    /* Deep maroon sweep — center & left */
     radial-gradient(
         ellipse 100% 80% at var(--bg-p3),
-        rgba(40, 60, 85, 0.96) 0%,
+        rgba(45, 10, 10, 0.98) 0%,
         transparent 65%
       ),
-    /* Deep blue — center */
+    /* Deep wine — center */
     radial-gradient(
         ellipse 70% 60% at 50% 50%,
-        rgba(40, 60, 85, 0.62) 0%,
+        rgba(40, 5, 5, 0.65) 0%,
         transparent 70%
       ),
-    /* Blue glow — lower right */
+    /* Red glow — lower right */
     radial-gradient(
         ellipse 48% 42% at var(--bg-p4),
-        rgba(160, 190, 230, 0.22) 0%,
+        rgba(180, 20, 20, 0.25) 0%,
         transparent 70%
       ),
-    /* Blue undertone — bottom edge */
+    /* Deep red undertone — bottom edge */
     radial-gradient(
         ellipse 65% 35% at 50% 95%,
-        rgba(160, 190, 230, 0.16) 0%,
+        rgba(100, 0, 0, 0.2) 0%,
         transparent 65%
       ),
-    /* Deep black base */ #050505;
+    /* Deep black base */ #050101;
 
   animation: cin-bg-breathe 30s ease-in-out infinite alternate;
 }
@@ -95,12 +95,12 @@
   background:
     radial-gradient(
       ellipse 45% 45% at 60% 35%,
-      rgba(160, 190, 230, 0.12) 0%,
+      rgba(180, 20, 20, 0.15) 0%,
       transparent 60%
     ),
     radial-gradient(
       ellipse 40% 40% at 35% 70%,
-      rgba(160, 190, 230, 0.08) 0%,
+      rgba(220, 60, 10, 0.1) 0%,
       transparent 55%
     );
   animation: cin-glow-drift 20s ease-in-out infinite alternate;
