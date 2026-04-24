@@ -33,14 +33,6 @@ function Experience() {
           </div>
         ) : (
           <div className="experience-stage">
-            <div className="experience-orbit" aria-hidden="true">
-              <span className="experience-orbit__ring experience-orbit__ring--1" />
-              <span className="experience-orbit__ring experience-orbit__ring--2" />
-              <span className="experience-orbit__ring experience-orbit__ring--3" />
-              <span className="experience-orbit__ring experience-orbit__ring--4" />
-              <span className="experience-orbit__core" />
-            </div>
-
             <div className="experience-timeline">
               {experience.map((item, index) => (
                 <article

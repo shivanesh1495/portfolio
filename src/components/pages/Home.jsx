@@ -1,4 +1,5 @@
 import React, { memo } from "react";
+import TextHoverEffect from "../ui/TextHoverEffect";
 
 function Home() {
   const handleSectionScroll = (sectionId) => {
@@ -20,7 +21,12 @@ function Home() {
         draggable="false"
       />
 
-      <p className="hero-subtitle">full stack &amp; cloud engineer</p>
+      <div className="hero-subtitle-wrap">
+        <TextHoverEffect
+          className="hero-subtitle-effect"
+          text="full stack & cloud engineer"
+        />
+      </div>
 
       <nav className="hero-nav" aria-label="Quick links">
         <button

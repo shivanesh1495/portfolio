@@ -2,7 +2,6 @@ import React, { memo, useEffect, useRef, useState } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useGitHubProfile } from "../../hooks/useGitHub";
 import { fetchGitHubBio } from "../../services/github";
-import FloatingOrb from "../ui/FloatingOrb";
 
 const FALLBACK_BIO_PARAGRAPHS = [
   "Full-stack developer with a bias for clean code and a passion for building tools that solve real problems. Currently exploring systems programming with Go while shipping web apps that actually matter.",
@@ -23,15 +22,6 @@ function AboutSection() {
     target: sectionRef,
     offset: ["start end", "end start"],
   });
-
-  const visualParallax = useSpring(
-    useTransform(scrollYProgress, [0, 0.5, 1], [56, 0, -56]),
-    {
-      stiffness: 110,
-      damping: 22,
-      mass: 0.3,
-    },
-  );
 
   const copyParallax = useSpring(
     useTransform(scrollYProgress, [0, 1], [24, -24]),
@@ -142,10 +132,6 @@ function AboutSection() {
               <small>Building systems</small>
             </motion.div>
           </motion.div>
-        </motion.div>
-
-        <motion.div className="about-visual" style={{ y: visualParallax }}>
-          <FloatingOrb />
         </motion.div>
       </div>
     </div>

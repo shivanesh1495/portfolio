@@ -53,7 +53,6 @@ function Projects() {
           </div>
         ) : (
           <div className="projects-marquee" aria-label="GitHub repositories">
-            <div className="projects-marquee__glow" aria-hidden="true" />
             <div className="projects-marquee__track">
               {marqueeProjects.map((project, index) => (
                 <a
