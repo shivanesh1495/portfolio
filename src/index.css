@@ -506,12 +506,13 @@ img {
 .hero-card {
   position: relative;
   width: 100%;
-  min-height: 85vh;
-  padding: clamp(30px, 6vw, 80px) clamp(4px, 2vw, 16px) clamp(20px, 4vw, 30px);
-  display: grid;
-  align-content: center;
-  justify-items: center;
-  gap: clamp(8px, 1vw, 12px);
+  min-height: 100svh; /* Back to full height for better centering */
+  padding: clamp(40px, 8vw, 100px) clamp(20px, 4vw, 40px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 4vh, 48px); /* Fluid gap for consistent spacing */
   text-align: center;
   overflow: hidden;
 }
@@ -522,11 +523,12 @@ img {
 }
 
 .hero-signature {
-  width: min(100%, 980px);
-  transform: scale(1.9);
+  width: min(100%, 1020px);
+  transform: scale(1.4); /* Reduced from 1.9 to prevent overlap */
   transform-origin: center;
   filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.08));
   margin-inline: auto;
+  will-change: transform;
 }
 
 .hero-intro {
@@ -557,7 +559,7 @@ img {
   position: relative;
   width: min(100%, 980px);
   padding: 0 clamp(6px, 1vw, 14px);
-  margin-top: -12vh;
+  margin-top: 0; /* Removed negative margin */
   transition: opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -643,13 +645,14 @@ img {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 6px;
-  padding: 8px;
-  margin-top: -4vh;
+  gap: 8px;
+  padding: 10px;
+  margin-top: 0; /* Removed negative margin */
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   transition: opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -2135,81 +2138,55 @@ img {
 
 @media (max-width: 479px) {
   .portfolio-main {
-    padding-bottom: 72px;
+    padding-bottom: 60px;
   }
 
   .hero-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     min-height: 100svh;
     padding: 20px;
-    gap: 32px; /* Controlled gap between branding, subtitle, and nav */
+    gap: clamp(24px, 6vh, 48px);
+    justify-content: center;
   }
 
   .hero-signature {
-    width: min(100%, 640px);
-    transform: scale(1.5); /* Increased further for better mobile presence */
+    width: 100%;
+    max-width: 480px;
+    transform: scale(1.15); /* Controlled scale for mobile */
     margin: 0;
-    object-fit: contain;
-    max-height: 42vh; /* Increased further */
-    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.04));
+    max-height: 35vh;
   }
 
   .hero-subtitle-wrap {
-    position: static;
     width: 100%;
-    margin: 0;
+    margin-top: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    pointer-events: auto;
   }
 
   .hero-nav {
-    position: static;
     width: fit-content;
     max-width: 100%;
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-    gap: 4px;
-    border-radius: 999px;
-    margin: 0;
     padding: 6px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    gap: 4px;
+    margin-top: 0;
   }
 
   .hero-nav-link {
     min-height: 36px;
     padding: 0 14px;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    color: rgba(255, 255, 255, 0.6);
-  }
-
-  .hero-nav-link:active {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.1);
+    font-size: 0.68rem;
   }
 
   .text-hover-effect__layer {
-    font-size: clamp(0.96rem, 6vw, 1.12rem);
-    letter-spacing: 0.12em;
+    font-size: clamp(0.9rem, 5.5vw, 1.1rem);
+    letter-spacing: 0.1em;
   }
 
   .project-row {
-    flex-basis: min(72vw, 240px); /* Reduced from 82vw, 270px */
+    flex-basis: min(85vw, 300px);
   }
 
   .project-card {
-    padding: 16px; /* More compact padding for mobile */
+    padding: 18px;
   }
 
   .projects-marquee__track,
@@ -2260,65 +2237,44 @@ img {
 
 @media (orientation: landscape) and (max-height: 560px) {
   .portfolio-main {
-    padding-bottom: 54px;
-  }
-
-  .page-section {
-    padding: 26px 0;
+    padding-bottom: 50px;
   }
 
   .hero-card {
     min-height: auto;
-    padding-top: 58px;
-    padding-bottom: 28px;
-    gap: 10px;
+    padding: 40px 20px;
+    gap: 16px;
+    flex-direction: row; /* Horizontal layout for very short landscape screens */
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .hero-signature {
-    width: min(100%, 680px);
-    transform: scale(1.1);
+    width: 45%;
+    max-width: 400px;
+    transform: scale(1);
+    max-height: 60vh;
+  }
+
+  .hero-subtitle-wrap {
+    width: 50%;
+    margin: 0;
   }
 
   .hero-nav {
-    padding: 6px;
-  }
-
-  .hero-nav-link {
-    min-height: 34px;
-    padding: 0 12px;
-  }
-
-  .project-row,
-  .writing-row {
-    min-height: 180px; /* Reduced from 220px */
-    flex-basis: min(60vw, 220px); /* Added compact width for landscape */
-  }
-
-  .certifications-browser__viewport {
-    min-height: 320px;
-  }
-
-  .certifications-browser__carousel,
-  .certifications-browser__slide {
-    min-height: 300px;
+    width: 100%;
+    margin-top: 10px;
   }
 }
 
-@media (max-aspect-ratio: 10/16) {
+@media (max-aspect-ratio: 1/1) and (min-height: 800px) {
+  /* Targeted styles for very tall mobile screens (e.g. 19.5:9, 20:9) */
   .hero-card {
-    padding-top: clamp(88px, 16vw, 130px);
+    gap: 6vh; /* More space for branding on tall screens */
   }
 
-  .scene__description,
-  .section-copy {
-    line-height: 1.75;
-  }
-
-  .latest-feature__action {
-    position: static;
-    width: 100%;
-    height: 46px;
-    margin-top: 8px;
+  .hero-signature {
+    transform: scale(1.3);
   }
 }
 
