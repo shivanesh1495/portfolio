@@ -394,140 +394,100 @@ function CertificationsBrowser({ visibleCertifications }) {
       data-paused={isPaused || !isInView ? "true" : "false"}
       ref={browserRef}
     >
-      <div className="certifications-browser__toolbar" aria-hidden="true">
-        <div className="certifications-browser__actions">
-          <span className="certifications-browser__dot certifications-browser__dot--close" />
-          <span className="certifications-browser__dot certifications-browser__dot--minimize" />
-          <span className="certifications-browser__dot certifications-browser__dot--expand" />
+      <div className="certifications-browser__toolbar">
+        <div className="certifications-browser__meta">
+          <span className="certifications-browser__eyebrow">Certificates</span>
         </div>
 
-        <div className="certifications-browser__address">
-          portfolio.dev/certificates
-        </div>
-
-        <div className="certifications-browser__pill">
-          {canAutoScroll
-            ? isPaused
-              ? "Paused"
-              : "Hold to pause"
-            : "Pinned preview"}
+        <div className="certifications-browser__status">
+          <span className="certifications-browser__counter">
+            {String(activePreviewIndex + 1).padStart(2, "0")} /{" "}
+            {String(visibleCertifications.length).padStart(2, "0")}
+          </span>
+          <button
+            type="button"
+            className="certifications-browser__mode"
+            onClick={() => setIsPaused(!isPaused)}
+            aria-label={isPaused ? "Resume carousel" : "Pause carousel"}
+          >
+            {isPaused ? "Paused" : "Auto"}
+          </button>
         </div>
       </div>
 
-      <div className="certifications-browser__viewport">
-        <div className="certifications-browser__page">
-          <div className="certifications-browser__header">
-            <div className="certifications-browser__meta">
-              <span className="certifications-browser__eyebrow">
-                Certificates
-              </span>
-            </div>
+      <div
+        className="certifications-browser__carousel"
+        onClickCapture={handleCarouselClickCapture}
+        onPointerCancel={handlePressEnd}
+        onPointerDown={handlePressStart}
+        onPointerUp={handlePressEnd}
+        onLostPointerCapture={handlePressEnd}
+      >
+        <div
+          className="certifications-browser__track"
+          onTransitionEnd={handleTrackTransitionEnd}
+          style={{
+            transform: `translate3d(-${activeIndex * 100}%, 0, 0)`,
+            transition: isTransitionEnabled
+              ? "transform 0.72s var(--ease-smooth)"
+              : "none",
+          }}
+        >
+          {slides.map((certification, index) => {
+            const originalIndex =
+              visibleCertifications.length === 0
+                ? index
+                : index % visibleCertifications.length;
+            const isCloneSlide =
+              canAutoScroll && index === slides.length - 1;
+            const shouldRenderPreview = preloadedIndexes.has(originalIndex);
 
-            <div className="certifications-browser__status">
-              <span className="certifications-browser__counter">
-                {String(activePreviewIndex + 1).padStart(2, "0")} /{" "}
-                {String(visibleCertifications.length).padStart(2, "0")}
-              </span>
-              <span className="certifications-browser__mode">
-                {isPaused ? "Paused" : "Auto"}
-              </span>
-            </div>
-          </div>
-
-          <div
-            className="certifications-browser__carousel"
-            onClickCapture={handleCarouselClickCapture}
-            onPointerCancel={handlePressEnd}
-            onPointerDown={handlePressStart}
-            onPointerUp={handlePressEnd}
-            onLostPointerCapture={handlePressEnd}
-          >
-            <div
-              className="certifications-browser__track"
-              onTransitionEnd={handleTrackTransitionEnd}
-              style={{
-                transform: `translate3d(-${activeIndex * 100}%, 0, 0)`,
-                transition: isTransitionEnabled
-                  ? "transform 0.72s var(--ease-smooth)"
-                  : "none",
-              }}
-            >
-              {slides.map((certification, index) => {
-                const originalIndex =
-                  visibleCertifications.length === 0
-                    ? index
-                    : index % visibleCertifications.length;
-                const isCloneSlide =
-                  canAutoScroll && index === slides.length - 1;
-                const shouldRenderPreview = preloadedIndexes.has(originalIndex);
-
-                return (
-                  <div
-                    key={`${certification.id}-${index}`}
-                    className="certifications-browser__slide"
-                    aria-hidden={isCloneSlide || undefined}
-                  >
-                    <div
-                      className="certifications-strip certifications-strip--browser"
-                      role={isCloneSlide ? undefined : "list"}
-                      aria-label={isCloneSlide ? undefined : "Certificates"}
-                    >
-                      <CertificateCard
-                        certification={certification}
-                        index={originalIndex}
-                        shouldRenderPreview={shouldRenderPreview}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="certifications-browser__footer">
-            <div className="certifications-browser__controls">
-              <button
-                type="button"
-                className="certifications-browser__nav"
-                onClick={() => handleStep(-1)}
-                aria-label="Previous certificate"
-              >
-                <ChevronLeft size={16} />
-              </button>
-
+            return (
               <div
-                className="certifications-browser__progress"
-                aria-label="Carousel progress"
+                key={`${certification.id}-${index}`}
+                className="certifications-browser__slide"
+                aria-hidden={isCloneSlide || undefined}
               >
-                {visibleCertifications.map((certification, index) => (
-                  <button
-                    key={certification.id}
-                    type="button"
-                    className={`certifications-browser__progress-dot${
-                      activePreviewIndex === index
-                        ? " certifications-browser__progress-dot--active"
-                        : ""
-                    }`}
-                    onClick={() => handleSelectSlide(index)}
-                    aria-label={`Show certificate ${index + 1}`}
+                <div
+                  className="certifications-strip certifications-strip--browser"
+                  role={isCloneSlide ? undefined : "list"}
+                  aria-label={isCloneSlide ? undefined : "Certificates"}
+                >
+                  <CertificateCard
+                    certification={certification}
+                    index={originalIndex}
+                    shouldRenderPreview={shouldRenderPreview}
                   />
-                ))}
+                </div>
               </div>
+            );
+          })}
+        </div>
 
-              <button
-                type="button"
-                className="certifications-browser__nav"
-                onClick={() => handleStep(1)}
-                aria-label="Next certificate"
-              >
-                <ChevronRight size={16} />
-              </button>
-            </div>
+        <div className="certifications-browser__controls">
+          <button
+            type="button"
+            className="certifications-browser__nav"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleStep(-1);
+            }}
+            aria-label="Previous certificate"
+          >
+            <ChevronLeft size={16} />
+          </button>
 
-            <p className="certifications-browser__hint">
-              Press and hold on the preview to pause the carousel.
-            </p>
-          </div>
+          <button
+            type="button"
+            className="certifications-browser__nav"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleStep(1);
+            }}
+            aria-label="Next certificate"
+          >
+            <ChevronRight size={16} />
+          </button>
         </div>
       </div>
     </div>
