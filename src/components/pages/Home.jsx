@@ -1,31 +1,7 @@
-import React, { memo, useRef } from "react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
+import React, { memo } from "react";
 import TextHoverEffect from "../ui/TextHoverEffect";
 
-function Home() {
-  const heroRef = useRef(null);
-  const signatureRef = useRef(null);
-
-  useGSAP(
-    () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        gsap.set(signatureRef.current, { clipPath: "inset(0 0% 0 0)" });
-        return;
-      }
-
-      gsap.set(signatureRef.current, { clipPath: "inset(0 100% 0 0)" });
-
-      gsap.to(signatureRef.current, {
-        clipPath: "inset(0 0% 0 0)",
-        duration: 1.5,
-        delay: 0.9,
-        ease: "expo.out",
-      });
-    },
-    { scope: heroRef },
-  );
-
+function Home({ introActive = false, signatureRef = null }) {
   const handleSectionScroll = (sectionId) => {
     const section = document.getElementById(sectionId);
 
@@ -37,7 +13,10 @@ function Home() {
   };
 
   return (
-    <section className="hero-card" aria-label="Introduction" ref={heroRef}>
+    <section
+      className={`hero-card${introActive ? " hero-card--intro-active" : ""}`}
+      aria-label="Introduction"
+    >
       <img
         src="/shivanesh.svg"
         alt="Shivanesh signature"

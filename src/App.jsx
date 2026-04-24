@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Home from "./components/pages/Home";
 import AboutSection from "./components/pages/AboutSection";
@@ -8,11 +8,17 @@ import Certifications from "./components/pages/Certifications";
 import Writings from "./components/pages/Writings";
 import StackSection from "./components/pages/StackSection";
 import ContactSection from "./components/pages/ContactSection";
+import HeroSignatureIntro from "./components/ui/HeroSignatureIntro";
 
 const Cinematraphie = lazy(() => import("./components/pages/Cinematraphie"));
+const HERO_INTRO_SETTLE_MS = 460;
 
 function App() {
   const [showCinematraphie, setShowCinematraphie] = useState(false);
+  const [showHeroIntroOverlay, setShowHeroIntroOverlay] = useState(true);
+  const [showHeroIntroBlur, setShowHeroIntroBlur] = useState(true);
+  const heroSignatureRef = useRef(null);
+  const heroIntroTimeoutRef = useRef(null);
 
   const scrollRevealProps = {
     initial: { opacity: 0, y: 34 },
@@ -29,17 +35,38 @@ function App() {
     setShowCinematraphie(false);
   }, []);
 
+  const handleHeroIntroRevealComplete = useCallback(() => {
+    setShowHeroIntroBlur(false);
+
+    if (heroIntroTimeoutRef.current) {
+      window.clearTimeout(heroIntroTimeoutRef.current);
+    }
+
+    heroIntroTimeoutRef.current = window.setTimeout(() => {
+      setShowHeroIntroOverlay(false);
+      heroIntroTimeoutRef.current = null;
+    }, HERO_INTRO_SETTLE_MS);
+  }, []);
+
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
 
-    if (showCinematraphie) {
+    if (showCinematraphie || showHeroIntroOverlay || showHeroIntroBlur) {
       document.body.style.overflow = "hidden";
     }
 
     return () => {
       document.body.style.overflow = previousOverflow;
     };
-  }, [showCinematraphie]);
+  }, [showCinematraphie, showHeroIntroOverlay, showHeroIntroBlur]);
+
+  useEffect(() => {
+    return () => {
+      if (heroIntroTimeoutRef.current) {
+        window.clearTimeout(heroIntroTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     let frame = 0;
@@ -87,7 +114,7 @@ function App() {
   return (
     <>
       <div
-        className={`app-shell${showCinematraphie ? " app-shell--blurred" : ""}`}
+        className={`app-shell${showCinematraphie ? " app-shell--blurred" : ""}${showHeroIntroBlur ? " app-shell--intro-blurred" : ""}`}
       >
         <div className="app-cursor-light" aria-hidden="true" />
 
@@ -101,7 +128,10 @@ function App() {
 
         <main className="portfolio-main">
           <section className="page-section page-section--hero" id="home">
-            <Home />
+            <Home
+              introActive={showHeroIntroOverlay || showHeroIntroBlur}
+              signatureRef={heroSignatureRef}
+            />
           </section>
 
           <motion.section
@@ -166,6 +196,13 @@ function App() {
         <Suspense fallback={null}>
           <Cinematraphie onBack={handleCloseCinematraphie} />
         </Suspense>
+      ) : null}
+
+      {showHeroIntroOverlay ? (
+        <HeroSignatureIntro
+          onRevealComplete={handleHeroIntroRevealComplete}
+          targetRef={heroSignatureRef}
+        />
       ) : null}
     </>
   );
