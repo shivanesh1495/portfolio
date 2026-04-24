@@ -69,7 +69,7 @@ export default function Cinematraphie({ onBack }) {
         0.3,
       );
 
-      // ── STEP 3: Background layers materialize (starts at 0.8s) ──
+      // ── STEP 3: Background layers materialize (starts at 1.8s) ──
       tl.to(
         bgRef.current,
         {
@@ -78,7 +78,7 @@ export default function Cinematraphie({ onBack }) {
           duration: 1.2,
           ease: "power3.out",
         },
-        0.8,
+        1.8,
       );
 
       // ── STEP 4: Everything else materializes (staggered after title) ──
