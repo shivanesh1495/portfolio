@@ -1,9 +1,8 @@
 {
-  title: "From Hashes to Maps: Consistent Hashing as a Lesson in Go Internals",
-  desc: "A practical walkthrough of consistent hashing, hash rings, and why ordered lookup matters in Go systems.",
-  tags: ["Go", "Distributed Systems", "System Design", "Backend"],
-  stacks: ["Go", "Distributed Systems", "System Design", "Backend"],
-  date: "February 1, 2026",
-  read: "13 min read",
+  title: "Your title",
+  desc: "Short description",
+  tags: ["Go", "Backend"],
+  date: "March 10, 2026",
+  read: "8 min read",
+  url: "https://your-article-link.com"
 }
-  
