@@ -511,18 +511,19 @@ img {
   position: relative;
   width: 100%;
   min-height: 100svh;
-  padding: 40px;
+  padding: clamp(20px, 5vh, 60px) 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   overflow: hidden;
+  gap: clamp(16px, 3vh, 32px); /* Uniform fluid gap for all ratios */
 }
 
 .hero-signature {
   width: min(100%, 1020px);
-  transform: scale(1.15); /* Reverting scale for desktop */
+  transform: scale(1.15);
   transform-origin: center;
   filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.08));
   margin-inline: auto;
@@ -533,7 +534,7 @@ img {
   position: relative;
   width: min(100%, 980px);
   padding: 0 clamp(6px, 1vw, 14px);
-  margin-top: 4vh; /* Default desktop spacing */
+  margin-top: 0; /* Removing fixed vh margins */
   transition: opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -544,7 +545,7 @@ img {
   flex-wrap: wrap;
   gap: 8px;
   padding: 10px;
-  margin-top: 4vh; /* Default desktop spacing */
+  margin-top: 0; /* Removing fixed vh margins */
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.03);
@@ -556,22 +557,18 @@ img {
 /* Mobile Portrait: aspect ratio taller than 1:1 */
 @media (max-aspect-ratio: 1/1) {
   .hero-card {
-    padding: 20px;
-    justify-content: center;
-    gap: 0;
+    gap: clamp(12px, 2.5vh, 24px);
   }
 
   .hero-signature {
     width: 100%;
-    max-width: 480px;
-    transform: scale(1.5);
-    margin: 0;
-    max-height: 42vh;
+    max-width: 520px;
+    transform: scale(1.4);
+    max-height: 40vh;
   }
 
   .hero-subtitle-wrap {
     width: 100%;
-    margin-top: -14vh; /* Stacked vertical grouping */
     padding: 0;
   }
 
@@ -580,7 +577,6 @@ img {
     max-width: 100%;
     padding: 6px;
     gap: 4px;
-    margin-top: 2vh;
   }
 
   .hero-nav-link {
@@ -600,11 +596,11 @@ img {
 
   .hero-signature {
     width: min(100%, 1020px);
-    transform: scale(1.15) translateY(-6vh); /* Optical center for landscape */
+    transform: scale(1.15) translateY(-8vh); /* Optical lift for premium feel */
   }
 
   .hero-subtitle-wrap {
-    margin-top: -12vh;
+    margin-top: -12vh; /* Re-introducing tight vertical grouping */
   }
 
   .hero-nav {
