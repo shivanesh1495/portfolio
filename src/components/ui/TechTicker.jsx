@@ -58,7 +58,8 @@ const ICON_PATHS = {
   Eclipse: "eclipse/eclipse-original.svg",
   Postman: "postman/postman-original.svg",
   Figma: "figma/figma-original.svg",
-  shopify: "https://cdn.simpleicons.org/shopify/95BF47",
+  shopify:
+    "https://upload.wikimedia.org/wikipedia/commons/0/0e/Shopify_logo_2018.svg",
   "Android Studio": "androidstudio/androidstudio-original.svg",
   Firebase: "firebase/firebase-original.svg",
   MATLAB: "matlab/matlab-original.svg",
