@@ -523,7 +523,7 @@ img {
 
 .hero-signature {
   width: min(100%, 980px);
-  transform: scale(1.65);
+  transform: scale(1.9);
   transform-origin: center;
   filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.08));
   margin-inline: auto;
@@ -2150,11 +2150,11 @@ img {
   }
 
   .hero-signature {
-    width: min(100%, 540px);
-    transform: scale(1.2);
+    width: min(100%, 640px);
+    transform: scale(1.5); /* Increased further for better mobile presence */
     margin: 0;
     object-fit: contain;
-    max-height: 32vh;
+    max-height: 42vh; /* Increased further */
     filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.04));
   }
 
@@ -2251,11 +2251,6 @@ img {
     max-width: 11ch;
     font-size: 0.64rem;
     letter-spacing: 0.1em;
-  }
-
-  .hero-signature {
-    width: min(99vw, 760px);
-    transform: translateY(10px) scale(1.26);
   }
 }
 
