@@ -524,7 +524,7 @@ img {
 
 .hero-signature {
   width: min(100%, 1020px);
-  transform: scale(1.1) translateY(-8vh); /* Significantly pulled up */
+  transform: scale(1.7) translateY(-8vh); /* Significantly pulled up */
   transform-origin: center;
   filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.08));
   margin-inline: auto;
