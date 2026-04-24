@@ -129,56 +129,11 @@ function App() {
     };
   }, []);
 
-  useEffect(() => {
-    let frame = 0;
-
-    const applyPosition = (x, y) => {
-      document.documentElement.style.setProperty("--cursor-x", `${x}px`);
-      document.documentElement.style.setProperty("--cursor-y", `${y}px`);
-      document.documentElement.style.setProperty("--cursor-light-opacity", "1");
-    };
-
-    const handlePointerMove = (event) => {
-      if (frame) {
-        return;
-      }
-
-      const { clientX, clientY } = event;
-
-      frame = window.requestAnimationFrame(() => {
-        applyPosition(clientX, clientY);
-        frame = 0;
-      });
-    };
-
-    const handlePointerLeave = () => {
-      document.documentElement.style.setProperty("--cursor-light-opacity", "0");
-    };
-
-    window.addEventListener("pointermove", handlePointerMove, {
-      passive: true,
-    });
-    window.addEventListener("pointerleave", handlePointerLeave, {
-      passive: true,
-    });
-
-    return () => {
-      if (frame) {
-        window.cancelAnimationFrame(frame);
-      }
-
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("pointerleave", handlePointerLeave);
-    };
-  }, []);
-
   return (
     <>
       <div
         className={`app-shell${showCinematraphie ? " app-shell--blurred" : ""}${showHeroIntroBlur ? " app-shell--intro-blurred" : ""}`}
       >
-        <div className="app-cursor-light" aria-hidden="true" />
-
         <div className="app-ambient" aria-hidden="true">
           <div className="app-ambient__spot app-ambient__spot--north" />
           <div className="app-ambient__spot app-ambient__spot--east" />
