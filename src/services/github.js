@@ -124,7 +124,8 @@ export async function fetchGitHubUserProfile() {
 export async function fetchGitHubProjects() {
   try {
     const files = await fetchDatabaseFolderFiles("projects");
-    const projects = await Promise.all(
+
+    return Promise.all(
       files.map(async (file, index) => {
         const data = await fetchStructuredFile(file.loader);
         const nameWithoutExt = file.name.replace(/\.[^.]+$/, "");
@@ -141,8 +142,6 @@ export async function fetchGitHubProjects() {
         };
       }),
     );
-
-    return projects;
   } catch (error) {
     console.error("Error fetching local projects:", error);
     return [];

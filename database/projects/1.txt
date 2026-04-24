@@ -1,0 +1,7 @@
+{
+  title: "Portfolio",
+  desc: "An editorial personal site built with React, Vite, and motion-led UI detailing engineering work, writing, and credentials.",
+  url: "https://github.com/shivanesh1495/portfolio",
+  tags: ["React", "Vite", "Framer Motion"],
+  stacks: ["React", "Vite", "CSS"]
+}

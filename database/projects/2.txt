@@ -1,0 +1,7 @@
+{
+  title: "Cinematraphie Experience",
+  desc: "A cinematic interaction layer exploring premium transitions, atmospheric backgrounds, and branded motion inside the portfolio.",
+  url: "https://github.com/shivanesh1495/portfolio",
+  tags: ["UI Motion", "GSAP", "Experience Design"],
+  stacks: ["React", "GSAP", "CSS"]
+}

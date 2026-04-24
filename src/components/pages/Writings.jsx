@@ -4,9 +4,16 @@ import { useGitHubWritings } from "../../hooks/useGitHub";
 
 function Writings() {
   const { writings, loading, error } = useGitHubWritings();
-  const latestWriting = useMemo(() => writings[0] ?? null, [writings]);
-  const articleHref =
-    latestWriting?.url || latestWriting?.link || latestWriting?.href;
+  const marqueeWritings = useMemo(() => {
+    if (writings.length === 0) {
+      return [];
+    }
+
+    const visibleWritings = writings.slice(0, 6);
+    const copyCount = visibleWritings.length === 1 ? 4 : 2;
+
+    return Array.from({ length: copyCount }, () => visibleWritings).flat();
+  }, [writings]);
 
   return (
     <div className="scene scene--latest">
@@ -18,7 +25,7 @@ function Writings() {
       <div className="scene__body">
         <header className="scene__header">
           <div className="scene__intro">
-            <h2 className="section-title-display">Latest</h2>
+            <h2 className="section-title-display">Writings</h2>
             <p className="scene__description">
               Notes on systems, backend engineering, and implementation lessons
               from real builds.
@@ -34,66 +41,81 @@ function Writings() {
           <div className="scene-state section-state--error">
             <p>Error loading writings: {error}</p>
           </div>
-        ) : !latestWriting ? (
+        ) : marqueeWritings.length === 0 ? (
           <div className="scene-state">
             <p>No writings are available right now.</p>
           </div>
         ) : (
-          <article className="latest-feature">
-            <div className="latest-feature__mesh" aria-hidden="true" />
+          <div className="writings-marquee" aria-label="Writing archive">
+            <div className="writings-marquee__track">
+              {marqueeWritings.map((writing, index) => {
+                const articleHref =
+                  writing.url || writing.link || writing.href || null;
+                const displayIndex =
+                  (index % Math.max(writings.slice(0, 6).length, 1)) + 1;
+                const content = (
+                  <>
+                    <span className="writing-row__index">
+                      {String(displayIndex).padStart(2, "0")}
+                    </span>
 
-            <div className="latest-feature__content">
-              <div className="writing-card__top">
-                <h3>{latestWriting.title}</h3>
-              </div>
+                    <div className="writing-row__content">
+                      <div className="writing-row__top">
+                        <h3>{writing.title}</h3>
+                        {articleHref ? (
+                          <ArrowUpRight size={18} className="writing-row__arrow" />
+                        ) : null}
+                      </div>
 
-              <p className="writing-card__copy">{latestWriting.desc}</p>
+                      <p className="writing-row__copy">{writing.desc}</p>
 
-              <div className="tag-row">
-                {(latestWriting.tags || []).slice(0, 4).map((tag) => (
-                  <span key={tag} className="tag">
-                    {tag}
-                  </span>
-                ))}
-              </div>
+                      <div className="tag-row">
+                        {(writing.tags || []).slice(0, 4).map((tag) => (
+                          <span key={`${writing.id}-${tag}`} className="tag">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
 
-              <div className="meta-row">
-                {latestWriting.date ? (
-                  <span>
-                    <Calendar size={13} /> {latestWriting.date}
-                  </span>
-                ) : null}
-                {latestWriting.read ? (
-                  <span>
-                    <Clock size={13} /> {latestWriting.read}
-                  </span>
-                ) : null}
-              </div>
+                      <div className="writing-row__meta">
+                        {writing.date ? (
+                          <span>
+                            <Calendar size={13} /> {writing.date}
+                          </span>
+                        ) : null}
+                        {writing.read ? (
+                          <span>
+                            <Clock size={13} /> {writing.read}
+                          </span>
+                        ) : null}
+                      </div>
 
-              {articleHref ? (
-                <a
-                  className="section-link"
-                  href={articleHref}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Read article
-                </a>
-              ) : null}
+                      <span className="writing-row__cta">
+                        {articleHref ? "Read article" : "Editorial note"}
+                      </span>
+                    </div>
+                  </>
+                );
+
+                return articleHref ? (
+                  <a
+                    href={articleHref}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="writing-row"
+                    key={`${writing.id}-${index}`}
+                    aria-label={`Open article: ${writing.title}`}
+                  >
+                    {content}
+                  </a>
+                ) : (
+                  <article className="writing-row" key={`${writing.id}-${index}`}>
+                    {content}
+                  </article>
+                );
+              })}
             </div>
-
-            {articleHref ? (
-              <a
-                className="latest-feature__action"
-                href={articleHref}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`Open article: ${latestWriting.title}`}
-              >
-                <ArrowUpRight size={18} />
-              </a>
-            ) : null}
-          </article>
+          </div>
         )}
       </div>
     </div>

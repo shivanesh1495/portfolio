@@ -62,17 +62,6 @@ function ContactSection({ onCinematraphie }) {
               </a>
             </div>
           </div>
-
-          <div className="contact-visual" aria-hidden="true">
-            <div className="contact-portal">
-              <span className="contact-portal__beam contact-portal__beam--1" />
-              <span className="contact-portal__beam contact-portal__beam--2" />
-              <span className="contact-portal__beam contact-portal__beam--3" />
-              <span className="contact-portal__ring contact-portal__ring--1" />
-              <span className="contact-portal__ring contact-portal__ring--2" />
-              <span className="contact-portal__ring contact-portal__ring--3" />
-            </div>
-          </div>
         </div>
       </div>
     </div>

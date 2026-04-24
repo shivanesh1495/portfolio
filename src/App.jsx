@@ -1,4 +1,12 @@
-import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
+import {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { motion } from "framer-motion";
 import Home from "./components/pages/Home";
 import AboutSection from "./components/pages/AboutSection";
@@ -48,17 +56,37 @@ function App() {
     }, HERO_INTRO_SETTLE_MS);
   }, []);
 
-  useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
+  const shouldLockScroll =
+    showCinematraphie || showHeroIntroOverlay || showHeroIntroBlur;
 
-    if (showCinematraphie || showHeroIntroOverlay || showHeroIntroBlur) {
-      document.body.style.overflow = "hidden";
+  useLayoutEffect(() => {
+    const root = document.documentElement;
+    const body = document.body;
+
+    const previousHtmlOverflow = root.style.overflow;
+    const previousBodyOverflow = body.style.overflow;
+    const previousBodyOverscrollBehavior = body.style.overscrollBehavior;
+    const previousBodyTouchAction = body.style.touchAction;
+
+    if (shouldLockScroll) {
+      root.style.overflow = "hidden";
+      body.style.overflow = "hidden";
+      body.style.overscrollBehavior = "none";
+      body.style.touchAction = "none";
+    } else {
+      root.style.overflow = "";
+      body.style.overflow = "";
+      body.style.overscrollBehavior = "";
+      body.style.touchAction = "";
     }
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      root.style.overflow = previousHtmlOverflow;
+      body.style.overflow = previousBodyOverflow;
+      body.style.overscrollBehavior = previousBodyOverscrollBehavior;
+      body.style.touchAction = previousBodyTouchAction;
     };
-  }, [showCinematraphie, showHeroIntroOverlay, showHeroIntroBlur]);
+  }, [shouldLockScroll]);
 
   useEffect(() => {
     return () => {

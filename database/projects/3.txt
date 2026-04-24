@@ -1,0 +1,7 @@
+{
+  title: "Repository Archive",
+  desc: "A live index of public repositories spanning backend experiments, cloud workflows, and systems-oriented builds on GitHub.",
+  url: "https://github.com/shivanesh1495?tab=repositories",
+  tags: ["GitHub", "Backend", "Cloud"],
+  stacks: ["GitHub", "Systems", "Cloud"]
+}

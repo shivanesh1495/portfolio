@@ -396,7 +396,6 @@ img {
 
 .scene__body,
 .hero-card,
-.contact-portal,
 .projects-marquee,
 .stack-marquee {
   transform-style: preserve-3d;
@@ -721,13 +720,6 @@ img {
   font-size: 0.8rem;
 }
 
-.contact-portal__ring {
-  position: absolute;
-  inset: auto;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
 .projects-marquee {
   position: relative;
   overflow: hidden;
@@ -735,7 +727,8 @@ img {
   background: transparent;
 }
 
-.projects-marquee__track {
+.projects-marquee__track,
+.writings-marquee__track {
   display: flex;
   gap: 22px;
   width: max-content;
@@ -744,11 +737,13 @@ img {
 }
 
 .projects-marquee:hover .projects-marquee__track,
+.writings-marquee:hover .writings-marquee__track,
 .stack-marquee:hover .stack-marquee__track {
   animation-play-state: paused;
 }
 
 .project-row,
+.writing-row,
 .certificate-row,
 .social-link,
 .action-button,
@@ -791,6 +786,36 @@ img {
   transform-origin: center bottom;
 }
 
+.writing-row {
+  position: relative;
+  flex: 0 0 clamp(280px, 34vw, 420px);
+  min-height: 286px;
+  display: grid;
+  gap: 16px;
+  align-content: start;
+  padding: 22px 20px 18px;
+  color: var(--text);
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0.018)
+    ),
+    radial-gradient(
+      circle at 18% 8%,
+      rgba(255, 255, 255, 0.1),
+      transparent 28%
+    ),
+    linear-gradient(180deg, rgba(10, 10, 10, 0.9), rgba(12, 12, 12, 0.68));
+  box-shadow:
+    0 26px 60px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transform: translate3d(0, 0, 0) rotateX(10deg);
+  transform-origin: center bottom;
+}
+
 .project-row::before {
   content: "";
   position: absolute;
@@ -802,6 +827,20 @@ img {
     transparent 42%
   );
   opacity: 0.25;
+  pointer-events: none;
+}
+
+.writing-row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12),
+    transparent 42%
+  );
+  opacity: 0.2;
   pointer-events: none;
 }
 
@@ -823,8 +862,28 @@ img {
     background 0.28s ease;
 }
 
+.writing-row::after {
+  content: "";
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 18px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.28),
+    transparent 90%
+  );
+  transform-origin: left center;
+  transition:
+    transform 0.28s var(--ease-smooth),
+    background 0.28s ease;
+}
+
 .project-row:hover,
 .project-row:focus-visible,
+.writing-row:hover,
+.writing-row:focus-visible,
 .stack-grid__item:hover,
 .stack-grid__item:focus-visible,
 .social-link:hover,
@@ -849,7 +908,19 @@ img {
   );
 }
 
+.writing-row:hover::after,
+.writing-row:focus-visible::after {
+  transform: scaleX(1.03);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.48),
+    rgba(255, 255, 255, 0.08) 82%,
+    transparent 100%
+  );
+}
+
 .project-row__index,
+.writing-row__index,
 .certificate-row__index {
   color: var(--muted-strong);
   font-size: 1rem;
@@ -857,6 +928,7 @@ img {
 }
 
 .project-row__content,
+.writing-row__content,
 .certificate-row__copy,
 .contact-copy,
 .contact-header {
@@ -865,6 +937,7 @@ img {
 }
 
 .project-row__top,
+.writing-row__top,
 .writing-card__top,
 .experience-entry__top,
 .certificate-row__footer {
@@ -875,6 +948,7 @@ img {
 }
 
 .project-row h3,
+.writing-row h3,
 .latest-feature h3,
 .experience-company,
 .certificate-row__copy strong {
@@ -885,6 +959,7 @@ img {
 }
 
 .project-row__copy,
+.writing-row__copy,
 .writing-card__copy,
 .experience-description {
   margin: 0;
@@ -893,6 +968,7 @@ img {
 }
 
 .project-row__arrow,
+.writing-row__arrow,
 .experience-entry__arrow,
 .certificate-row__arrow {
   flex-shrink: 0;
@@ -902,11 +978,53 @@ img {
 
 .project-row:hover .project-row__arrow,
 .project-row:focus-visible .project-row__arrow,
+.writing-row:hover .writing-row__arrow,
+.writing-row:focus-visible .writing-row__arrow,
 .certificate-row:hover .certificate-row__arrow,
 .certificate-row:focus-visible .certificate-row__arrow,
 .latest-feature__action:hover svg,
 .latest-feature__action:focus-visible svg {
   transform: translate3d(4px, -4px, 0);
+}
+
+.writings-marquee {
+  position: relative;
+  overflow: hidden;
+  padding-top: 0;
+  background: transparent;
+}
+
+.writing-row__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.writing-row__meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.writing-row__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  color: var(--text);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.writing-row__cta::after {
+  content: "\2197";
+  font-size: 0.95rem;
 }
 
 .experience-stage {
@@ -1146,7 +1264,10 @@ img {
       rgba(255, 255, 255, 0.04) 33%
     ),
     rgba(255, 255, 255, 0.02);
-  background-size: auto, 220% 100%, auto;
+  background-size:
+    auto,
+    220% 100%,
+    auto;
   animation: certificatePreviewShimmer 1.4s linear infinite;
 }
 
@@ -1795,89 +1916,6 @@ img {
   height: 20px;
 }
 
-.contact-visual {
-  min-height: 290px;
-  display: grid;
-  place-items: center;
-  perspective: 1200px;
-}
-
-.contact-portal {
-  position: relative;
-  width: min(100%, 360px);
-  aspect-ratio: 1;
-  transform: rotateX(12deg) rotateY(-14deg);
-}
-
-.contact-portal::before {
-  content: "";
-  position: absolute;
-  left: 14%;
-  right: 14%;
-  bottom: 13%;
-  height: 20%;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(255, 255, 255, 0.22),
-    transparent 64%
-  );
-  filter: blur(20px);
-  opacity: 0.7;
-  animation: portalPulse 5s ease-in-out infinite;
-}
-
-.contact-portal__beam {
-  position: absolute;
-  bottom: 23%;
-  width: 12%;
-  border-radius: 999px 999px 18px 18px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.02),
-    rgba(255, 255, 255, 0.32) 65%,
-    rgba(255, 255, 255, 0.02)
-  );
-  filter: blur(0.4px);
-  opacity: 0.7;
-}
-
-.contact-portal__beam--1 {
-  left: 36%;
-  height: 40%;
-}
-
-.contact-portal__beam--2 {
-  left: 46%;
-  height: 55%;
-}
-
-.contact-portal__beam--3 {
-  left: 58%;
-  height: 72%;
-}
-
-.contact-portal__ring--1 {
-  left: 16%;
-  right: 16%;
-  bottom: 12%;
-  top: 68%;
-}
-
-.contact-portal__ring--2 {
-  left: 22%;
-  right: 22%;
-  bottom: 15%;
-  top: 71%;
-}
-
-.contact-portal__ring--3 {
-  left: 29%;
-  right: 29%;
-  bottom: 18%;
-  top: 74%;
-}
-
 .cin-page {
   backdrop-filter: blur(2px);
 }
@@ -1953,26 +1991,19 @@ img {
   }
 }
 
-@keyframes portalPulse {
-  0%,
-  100% {
-    opacity: 0.48;
-    transform: scale(0.96);
-  }
-
-  50% {
-    opacity: 0.84;
-    transform: scale(1.02);
-  }
-}
-
 @keyframes certificatePreviewShimmer {
   from {
-    background-position: 0 0, 200% 0, 0 0;
+    background-position:
+      0 0,
+      200% 0,
+      0 0;
   }
 
   to {
-    background-position: 0 0, -20% 0, 0 0;
+    background-position:
+      0 0,
+      -20% 0,
+      0 0;
   }
 }
 
@@ -1982,10 +2013,14 @@ img {
   }
 
   .contact-stage {
-    grid-template-columns: minmax(0, 0.94fr) minmax(300px, 0.9fr);
+    grid-template-columns: minmax(0, 0.94fr);
   }
 
   .projects-marquee__track {
+    gap: 24px;
+  }
+
+  .writings-marquee__track {
     gap: 24px;
   }
 
@@ -2003,6 +2038,10 @@ img {
 
   .project-row {
     min-height: 280px;
+  }
+
+  .writing-row {
+    min-height: 300px;
   }
 }
 
@@ -2043,6 +2082,10 @@ img {
     flex-basis: min(82vw, 320px);
   }
 
+  .writing-row {
+    flex-basis: min(84vw, 360px);
+  }
+
   .stack-grid__item {
     min-width: 104px;
     min-height: 96px;
@@ -2080,6 +2123,7 @@ img {
   }
 
   .projects-marquee__track,
+  .writings-marquee__track,
   .stack-marquee__track {
     gap: 16px;
   }
@@ -2121,7 +2165,6 @@ img {
     width: min(100%, 520px);
     transform: none;
   }
-
 }
 
 @media (prefers-reduced-motion: reduce) {
