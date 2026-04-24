@@ -520,6 +520,8 @@ img {
   width: min(100%, 820px);
   transform: scale(1.7);
   transform-origin: center;
+  clip-path: inset(0 100% 0 0);
+  will-change: clip-path;
   filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.08));
 }
 
@@ -2106,6 +2108,10 @@ img {
 
   .app-cursor-light {
     opacity: 0 !important;
+  }
+
+  .hero-signature {
+    clip-path: inset(0 0% 0 0);
   }
 }
 

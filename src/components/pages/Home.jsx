@@ -1,7 +1,31 @@
-import React, { memo } from "react";
+import React, { memo, useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import TextHoverEffect from "../ui/TextHoverEffect";
 
 function Home() {
+  const heroRef = useRef(null);
+  const signatureRef = useRef(null);
+
+  useGSAP(
+    () => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        gsap.set(signatureRef.current, { clipPath: "inset(0 0% 0 0)" });
+        return;
+      }
+
+      gsap.set(signatureRef.current, { clipPath: "inset(0 100% 0 0)" });
+
+      gsap.to(signatureRef.current, {
+        clipPath: "inset(0 0% 0 0)",
+        duration: 1.5,
+        delay: 0.9,
+        ease: "expo.out",
+      });
+    },
+    { scope: heroRef },
+  );
+
   const handleSectionScroll = (sectionId) => {
     const section = document.getElementById(sectionId);
 
@@ -13,11 +37,12 @@ function Home() {
   };
 
   return (
-    <section className="hero-card" aria-label="Introduction">
+    <section className="hero-card" aria-label="Introduction" ref={heroRef}>
       <img
         src="/shivanesh.svg"
         alt="Shivanesh signature"
         className="hero-signature"
+        ref={signatureRef}
         draggable="false"
       />
 
