@@ -19,23 +19,46 @@ export default function Cinematraphie({ onBack }) {
   const backRef = useRef();
   const bgRef = useRef();
   const instaSectionRef = useRef();
+  const review1Ref = useRef();
+  const review2Ref = useRef();
+  const review3Ref = useRef();
+  const review4Ref = useRef();
+  const review5Ref = useRef();
+  const review6Ref = useRef();
   const isExitingRef = useRef(false);
 
   /* ── Entry animation timeline ── */
   useGSAP(
     () => {
       const tl = gsap.timeline();
+      const reviewRefs = [
+        review1Ref.current,
+        review2Ref.current,
+        review3Ref.current,
+        review4Ref.current,
+        review5Ref.current,
+        review6Ref.current,
+      ];
 
       // Hide everything initially
       gsap.set(pageRef.current, { opacity: 0 });
-      gsap.set([bgRef.current, restRef.current, instaSectionRef.current], {
-        filter: "blur(20px)",
-      });
+      gsap.set(
+        [
+          bgRef.current,
+          restRef.current,
+          instaSectionRef.current,
+          ...reviewRefs,
+        ],
+        {
+          filter: "blur(20px)",
+        },
+      );
       gsap.set(titleRef.current, { clipPath: "inset(0 100% 0 0)" });
       gsap.set(bgRef.current, { opacity: 0, scale: 1.05 }); // Pre-scale for "zoom out" settle
       gsap.set(restRef.current, { opacity: 0, y: 15, scale: 0.95 }); // Slimmer slide, subtle scale
       gsap.set(backRef.current, { opacity: 0, x: -10 });
       gsap.set(instaSectionRef.current, { opacity: 0, y: 50 });
+      gsap.set(reviewRefs, { opacity: 0, x: (i) => (i % 2 === 0 ? -50 : 50) });
 
       // ── STEP 1: Page fade & de-blur (0s → 1.8s) ──
       tl.to(
@@ -49,7 +72,12 @@ export default function Cinematraphie({ onBack }) {
       );
 
       tl.to(
-        [bgRef.current, restRef.current, instaSectionRef.current],
+        [
+          bgRef.current,
+          restRef.current,
+          instaSectionRef.current,
+          ...reviewRefs,
+        ],
         {
           filter: "blur(0px)",
           duration: 1.8,
@@ -114,6 +142,19 @@ export default function Cinematraphie({ onBack }) {
           ease: "expo.out",
         },
         2.2,
+      );
+
+      // ── STEP 5: Reviews materialization (staggered) ──
+      tl.to(
+        reviewRefs,
+        {
+          opacity: 1,
+          x: 0,
+          duration: 1.2,
+          stagger: 0.15,
+          ease: "power3.out",
+        },
+        2.5,
       );
     },
     { scope: pageRef },
@@ -203,6 +244,95 @@ export default function Cinematraphie({ onBack }) {
         {/* ── Instagram Preview Section ── */}
         <div className="cin-insta-section" ref={instaSectionRef}>
           <div className="cin-insta-content">
+            {/* Review Card 1 - Floating Right */}
+            <div className="cin-review-card card" ref={review1Ref}>
+              <div className="img"></div>
+              <div className="textBox">
+                <div className="textContent">
+                  <p className="h1">Athriya saravanan</p>
+                  <span className="span">@whatmaangabro</span>
+                </div>
+                <p className="p">
+                  He is incredibly dedicated to his work and always punctual.
+                  Photography skills are truly excellent. 5/5 ⭐
+                </p>
+              </div>
+            </div>
+
+            {/* Review Card 2 - Floating Left */}
+            <div className="cin-review-card card" ref={review2Ref}>
+              <div className="img"></div>
+              <div className="textBox">
+                <div className="textContent">
+                  <p className="h1">Gayathri</p>
+                  <span className="span">gayathri.sajeevan</span>
+                </div>
+                <p className="p">
+                  Super comfortable to work with and easy to communicate ideas.
+                  Creative editing always adds a nice touch ✨ 5/5 ⭐
+                </p>
+              </div>
+            </div>
+
+            {/* Review Card 3 - Floating Right Higher */}
+            <div className="cin-review-card card" ref={review3Ref}>
+              <div className="img"></div>
+              <div className="textBox">
+                <div className="textContent">
+                  <p className="h1">Jagruthi A</p>
+                  <span className="span">jagruthi.io</span>
+                </div>
+                <p className="p">
+                  great work done . For all the efforts you have put 🛐. 5/5 ⭐
+                </p>
+              </div>
+            </div>
+
+            {/* Review Card 4 - Floating Left Lower */}
+            <div className="cin-review-card card" ref={review4Ref}>
+              <div className="img"></div>
+              <div className="textBox">
+                <div className="textContent">
+                  <p className="h1">Abhinaya</p>
+                  <span className="span">alsoabbhhi</span>
+                </div>
+                <p className="p">
+                  I had a great experience working with him on my dance videos.
+                  Shooting and editing skills are really impressive. 4.5/5 ⭐
+                </p>
+              </div>
+            </div>
+
+            {/* Review Card 5 - Floating Right Lower */}
+            <div className="cin-review-card card" ref={review5Ref}>
+              <div className="img"></div>
+              <div className="textBox">
+                <div className="textContent">
+                  <p className="h1">Merwin josh w</p>
+                  <span className="span">@mj_merwin_josh_</span>
+                </div>
+                <p className="p">
+                  great edits with new approach, needs improvement on colour
+                  grading. 3.5/5 ⭐
+                </p>
+              </div>
+            </div>
+
+            {/* Review Card 6 - Floating Left Higher */}
+            <div className="cin-review-card card" ref={review6Ref}>
+              <div className="img"></div>
+              <div className="textBox">
+                <div className="textContent">
+                  <p className="h1">Srinidhi</p>
+                  <span className="span">_.sriniidhiii._</span>
+                </div>
+                <p className="p">
+                  Honestly, I feel the edit is very clear and nicely done. Flow
+                  and timing are good, transitions are smooth. 4/5 ⭐
+                </p>
+              </div>
+            </div>
+
             <img
               src="/cine.png"
               alt="Instagram Preview"

@@ -205,6 +205,89 @@
   display: flex;
   justify-content: center;
   align-items: flex-end; /* Ensure image sits at the bottom of its own box */
+  position: relative;
+}
+
+/* ── Review Cards — Floating on sides ── */
+.cin-review-card.card {
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  max-width: 320px; /* Slightly wider for the review text */
+  height: auto;
+  min-height: 80px;
+  background: rgba(53, 53, 53, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 12px;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+/* Position for review cards — Floating around the phone */
+.cin-review-card:nth-of-type(1) { right: 8%; bottom: 35%; }  /* Athriya */
+.cin-review-card:nth-of-type(2) { left: 8%; bottom: 45%; }   /* Gayathri */
+.cin-review-card:nth-of-type(3) { right: 12%; bottom: 65%; } /* Jagruthi */
+.cin-review-card:nth-of-type(4) { left: 12%; bottom: 20%; }  /* Abhinaya */
+.cin-review-card:nth-of-type(5) { right: 5%; bottom: 15%; }  /* Merwin */
+.cin-review-card:nth-of-type(6) { left: 5%; bottom: 70%; }   /* Srinidhi */
+
+.cin-review-card:hover {
+  cursor: pointer;
+  transform: scale(1.05) translateY(-5px);
+  background: rgba(60, 60, 60, 0.6);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.cin-review-card .img {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff416c, #ff4b2b); /* Cinematic red gradient */
+}
+
+.cin-review-card:hover > .img {
+  transition: 0.5s ease-in-out;
+  filter: hue-rotate(45deg);
+}
+
+.cin-review-card .textBox {
+  width: calc(100% - 60px);
+  margin-left: 15px;
+  color: white;
+  text-align: left;
+}
+
+.cin-review-card .textContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.cin-review-card .span {
+  font-size: 10px;
+  opacity: 0.6;
+}
+
+.cin-review-card .h1 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.cin-review-card .p {
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.4;
+  margin: 0;
+  opacity: 0.9;
 }
 
 .cin-insta-img {
