@@ -771,7 +771,8 @@
     line-height: 1.4;
     display: block; /* Show full text on mobile stack */
     overflow: visible;
-    -webkit-line-clamp: unset;
+    -webkit-line-clamp: none;
+    line-clamp: none;
   }
 
   .stars {
