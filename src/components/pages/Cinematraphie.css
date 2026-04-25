@@ -668,101 +668,118 @@
     height: 36px;
   }
 
-  /* Adjust reviews for tablet/large mobile */
+  /* Sequential vertical layout for mobile portrait */
   .cin-review-card.card {
-    position: absolute; /* Keep them floating on mobile too */
-    width: 220px; /* Much smaller on mobile */
-    max-width: 60vw;
-    padding: 8px;
-    border-radius: 15px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    position: relative !important; /* Stack normally in the flow */
+    width: 92%; /* Wide and readable on mobile */
+    max-width: 400px;
+    margin: 12px auto !important; /* Center horizontally */
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    padding: 15px;
+    border-radius: 18px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    z-index: 20;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    /* Keep the floating animation but make it subtle for stacked cards */
+    animation: cin-card-float 5s ease-in-out infinite !important;
   }
 
-  /* Specific mobile positions to surround the phone */
-  .cin-review-card:nth-of-type(1) {
-    right: 2%;
-    bottom: 30%;
-  }
-  .cin-review-card:nth-of-type(2) {
-    left: 2%;
-    bottom: 40%;
-  }
-  .cin-review-card:nth-of-type(3) {
-    right: 5%;
-    bottom: 55%;
-  }
-  .cin-review-card:nth-of-type(4) {
-    left: 5%;
-    bottom: 15%;
-  }
-  .cin-review-card:nth-of-type(5) {
-    right: 0%;
-    bottom: 8%;
-  }
-  .cin-review-card:nth-of-type(6) {
-    left: 0%;
-    bottom: 65%;
+  /* Reset unique mobile offsets — we want them centered in a stack */
+  .cin-review-card:nth-of-type(n) {
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
   }
 
   .cin-insta-content {
-    flex-direction: row; /* Back to row to allow absolute positioning of children */
-    align-items: flex-end;
-    padding-bottom: 0;
-    height: 100%;
-    min-height: 80vh;
+    display: flex;
+    flex-direction: column; /* Vertical stack: Cards then PNG */
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px 0 0 0; /* No bottom padding */
+    height: auto;
+    min-height: auto;
+    width: 100%;
+    overflow: visible;
   }
 
   .cin-insta-img {
-    order: 0;
-    max-height: 70vh;
-    width: auto;
-    margin-bottom: 0;
-    transform: translateY(
-      10%
-    ); /* Pull it down so it doesn't look like it's floating */
+    position: relative;
+    order: 10;
+    display: block;
+    width: 140vw; /* Slightly adjusted for better fit */
+    max-width: 140vw;
+    height: auto;
+    left: 50%; /* Anchor to horizontal center */
+    transform: translateX(-50%) translateY(2px); /* Shift back by half its own width */
+    margin: 40px 0 0 0; /* Vertical margin only */
+    z-index: 5;
+    opacity: 1;
+    pointer-events: none;
   }
 
   .cin-insta-section {
-    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Align the whole content stack to the bottom */
     min-height: 100vh;
     padding: 0;
-    overflow: hidden; /* Prevent cards from causing horizontal scroll */
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+
+  /* Specific fix for mobile landscape — side-by-side or more compact */
+  @media (orientation: landscape) {
+    .cin-review-card.card {
+      width: 45%;
+      display: inline-flex;
+      margin: 10px 2.5% !important;
+    }
+    .cin-insta-img {
+      max-height: 90vh;
+    }
   }
 
   .cin-review-card .img {
-    width: 35px;
-    height: 35px;
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
   }
 
   .cin-review-card .textBox {
-    width: calc(100% - 45px);
-    margin-left: 10px;
+    width: calc(100% - 60px);
+    margin-left: 15px;
   }
 
   .cin-review-card .h1 {
-    font-size: 11px;
+    font-size: 14px;
+    font-weight: 600;
   }
 
   .cin-review-card .span {
-    font-size: 9px;
+    font-size: 11px;
   }
 
   .cin-review-card .p {
-    font-size: 9px;
-    line-height: 1.3;
+    font-size: 12px;
+    line-height: 1.4;
+    display: block; /* Show full text on mobile stack */
+    overflow: visible;
+    -webkit-line-clamp: unset;
   }
 
   .stars {
-    font-size: 9px;
+    font-size: 11px;
   }
 }
 
 @media (max-width: 480px) {
   .cin-title {
     padding: 0 2vw;
-  }
-  .cin-review-card.card {
-    width: 180px; /* Even smaller for very small screens */
   }
 }
