@@ -547,14 +547,15 @@ img {
 /* Mobile Portrait: aspect ratio taller than 1:1 */
 @media (max-aspect-ratio: 1/1) {
   .hero-card {
-    gap: clamp(12px, 2.5vh, 24px);
+    gap: clamp(14px, 3vh, 28px);
+    padding-inline: 16px;
   }
 
   .hero-signature {
     width: 100%;
     max-width: 520px;
-    transform: scale(1.4);
-    max-height: 40vh;
+    transform: scale(1.18);
+    max-height: 28vh;
   }
 
   .hero-subtitle-wrap {
@@ -563,17 +564,23 @@ img {
   }
 
   .hero-nav {
-    width: fit-content;
+    width: min(100%, 360px);
     max-width: calc(100vw - 32px);
-    padding: 6px;
-    gap: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    padding: 12px;
+    gap: 10px;
+    border-radius: 28px;
   }
 
   .hero-nav-link {
-    min-height: 38px;
-    padding: 0 16px;
-    font-size: 0.68rem;
-    letter-spacing: 0.16em;
+    width: 100%;
+    min-height: 44px;
+    padding: 0 18px;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
   }
 }
 
@@ -1854,17 +1861,17 @@ img {
 
   .hero-card {
     min-height: 100svh;
-    padding: 20px;
-    gap: clamp(24px, 6vh, 48px);
+    padding: 20px 16px;
+    gap: clamp(18px, 4vh, 32px);
     justify-content: center;
   }
 
   .hero-signature {
     width: 100%;
     max-width: 480px;
-    transform: scale(1.15); /* Controlled scale for mobile */
+    transform: scale(1.02); /* Controlled scale for mobile */
     margin: 0;
-    max-height: 35vh;
+    max-height: 24vh;
   }
 
   .hero-subtitle-wrap {
@@ -1874,17 +1881,22 @@ img {
   }
 
   .hero-nav {
-    width: fit-content;
+    width: 100%;
     max-width: 100%;
-    padding: 6px;
-    gap: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+    gap: 8px;
     margin-top: 0;
   }
 
   .hero-nav-link {
-    min-height: 36px;
-    padding: 0 14px;
-    font-size: 0.68rem;
+    width: 100%;
+    min-height: 44px;
+    padding: 0 16px;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
   }
 
   .text-hover-effect__layer {
