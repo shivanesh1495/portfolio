@@ -1,6 +1,8 @@
 import React, { memo } from "react";
 
-const HangingBoard = memo(() => {
+const HangingBoard = memo(({ show }) => {
+  if (!show) return null;
+
   return (
     <div className="hanging-board-container">
       <div className="hanging-board-rope hanging-board-rope--left" />
