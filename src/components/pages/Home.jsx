@@ -35,6 +35,10 @@ function Home({
         className={`hero-card${introActive ? " hero-card--intro-active" : ""}`}
         aria-label="Introduction"
       >
+        <h1 className="sr-only">
+          Shivanesh (Shiva, Shiv, Nesh) - Full Stack and Cloud Engineer
+        </h1>
+
         <img
           src="/shivanesh.svg"
           alt="Shivanesh signature"
