@@ -2,6 +2,57 @@ import React, { memo } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { useGitHubExperience } from "../../hooks/useGitHub";
 
+const DEVICON_BASE = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
+
+const ICON_PATHS = {
+  "C++": "cplusplus/cplusplus-original.svg",
+  Python: "python/python-original.svg",
+  Java: "java/java-original.svg",
+  C: "c/c-original.svg",
+  Dart: "dart/dart-original.svg",
+  Haskell: "haskell/haskell-original.svg",
+  HTML5: "html5/html5-original.svg",
+  CSS3: "css3/css3-original.svg",
+  JavaScript: "javascript/javascript-original.svg",
+  TypeScript: "typescript/typescript-original.svg",
+  React: "react/react-original.svg",
+  "Next.js": "nextjs/nextjs-original.svg",
+  "Node.js": "nodejs/nodejs-original.svg",
+  NodeJS: "nodejs/nodejs-original.svg",
+  Express: "express/express-original.svg",
+  "Express.js": "express/express-original.svg",
+  HTML: "html5/html5-original.svg",
+  CSS: "css3/css3-original.svg",
+  Tailwind: "tailwindcss/tailwindcss-original.svg",
+  "Tailwind CSS": "tailwindcss/tailwindcss-original.svg",
+  Vite: "vitejs/vitejs-original.svg",
+  GSAP: "https://cdn.simpleicons.org/greensock/88CE02",
+  Framer: "framer/framer-original.svg",
+  "Framer Motion": "framer/framer-original.svg",
+  Remix: "remix/remix-original.svg",
+  "Three.js": "threejs/threejs-original.svg",
+  MongoDB: "mongodb/mongodb-original.svg",
+  MySQL: "mysql/mysql-original.svg",
+  Flutter: "flutter/flutter-original.svg",
+  Git: "git/git-original.svg",
+  Linux: "linux/linux-original.svg",
+  Arduino: "arduino/arduino-original.svg",
+  "Visual Studio Code": "vscode/vscode-original.svg",
+  Eclipse: "eclipse/eclipse-original.svg",
+  Postman: "postman/postman-original.svg",
+  Figma: "figma/figma-original.svg",
+  shopify: "/shopify_glyph.svg",
+  "Android Studio": "androidstudio/androidstudio-original.svg",
+  Firebase: "firebase/firebase-original.svg",
+  MATLAB: "matlab/matlab-original.svg",
+};
+
+function resolveIconSrc(path) {
+  if (!path) return null;
+  if (path.startsWith("http") || path.startsWith("/")) return path;
+  return `${DEVICON_BASE}/${path}`;
+}
+
 function Experience() {
   const { experience, loading, error } = useGitHubExperience();
 
@@ -52,6 +103,59 @@ function Experience() {
 
                   <p className="experience-description">{item.desc}</p>
                   <span className="experience-period">{item.period}</span>
+
+                  {item.associatedProjects?.length > 0 && (
+                    <div className="experience-projects">
+                      <h4 className="experience-projects__title">
+                        Key Projects
+                      </h4>
+                      <div className="experience-projects__grid">
+                        {item.associatedProjects.map((project) => (
+                          <a
+                            key={project.id}
+                            href={project.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="experience-project-card"
+                          >
+                            <div className="experience-project-card__content">
+                              <div className="experience-project-card__header">
+                                <h5>{project.title}</h5>
+                                <ArrowUpRight
+                                  size={14}
+                                  className="experience-project-card__arrow"
+                                />
+                              </div>
+                              <p>{project.desc}</p>
+                              <div className="experience-project-card__stacks">
+                                {project.stacks?.map((stack) => {
+                                  const iconKey =
+                                    Object.keys(ICON_PATHS).find(
+                                      (key) =>
+                                        key.toLowerCase() ===
+                                        stack.toLowerCase(),
+                                    ) || stack;
+                                  const src = resolveIconSrc(
+                                    ICON_PATHS[iconKey],
+                                  );
+                                  if (!src) return null;
+                                  return (
+                                    <img
+                                      key={stack}
+                                      src={src}
+                                      alt={stack}
+                                      title={stack}
+                                      className="experience-project-card__stack-icon"
+                                    />
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </article>
               ))}
             </div>

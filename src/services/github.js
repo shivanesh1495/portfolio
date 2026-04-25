@@ -116,11 +116,12 @@ export async function fetchGitHubUserProfile() {
   }
 }
 
-export async function fetchGitHubProjects() {
+export async function fetchGitHubProjects(options = {}) {
+  const { includeHidden = false } = options;
   try {
     const files = await fetchDatabaseFolderFiles("projects");
 
-    return Promise.all(
+    const projects = await Promise.all(
       files.map(async (file, index) => {
         const data = await fetchStructuredFile(file.loader);
         const nameWithoutExt = file.name.replace(/\.[^.]+$/, "");
@@ -130,13 +131,24 @@ export async function fetchGitHubProjects() {
           title: data.title || formatRepositoryAssetName(nameWithoutExt),
           desc: data.desc || "No description provided.",
           tags: Array.isArray(data.tags) ? data.tags : [],
-          stacks: Array.isArray(data.stacks) ? data.stacks : (Array.isArray(data.tools) ? data.tools : []),
+          stacks: Array.isArray(data.stacks)
+            ? data.stacks
+            : Array.isArray(data.tools)
+              ? data.tools
+              : [],
           stars: Number.isFinite(data.stars) ? data.stars : 0,
           forks: Number.isFinite(data.forks) ? data.forks : 0,
           url: data.url || data.link || data.href || "#",
+          hideFromProjects: !!data.hideFromProjects,
         };
       }),
     );
+
+    if (includeHidden) {
+      return projects;
+    }
+
+    return projects.filter((p) => !p.hideFromProjects);
   } catch (error) {
     console.error("Error fetching local projects:", error);
     return [];
@@ -170,14 +182,54 @@ export async function fetchGitHubWritings() {
 
 export async function fetchGitHubExperience() {
   try {
-    const files = await fetchDatabaseFolderFiles("experience");
+    const [experienceFiles, allProjects] = await Promise.all([
+      fetchDatabaseFolderFiles("experience"),
+      fetchGitHubProjects({ includeHidden: true }),
+    ]);
+
     const experience = await Promise.all(
-      files.map(async (file) => {
+      experienceFiles.map(async (file) => {
         const data = await fetchStructuredFile(file.loader);
+
+        // Resolve associated projects if any
+        let associatedProjects = [];
+        if (Array.isArray(data.projects)) {
+          associatedProjects = data.projects
+            .map((proj) => {
+              if (typeof proj === "string") {
+                // Find project by matching filename in its id or relativePath
+                return allProjects.find(
+                  (p) =>
+                    p.id.endsWith(proj) ||
+                    p.id === proj ||
+                    p.title.toLowerCase() ===
+                      proj.replace(".txt", "").toLowerCase(),
+                );
+              } else if (proj && typeof proj === "object") {
+                // Inline project object - normalize to match project structure
+                return {
+                  id: proj.id || proj.title || Math.random().toString(36).substr(2, 9),
+                  title: proj.title || "Untitled Project",
+                  desc: proj.desc || "No description provided.",
+                  url: proj.url || proj.link || proj.href || "#",
+                  stacks: Array.isArray(proj.stacks)
+                    ? proj.stacks
+                    : Array.isArray(proj.tools)
+                      ? proj.tools
+                      : [],
+                  ...proj,
+                };
+              }
+              return null;
+            })
+            .filter(Boolean);
+        }
+
         return {
           id: file.relativePath || file.name,
           slug: file.name.replace(/\.txt$/i, ""),
           ...data,
+          associatedProjects,
         };
       }),
     );
