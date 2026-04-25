@@ -99,25 +99,21 @@ function App() {
     const previousHtmlOverflow = root.style.overflow;
     const previousBodyOverflow = body.style.overflow;
     const previousBodyOverscrollBehavior = body.style.overscrollBehavior;
-    const previousBodyTouchAction = body.style.touchAction;
 
     if (shouldLockScroll) {
       root.style.overflow = "hidden";
       body.style.overflow = "hidden";
       body.style.overscrollBehavior = "none";
-      body.style.touchAction = "none";
     } else {
       root.style.overflow = "";
       body.style.overflow = "";
       body.style.overscrollBehavior = "";
-      body.style.touchAction = "";
     }
 
     return () => {
       root.style.overflow = previousHtmlOverflow;
       body.style.overflow = previousBodyOverflow;
       body.style.overscrollBehavior = previousBodyOverscrollBehavior;
-      body.style.touchAction = previousBodyTouchAction;
     };
   }, [shouldLockScroll]);
 
