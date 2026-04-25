@@ -252,10 +252,13 @@ export default function Cinematraphie({ onBack }) {
                   <p className="h1">Athriya saravanan</p>
                   <span className="span">@whatmaangabro</span>
                 </div>
-                <p className="p">
-                  He is incredibly dedicated to his work and always punctual.
-                  Photography skills are truly excellent. 5/5 ⭐
-                </p>
+                <div className="review-body">
+                  <p className="p">
+                    He is incredibly dedicated to his work and always punctual.
+                    Photography skills are truly excellent.
+                  </p>
+                  <div className="stars">⭐⭐⭐⭐⭐</div>
+                </div>
               </div>
             </div>
 
@@ -265,12 +268,15 @@ export default function Cinematraphie({ onBack }) {
               <div className="textBox">
                 <div className="textContent">
                   <p className="h1">Gayathri</p>
-                  <span className="span">gayathri.sajeevan</span>
+                  <span className="span">@gayathri.sajeevan</span>
                 </div>
-                <p className="p">
-                  Super comfortable to work with and easy to communicate ideas.
-                  Creative editing always adds a nice touch ✨ 5/5 ⭐
-                </p>
+                <div className="review-body">
+                  <p className="p">
+                    Super comfortable to work with and easy to communicate
+                    ideas. Creative editing always adds a nice touch ✨
+                  </p>
+                  <div className="stars">⭐⭐⭐⭐⭐</div>
+                </div>
               </div>
             </div>
 
@@ -280,11 +286,14 @@ export default function Cinematraphie({ onBack }) {
               <div className="textBox">
                 <div className="textContent">
                   <p className="h1">Jagruthi A</p>
-                  <span className="span">jagruthi.io</span>
+                  <span className="span">@jagruthi.io</span>
                 </div>
-                <p className="p">
-                  great work done . For all the efforts you have put 🛐. 5/5 ⭐
-                </p>
+                <div className="review-body">
+                  <p className="p">
+                    great work done . For all the efforts you have put 🛐.
+                  </p>
+                  <div className="stars">⭐⭐⭐⭐⭐</div>
+                </div>
               </div>
             </div>
 
@@ -294,12 +303,15 @@ export default function Cinematraphie({ onBack }) {
               <div className="textBox">
                 <div className="textContent">
                   <p className="h1">Abhinaya</p>
-                  <span className="span">alsoabbhhi</span>
+                  <span className="span">@alsoabbhhi</span>
                 </div>
-                <p className="p">
-                  I had a great experience working with him on my dance videos.
-                  Shooting and editing skills are really impressive. 4.5/5 ⭐
-                </p>
+                <div className="review-body">
+                  <p className="p">
+                    I had a great experience working with him on my dance
+                    videos. Shooting and editing skills are really impressive.
+                  </p>
+                  <div className="stars">⭐⭐⭐⭐.5</div>
+                </div>
               </div>
             </div>
 
@@ -309,12 +321,15 @@ export default function Cinematraphie({ onBack }) {
               <div className="textBox">
                 <div className="textContent">
                   <p className="h1">Merwin josh w</p>
-                  <span className="span">@mj_merwin_josh_</span>
+                  <span className="span">@@mj_merwin_josh_</span>
                 </div>
-                <p className="p">
-                  great edits with new approach, needs improvement on colour
-                  grading. 3.5/5 ⭐
-                </p>
+                <div className="review-body">
+                  <p className="p">
+                    great edits with new approach, needs improvement on colour
+                    grading.
+                  </p>
+                  <div className="stars">⭐⭐⭐.5</div>
+                </div>
               </div>
             </div>
 
@@ -324,12 +339,15 @@ export default function Cinematraphie({ onBack }) {
               <div className="textBox">
                 <div className="textContent">
                   <p className="h1">Srinidhi</p>
-                  <span className="span">_.sriniidhiii._</span>
+                  <span className="span">@_.sriniidhiii._</span>
                 </div>
-                <p className="p">
-                  Honestly, I feel the edit is very clear and nicely done. Flow
-                  and timing are good, transitions are smooth. 4/5 ⭐
-                </p>
+                <div className="review-body">
+                  <p className="p">
+                    Honestly, I feel the edit is very clear and nicely done.
+                    Flow and timing are good, transitions are smooth.
+                  </p>
+                  <div className="stars">⭐⭐⭐⭐</div>
+                </div>
               </div>
             </div>
 
