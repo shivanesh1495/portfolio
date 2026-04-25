@@ -9,8 +9,10 @@ const HangingBoard = memo(({ show }) => {
       <div className="hanging-board-rope hanging-board-rope--right" />
       <div className="hanging-board">
         <p className="hanging-board__text">
-          Available for collaborations, internships, and thoughtful product work
-          where engineering craft matters.
+          Available for <span className="highlight">collaborations</span>,{" "}
+          <span className="highlight">internships</span>, and thoughtful{" "}
+          <span className="highlight">product work</span> where engineering
+          craft matters.
         </p>
       </div>
     </div>
