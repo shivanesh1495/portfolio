@@ -184,6 +184,13 @@ export default function Cinematraphie({ onBack }) {
     });
   };
 
+  const handleScrollToTestimonials = () => {
+    instaSectionRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
   return (
     <div className="cin-page" ref={pageRef}>
       {/* ── Background layers (grouped for fade-in) ── */}
@@ -230,7 +237,9 @@ export default function Cinematraphie({ onBack }) {
             draggable="false"
           />
           <div className="cin-rest" ref={restRef}>
-            <p className="cin-tagline aurora-text">for fine crafted cinematics</p>
+            <p className="cin-tagline aurora-text">
+              for fine crafted cinematics
+            </p>
             <div className="cin-buttons">
               <a
                 href="https://www.instagram.com/cinematraphie/"
@@ -238,14 +247,25 @@ export default function Cinematraphie({ onBack }) {
                 rel="noopener noreferrer"
                 className="cin-btn"
               >
-                Connect with me
+                Check My Work
               </a>
+              <button
+                type="button"
+                className="cin-btn cin-btn--secondary"
+                onClick={handleScrollToTestimonials}
+              >
+                Testimonial
+              </button>
             </div>
           </div>
         </div>
 
         {/* ── Instagram Preview Section ── */}
-        <div className="cin-insta-section" ref={instaSectionRef}>
+        <div
+          className="cin-insta-section"
+          ref={instaSectionRef}
+          id="testimonials"
+        >
           <div className="cin-insta-content">
             {/* Review Card 1 - Floating Right */}
             <div className="cin-review-card card premium-card" ref={review1Ref}>
