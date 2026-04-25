@@ -130,7 +130,7 @@ export async function fetchGitHubProjects() {
           title: data.title || formatRepositoryAssetName(nameWithoutExt),
           desc: data.desc || "No description provided.",
           tags: Array.isArray(data.tags) ? data.tags : [],
-          stacks: Array.isArray(data.stacks) ? data.stacks : [],
+          stacks: Array.isArray(data.stacks) ? data.stacks : (Array.isArray(data.tools) ? data.tools : []),
           stars: Number.isFinite(data.stars) ? data.stars : 0,
           forks: Number.isFinite(data.forks) ? data.forks : 0,
           url: data.url || data.link || data.href || "#",

@@ -1053,6 +1053,29 @@ img {
   line-height: 1.76;
 }
 
+.project-row__stacks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+.project-row__stack-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  opacity: 0.8;
+  filter: grayscale(1) brightness(1.5);
+  transition: opacity 0.28s ease, filter 0.28s ease, transform 0.28s ease;
+}
+
+.project-row:hover .project-row__stack-icon {
+  opacity: 1;
+  filter: grayscale(0) brightness(1);
+  transform: translateY(-2px);
+}
+
 .project-row__arrow,
 .writing-row__arrow,
 .experience-entry__arrow {
