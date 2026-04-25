@@ -5,12 +5,6 @@ import "./Cinematraphie.css";
 
 /**
  * Cinematraphie — Premium cinematic landing page overlay.
- *
- * Animation sequence (GSAP timeline):
- *   STEP 1: Portfolio blurs out (handled in App.jsx)
- *   STEP 2: Title SVG sweep reveal (clip-path left → right) — title only
- *   STEP 3: Everything else (tagline, buttons, back) appears with gradient fade
- *   Background glow drifts infinitely (CSS keyframes)
  */
 export default function Cinematraphie({ onBack }) {
   const pageRef = useRef();
@@ -54,8 +48,8 @@ export default function Cinematraphie({ onBack }) {
         },
       );
       gsap.set(titleRef.current, { clipPath: "inset(0 100% 0 0)" });
-      gsap.set(bgRef.current, { opacity: 0, scale: 1.05 }); // Pre-scale for "zoom out" settle
-      gsap.set(restRef.current, { opacity: 0, y: 15, scale: 0.95 }); // Slimmer slide, subtle scale
+      gsap.set(bgRef.current, { opacity: 0, scale: 1.05 });
+      gsap.set(restRef.current, { opacity: 0, y: 15, scale: 0.95 });
       gsap.set(backRef.current, { opacity: 0, x: -10 });
       gsap.set(instaSectionRef.current, { opacity: 0, y: 50 });
       gsap.set(reviewRefs, { opacity: 0, x: (i) => (i % 2 === 0 ? -50 : 50) });
@@ -65,8 +59,8 @@ export default function Cinematraphie({ onBack }) {
         pageRef.current,
         {
           opacity: 1,
-          duration: 0.8,
-          ease: "power2.out",
+          duration: 1.2,
+          ease: "expo.out",
         },
         0,
       );
@@ -80,8 +74,8 @@ export default function Cinematraphie({ onBack }) {
         ],
         {
           filter: "blur(0px)",
-          duration: 1.8,
-          ease: "power2.out",
+          duration: 2.2,
+          ease: "power2.inOut",
         },
         0,
       );
@@ -91,10 +85,10 @@ export default function Cinematraphie({ onBack }) {
         titleRef.current,
         {
           clipPath: "inset(0 0% 0 0)",
-          duration: 1.7, // 2s - 0.3s
-          ease: "expo.out",
+          duration: 2.4,
+          ease: "expo.inOut",
         },
-        0.3,
+        0.4,
       );
 
       // ── STEP 3: Background layers materialize (starts at 1.8s) ──
@@ -103,23 +97,23 @@ export default function Cinematraphie({ onBack }) {
         {
           opacity: 1,
           scale: 1,
-          duration: 1.2,
-          ease: "power3.out",
+          duration: 2,
+          ease: "power3.inOut",
         },
-        1.8,
+        1.2,
       );
 
-      // ── STEP 4: Everything else materializes (staggered after title) ──
+      // ── STEP 4: Content slide up (starts at 1.5s) ──
       tl.to(
         restRef.current,
         {
           opacity: 1,
           y: 0,
           scale: 1,
-          duration: 1.2,
+          duration: 1.8,
           ease: "expo.out",
         },
-        1.8, // Start near the end of the blur/title sequence
+        1.5,
       );
 
       tl.to(
@@ -127,34 +121,37 @@ export default function Cinematraphie({ onBack }) {
         {
           opacity: 1,
           x: 0,
-          duration: 0.6,
-          ease: "expo.out",
+          duration: 1.2,
+          ease: "back.out(1.7)",
         },
-        2.0,
+        2.2,
       );
 
+      // ── STEP 5: Instagram section & Reviews ──
       tl.to(
         instaSectionRef.current,
         {
           opacity: 1,
           y: 0,
-          duration: 1.5,
-          ease: "expo.out",
+          duration: 2.2,
+          ease: "power4.out",
         },
-        2.2,
+        1.8,
       );
 
-      // ── STEP 5: Reviews materialization (staggered) ──
       tl.to(
         reviewRefs,
         {
           opacity: 1,
           x: 0,
-          duration: 1.2,
-          stagger: 0.15,
-          ease: "power3.out",
+          duration: 1.6,
+          stagger: {
+            amount: 0.8,
+            ease: "power2.inOut",
+          },
+          ease: "expo.out",
         },
-        2.5,
+        2.2,
       );
     },
     { scope: pageRef },
@@ -233,9 +230,14 @@ export default function Cinematraphie({ onBack }) {
             draggable="false"
           />
           <div className="cin-rest" ref={restRef}>
-            <p className="cin-tagline">for fine crafted cinematics</p>
-              for fine crafted cinematics
-              <button className="cin-btn">Connect with me</button>
+            <p className="cin-tagline aurora-text">for fine crafted cinematics</p>
+            <div className="cin-buttons">
+              <a
+                href="https://www.instagram.com/cinematraphie/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cin-btn"
+              >
                 Connect with me
               </a>
               <button className="cin-btn">Check my work</button>
@@ -245,7 +247,7 @@ export default function Cinematraphie({ onBack }) {
 
         {/* ── Instagram Preview Section ── */}
         <div className="cin-insta-section" ref={instaSectionRef}>
-            <div className="cin-review-card card" ref={review1Ref}>
+          <div className="cin-insta-content">
             {/* Review Card 1 - Floating Right */}
             <div className="cin-review-card card premium-card" ref={review1Ref}>
               <div className="textBox">
@@ -264,7 +266,7 @@ export default function Cinematraphie({ onBack }) {
                 </div>
               </div>
             </div>
-            <div className="cin-review-card card" ref={review2Ref}>
+
             {/* Review Card 2 - Floating Left */}
             <div className="cin-review-card card premium-card" ref={review2Ref}>
               <div className="textBox">
@@ -283,7 +285,7 @@ export default function Cinematraphie({ onBack }) {
                 </div>
               </div>
             </div>
-            <div className="cin-review-card card" ref={review3Ref}>
+
             {/* Review Card 3 - Floating Right Higher */}
             <div className="cin-review-card card premium-card" ref={review3Ref}>
               <div className="textBox">
@@ -301,7 +303,7 @@ export default function Cinematraphie({ onBack }) {
                 </div>
               </div>
             </div>
-            <div className="cin-review-card card" ref={review4Ref}>
+
             {/* Review Card 4 - Floating Left Lower */}
             <div className="cin-review-card card premium-card" ref={review4Ref}>
               <div className="textBox">
@@ -322,7 +324,7 @@ export default function Cinematraphie({ onBack }) {
                 </div>
               </div>
             </div>
-            <div className="cin-review-card card" ref={review5Ref}>
+
             {/* Review Card 5 - Floating Right Lower */}
             <div className="cin-review-card card premium-card" ref={review5Ref}>
               <div className="textBox">
@@ -343,7 +345,7 @@ export default function Cinematraphie({ onBack }) {
                 </div>
               </div>
             </div>
-            <div className="cin-review-card card" ref={review6Ref}>
+
             {/* Review Card 6 - Floating Left Higher */}
             <div className="cin-review-card card premium-card" ref={review6Ref}>
               <div className="textBox">
