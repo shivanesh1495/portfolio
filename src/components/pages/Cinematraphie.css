@@ -231,28 +231,34 @@
 
 /* Position for review cards — Floating around the phone */
 .cin-review-card:nth-of-type(1) {
-  right: 8%;
+  right: 6%;
   bottom: 35%;
-} /* Athriya */
+  animation: cin-card-float 6s ease-in-out infinite;
+} /* Athriya saravanan */
 .cin-review-card:nth-of-type(2) {
-  left: 8%;
-  bottom: 45%;
+  left: 6%;
+  bottom: 42%;
+  animation: cin-card-float 7s ease-in-out infinite 1s;
 } /* Gayathri */
 .cin-review-card:nth-of-type(3) {
-  right: 12%;
-  bottom: 65%;
-} /* Jagruthi */
+  right: 10%;
+  bottom: 62%;
+  animation: cin-card-float 8s ease-in-out infinite 0.5s;
+} /* Jagruthi A */
 .cin-review-card:nth-of-type(4) {
-  left: 12%;
-  bottom: 20%;
+  left: 10%;
+  bottom: 18%;
+  animation: cin-card-float 6.5s ease-in-out infinite 1.5s;
 } /* Abhinaya */
 .cin-review-card:nth-of-type(5) {
-  right: 5%;
-  bottom: 15%;
-} /* Merwin */
+  right: 4%;
+  bottom: 12%;
+  animation: cin-card-float 7.5s ease-in-out infinite 2s;
+} /* Merwin josh w */
 .cin-review-card:nth-of-type(6) {
-  left: 5%;
-  bottom: 70%;
+  left: 4%;
+  bottom: 68%;
+  animation: cin-card-float 9s ease-in-out infinite 0.2s;
 } /* Srinidhi */
 
 .cin-review-card:hover {
@@ -339,7 +345,7 @@
 .star-half {
   display: inline-block;
   position: relative;
-  width: 0.5em; /* Exactly half width */
+  width: 0.7em; /* Exactly half width */
   overflow: hidden;
   vertical-align: middle;
   line-height: 1;
@@ -581,6 +587,22 @@
   }
 }
 
+/* ── Floating animation for cards ── */
+@keyframes cin-card-float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-8px) rotate(0.5deg);
+  }
+  66% {
+    transform: translateY(4px) rotate(-0.5deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
 /* ────────────────────────────────────────────────────────────────────
    RESPONSIVE
    ──────────────────────────────────────────────────────────────────── */
@@ -648,31 +670,91 @@
 
   /* Adjust reviews for tablet/large mobile */
   .cin-review-card.card {
-    position: relative;
-    right: auto !important;
-    left: auto !important;
-    bottom: auto !important;
-    margin: 10px auto;
-    width: 90%;
-    max-width: 400px;
+    position: absolute; /* Keep them floating on mobile too */
+    width: 220px; /* Much smaller on mobile */
+    max-width: 60vw;
+    padding: 8px;
+    border-radius: 15px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* Specific mobile positions to surround the phone */
+  .cin-review-card:nth-of-type(1) {
+    right: 2%;
+    bottom: 30%;
+  }
+  .cin-review-card:nth-of-type(2) {
+    left: 2%;
+    bottom: 40%;
+  }
+  .cin-review-card:nth-of-type(3) {
+    right: 5%;
+    bottom: 55%;
+  }
+  .cin-review-card:nth-of-type(4) {
+    left: 5%;
+    bottom: 15%;
+  }
+  .cin-review-card:nth-of-type(5) {
+    right: 0%;
+    bottom: 8%;
+  }
+  .cin-review-card:nth-of-type(6) {
+    left: 0%;
+    bottom: 65%;
   }
 
   .cin-insta-content {
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 50px;
+    flex-direction: row; /* Back to row to allow absolute positioning of children */
+    align-items: flex-end;
+    padding-bottom: 0;
+    height: 100%;
+    min-height: 80vh;
   }
 
   .cin-insta-img {
-    order: -1;
-    max-height: 60vh;
-    margin-bottom: 30px;
+    order: 0;
+    max-height: 70vh;
+    width: auto;
+    margin-bottom: 0;
+    transform: translateY(
+      10%
+    ); /* Pull it down so it doesn't look like it's floating */
   }
 
   .cin-insta-section {
-    align-items: center;
-    min-height: auto;
-    padding: 50px 0;
+    align-items: flex-end;
+    min-height: 100vh;
+    padding: 0;
+    overflow: hidden; /* Prevent cards from causing horizontal scroll */
+  }
+
+  .cin-review-card .img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .cin-review-card .textBox {
+    width: calc(100% - 45px);
+    margin-left: 10px;
+  }
+
+  .cin-review-card .h1 {
+    font-size: 11px;
+  }
+
+  .cin-review-card .span {
+    font-size: 9px;
+  }
+
+  .cin-review-card .p {
+    font-size: 9px;
+    line-height: 1.3;
+  }
+
+  .stars {
+    font-size: 9px;
   }
 }
 
@@ -681,13 +763,6 @@
     padding: 0 2vw;
   }
   .cin-review-card.card {
-    width: 95%;
-    padding: 8px;
-  }
-  .cin-review-card .h1 {
-    font-size: 13px;
-  }
-  .cin-review-card .p {
-    font-size: 10px;
+    width: 180px; /* Even smaller for very small screens */
   }
 }
