@@ -29,75 +29,77 @@ function Home({
   };
 
   return (
-    <section
-      className={`hero-card${introActive ? " hero-card--intro-active" : ""}`}
-      aria-label="Introduction"
-    >
+    <>
       <HangingBoard show={!introActive} />
-      <img
-        src="/shivanesh.svg"
-        alt="Shivanesh signature"
-        className="hero-signature"
-        ref={signatureRef}
-        draggable="false"
-      />
-
-      <div className="hero-subtitle-wrap">
-        <TextHoverEffect
-          className="hero-subtitle-effect"
-          text="full stack & cloud engineer"
+      <section
+        className={`hero-card${introActive ? " hero-card--intro-active" : ""}`}
+        aria-label="Introduction"
+      >
+        <img
+          src="/shivanesh.svg"
+          alt="Shivanesh signature"
+          className="hero-signature"
+          ref={signatureRef}
+          draggable="false"
         />
-      </div>
 
-      <nav className="hero-nav" aria-label="Quick links">
-        <button
-          type="button"
-          className="hero-nav-link"
-          onClick={() => handleSectionScroll("projects")}
-        >
-          projects
-        </button>
-        <button
-          type="button"
-          className="hero-nav-link"
-          onClick={() => handleSectionScroll("experience")}
-        >
-          experience
-        </button>
-        {resume ? (
-          <a
-            href={resume.previewUrl || resume.url}
-            target="_blank"
-            rel="noreferrer"
-            className="hero-nav-link"
-          >
-            resume
-          </a>
-        ) : (
+        <div className="hero-subtitle-wrap">
+          <TextHoverEffect
+            className="hero-subtitle-effect"
+            text="full stack & cloud engineer"
+          />
+        </div>
+
+        <nav className="hero-nav" aria-label="Quick links">
           <button
             type="button"
             className="hero-nav-link"
-            onClick={() => handleSectionScroll("resume")}
+            onClick={() => handleSectionScroll("projects")}
           >
-            resume
+            projects
           </button>
-        )}
-        <button
-          type="button"
-          className="hero-nav-link"
-          onClick={() => handleSectionScroll("contact")}
-        >
-          contact
-        </button>
-        <button
-          type="button"
-          className="hero-nav-link"
-          onClick={() => handleSectionScroll("cinematraphie")}
-        >
-          cinematraphie
-        </button>
-      </nav>
-    </section>
+          <button
+            type="button"
+            className="hero-nav-link"
+            onClick={() => handleSectionScroll("experience")}
+          >
+            experience
+          </button>
+          {resume ? (
+            <a
+              href={resume.previewUrl || resume.url}
+              target="_blank"
+              rel="noreferrer"
+              className="hero-nav-link"
+            >
+              resume
+            </a>
+          ) : (
+            <button
+              type="button"
+              className="hero-nav-link"
+              onClick={() => handleSectionScroll("resume")}
+            >
+              resume
+            </button>
+          )}
+          <button
+            type="button"
+            className="hero-nav-link"
+            onClick={() => handleSectionScroll("contact")}
+          >
+            contact
+          </button>
+          <button
+            type="button"
+            className="hero-nav-link"
+            onClick={() => handleSectionScroll("cinematraphie")}
+          >
+            cinematraphie
+          </button>
+        </nav>
+      </section>
+    </>
   );
 }
 

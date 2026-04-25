@@ -2022,12 +2022,8 @@ img {
   position: absolute;
   top: -100vh;
   width: 1px;
-  height: calc(100vh + 105px);
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.15) 0%,
-    rgba(255, 255, 255, 0.05) 100%
-  );
+  height: calc(100vh + 150px);
+  background: rgba(255, 255, 255, 0.2);
   z-index: 1;
 }
 
@@ -2142,34 +2138,36 @@ img {
 /* Responsive adjustments for mobile */
 @media (max-width: 768px) {
   .hanging-board-container {
-    top: 0; /* Ensure it stays at the very top */
-    left: 4vw;
-    width: 180px;
-    height: 180px;
+    position: absolute; /* Changed from fixed to absolute as it's now in page-section--hero */
+    top: 0;
+    left: 2vw;
+    width: 240px;
+    height: 250px;
     z-index: 100;
   }
 
   .hanging-board-rope {
-    top: -100vh; /* Explicitly start way above viewport */
-    height: calc(100vh + 125px);
+    top: -100vh;
+    height: calc(100vh + 150px);
+    background: rgba(255, 255, 255, 0.2);
   }
 
   .hanging-board-rope--left {
-    left: 15px;
+    left: 30px;
   }
 
   .hanging-board-rope--right {
-    right: 15px;
+    right: 30px;
   }
 
   .hanging-board {
-    top: 120px; /* Increased from 60px */
-    padding: 12px 14px;
-    border-radius: 8px;
+    top: 100px;
+    padding: 18px 22px;
+    border-radius: 12px;
   }
 
   .hanging-board__text {
-    font-size: 0.65rem;
-    line-height: 1.4;
+    font-size: 0.85rem;
+    line-height: 1.6;
   }
 }
