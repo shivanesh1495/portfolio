@@ -18,19 +18,23 @@
   scroll-padding-top: 2rem;
   overscroll-behavior-y: contain;
   touch-action: pan-y;
+  --bg-p1: 82% 12%;
+  --bg-p2: 68% 28%;
+  --bg-p3: 38% 58%;
+  --bg-p4: 78% 86%;
 
   /* Deep cinematic gradient background applied directly to scrolling container */
   background-color: #050101;
   background-image: 
     /* Wine Red glow — upper right */
     radial-gradient(
-      ellipse 55% 50% at var(--bg-p1),
+      ellipse 55% 50% at var(--bg-p1, 82% 12%),
       rgba(150, 10, 10, 0.35) 0%,
       transparent 70%
     ),
     /* Burnt Orange accent — mid-right */
     radial-gradient(
-        ellipse 38% 38% at var(--bg-p2),
+        ellipse 38% 38% at var(--bg-p2, 68% 28%),
         rgba(200, 60, 10, 0.2) 0%,
         transparent 65%
       ),
@@ -42,7 +46,7 @@
       ),
     /* Deep maroon sweep — center & left */
     radial-gradient(
-        ellipse 100% 80% at var(--bg-p3),
+        ellipse 100% 80% at var(--bg-p3, 38% 58%),
         rgba(45, 10, 10, 0.98) 0%,
         transparent 65%
       ),
@@ -54,7 +58,7 @@
       ),
     /* Red glow — lower right */
     radial-gradient(
-        ellipse 48% 42% at var(--bg-p4),
+        ellipse 48% 42% at var(--bg-p4, 78% 86%),
         rgba(180, 20, 20, 0.25) 0%,
         transparent 70%
       ),
