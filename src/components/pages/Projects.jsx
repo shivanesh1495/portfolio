@@ -26,7 +26,7 @@ const ICON_PATHS = {
   Tailwind: "tailwindcss/tailwindcss-original.svg",
   "Tailwind CSS": "tailwindcss/tailwindcss-original.svg",
   Vite: "vitejs/vitejs-original.svg",
-  GSAP: "gsap/gsap-original.svg",
+  GSAP: "https://cdn.simpleicons.org/greensock/88CE02",
   Framer: "framer/framer-original.svg",
   "Framer Motion": "framer/framer-original.svg",
   Remix: "remix/remix-original.svg",
