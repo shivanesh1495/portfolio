@@ -1,0 +1,6 @@
+{
+  title: "MedEase",
+  desc: "Your Health, Simplified A comprehensive mobile application designed to be your intelligent, centralized hub for all healthcare needs.",
+  url: "https://github.com/shivanesh1495/medease",
+  tools: ["Flutter", "Dart", "FireBase"],
+}

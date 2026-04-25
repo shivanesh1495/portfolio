@@ -1,0 +1,6 @@
+{
+  title: "Smart-Cafe-Frontend",
+  desc: "A modern, responsive frontend interface for the Smart Cafe ordering system",
+  url: "https://github.com/shivanesh1495/Smart-Cafe-frontend",
+  tools: ["TypeScript", "React", "CSS","HTML"],
+}

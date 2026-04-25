@@ -2,5 +2,5 @@
   title: "StockNbills",
   desc: "POS Software for ricemill and a billing software",
   url: "https://github.com/shivanesh1495/stockNbills",
-  tools: ["React", "JavaScript", "CSS","MongoDB"],
+  tools: ["React","HTML", "JavaScript", "CSS","MongoDB"],
 }

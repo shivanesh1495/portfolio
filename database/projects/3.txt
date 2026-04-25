@@ -2,5 +2,5 @@
   title: "Smart-Cafe-backend",
   desc: "The backend services and APIs powering a smart cafeteria ecosystem focused on forecast-driven planning, fair access control, and food waste reduction.",
   url: "https://github.com/shivanesh1495/Smart-Cafe-backend",
-  tools: ["NodeJS", "Express", "MongoDB"],
+  tools: ["NodeJS", "Express", "MongoDB","JavaScript"],
 }
