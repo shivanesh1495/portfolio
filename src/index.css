@@ -1209,13 +1209,6 @@ img {
   border: 1px solid rgba(255, 255, 255, 0.05);
   background: rgba(255, 255, 255, 0.02);
   transition: all 0.3s var(--ease-smooth);
-  text-decoration: none;
-}
-
-.experience-project-card:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
 }
 
 .experience-project-card__header {
@@ -1241,18 +1234,6 @@ img {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-.experience-project-card__arrow {
-  color: var(--muted);
-  opacity: 0.5;
-  transition: all 0.3s var(--ease-smooth);
-}
-
-.experience-project-card:hover .experience-project-card__arrow {
-  opacity: 1;
-  transform: translate(2px, -2px);
-  color: var(--text);
 }
 
 .experience-project-card__stacks {

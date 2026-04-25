@@ -5,15 +5,13 @@
     desc: 'I build, customize, and optimize online stores, develop custom apps, and manage third-party integrations.',
     projects:[{
   title: "Whatzonix",
-  desc: "A real-time messaging and notification platform designed for high-concurrency enterprise environments, focusing on user-centric communication flows.",
-  url: "https://github.com/shivanesh1495/Whatzonix",
-  tools: ["React", "NodeJS", "Socket.io", "MongoDB"],
+  desc: "A Whatsapp Message Automation Software for Shopify",
+  tools: ["Shopify", "Remix","PostgreSQL","Tailwind","Whatsapp"],
   hideFromProjects: true,
 },{
   title: "Shipofix",
-  desc: "An automated logistics and shipping management system that optimizes delivery routes and tracks shipments in real-time for improved operational efficiency.",
-  url: "https://github.com/shivanesh1495/Shipofix",
-  tools: ["Next.js", "Express", "PostgreSQL", "Docker"],
+  desc: "A Shopify embedded app that enables dynamic, rule-based shipping pricing across existing zones using weight, cost, and category-driven logic.",
+  tools: ["Shopify", "Remix", "PostgreSQL", "Tailwind"],
   hideFromProjects: true,
 }
 ]

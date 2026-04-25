@@ -42,9 +42,12 @@ const ICON_PATHS = {
   Postman: "postman/postman-original.svg",
   Figma: "figma/figma-original.svg",
   shopify: "/shopify_glyph.svg",
+  Shopify: "/shopify_glyph.svg",
   "Android Studio": "androidstudio/androidstudio-original.svg",
   Firebase: "firebase/firebase-original.svg",
   MATLAB: "matlab/matlab-original.svg",
+  PostgreSQL: "postgresql/postgresql-original.svg",
+  Whatsapp: "https://cdn.simpleicons.org/whatsapp/25D366",
 };
 
 function resolveIconSrc(path) {
@@ -111,20 +114,13 @@ function Experience() {
                       </h4>
                       <div className="experience-projects__grid">
                         {item.associatedProjects.map((project) => (
-                          <a
+                          <div
                             key={project.id}
-                            href={project.url}
-                            target="_blank"
-                            rel="noreferrer"
                             className="experience-project-card"
                           >
                             <div className="experience-project-card__content">
                               <div className="experience-project-card__header">
                                 <h5>{project.title}</h5>
-                                <ArrowUpRight
-                                  size={14}
-                                  className="experience-project-card__arrow"
-                                />
                               </div>
                               <p>{project.desc}</p>
                               <div className="experience-project-card__stacks">
@@ -151,7 +147,7 @@ function Experience() {
                                 })}
                               </div>
                             </div>
-                          </a>
+                          </div>
                         ))}
                       </div>
                     </div>

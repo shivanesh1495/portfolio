@@ -45,9 +45,12 @@ const ICON_PATHS = {
   Postman: "postman/postman-original.svg",
   Figma: "figma/figma-original.svg",
   shopify: "/shopify_glyph.svg",
+  Shopify: "/shopify_glyph.svg",
   "Android Studio": "androidstudio/androidstudio-original.svg",
   Firebase: "firebase/firebase-original.svg",
   MATLAB: "matlab/matlab-original.svg",
+  PostgreSQL: "postgresql/postgresql-original.svg",
+  Whatsapp: "https://cdn.simpleicons.org/whatsapp/25D366",
 };
 
 function resolveIconSrc(path) {
