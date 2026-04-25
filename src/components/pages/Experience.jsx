@@ -98,10 +98,6 @@ function Experience() {
                       <p className="experience-company">{item.company}</p>
                       <span className="experience-role">{item.role}</span>
                     </div>
-                    <ArrowUpRight
-                      size={18}
-                      className="experience-entry__arrow"
-                    />
                   </div>
 
                   <p className="experience-description">{item.desc}</p>
