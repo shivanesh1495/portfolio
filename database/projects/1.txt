@@ -2,5 +2,5 @@
   title: "Anokha-2026-frontend",
   desc: "Frontend Repo for the Anokha 2026 National Level Techfest",
   url: "https://github.com/shivanesh1495/anokha-2026-frontend",
-  tools: ["TypeScript", "CSS3", "Next.js"]
+  tools: ["TypeScript", "CSS3", "Next.js","GSAP"]
 }
