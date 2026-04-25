@@ -2139,9 +2139,37 @@ img {
   }
 }
 
-/* Hide on mobile for better UX */
+/* Responsive adjustments for mobile */
 @media (max-width: 768px) {
   .hanging-board-container {
-    display: none;
+    top: 0; /* Ensure it stays at the very top */
+    left: 4vw;
+    width: 180px;
+    height: 180px;
+    z-index: 100;
+  }
+
+  .hanging-board-rope {
+    top: -100vh; /* Explicitly start way above viewport */
+    height: calc(100vh + 125px);
+  }
+
+  .hanging-board-rope--left {
+    left: 15px;
+  }
+
+  .hanging-board-rope--right {
+    right: 15px;
+  }
+
+  .hanging-board {
+    top: 120px; /* Increased from 60px */
+    padding: 12px 14px;
+    border-radius: 8px;
+  }
+
+  .hanging-board__text {
+    font-size: 0.65rem;
+    line-height: 1.4;
   }
 }
