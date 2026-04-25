@@ -312,7 +312,9 @@ export default function Cinematraphie({ onBack }) {
                     <p className="h1">Abhinaya</p>
                     <span className="span">@alsoabbhhi</span>
                   </div>
-                  <div className="stars">⭐⭐⭐⭐.5</div>
+                  <div className="stars">
+                    ⭐⭐⭐⭐<span className="star-half">⭐</span>
+                  </div>
                 </div>
                 <div className="review-body">
                   <p className="p">
@@ -332,7 +334,9 @@ export default function Cinematraphie({ onBack }) {
                     <p className="h1">Merwin josh w</p>
                     <span className="span">@mj_merwin_josh_</span>
                   </div>
-                  <div className="stars">⭐⭐⭐.5</div>
+                  <div className="stars">
+                    ⭐⭐⭐<span className="star-half">⭐</span>
+                  </div>
                 </div>
                 <div className="review-body">
                   <p className="p">
