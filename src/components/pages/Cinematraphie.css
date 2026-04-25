@@ -266,14 +266,21 @@
 
 .cin-review-card .textContent {
   display: flex;
-  flex-direction: column; /* Bring IDs below name */
+  flex-direction: row; /* Name/Stars on one line */
   align-items: flex-start;
-  justify-content: flex-start;
-  margin-bottom: 12px; /* Line space between ID and content */
+  justify-content: space-between; /* Stars opposite of name */
+  margin-bottom: 12px; /* Line space between header and content */
+  width: 100%;
+}
+
+.name-box {
+  display: flex;
+  flex-direction: column; /* ID below name */
+  align-items: flex-start;
 }
 
 .cin-review-card .span {
-  font-size: 11px; /* Same size feel */
+  font-size: 11px;
   opacity: 0.7;
   margin-top: 2px;
 }
@@ -299,9 +306,10 @@
 }
 
 .stars {
-  font-size: 12px;
-  color: #ffd700; /* Gold for stars */
-  margin-top: 4px;
+  font-size: 11px; /* Slightly smaller to fit header */
+  color: #ffd700;
+  margin-top: 2px;
+  white-space: nowrap;
 }
 
 .cin-insta-img {
