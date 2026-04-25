@@ -712,15 +712,16 @@
     position: relative;
     order: 10;
     display: block;
-    width: 140vw; /* Slightly adjusted for better fit */
-    max-width: 140vw;
+    width: 100%; /* Take full width of centered container */
+    max-width: 450px; /* Limit max size so it doesn't get ridiculous */
     height: auto;
-    left: 50%; /* Anchor to horizontal center */
-    transform: translateX(-50%) translateY(2px); /* Shift back by half its own width */
-    margin: 40px 0 0 0; /* Vertical margin only */
+    margin: 80px auto 0; /* Increased top margin to prevent cards from touching during animation */
+    transform: scale(1.35) translateY(2px); /* Scale up visually while staying centered */
+    transform-origin: bottom center;
     z-index: 5;
     opacity: 1;
     pointer-events: none;
+    left: 0; /* Reset any left positioning */
   }
 
   .cin-insta-section {
