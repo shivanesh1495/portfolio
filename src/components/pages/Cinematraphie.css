@@ -430,7 +430,7 @@
     #ffffff 100%
   );
   background-size: 200% auto;
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: aurora-flow 8s linear infinite;
 }

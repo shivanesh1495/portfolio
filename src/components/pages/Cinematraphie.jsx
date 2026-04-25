@@ -240,7 +240,6 @@ export default function Cinematraphie({ onBack }) {
               >
                 Connect with me
               </a>
-              <button className="cin-btn">Check my work</button>
             </div>
           </div>
         </div>
