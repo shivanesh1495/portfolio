@@ -234,8 +234,10 @@ export default function Cinematraphie({ onBack }) {
           />
           <div className="cin-rest" ref={restRef}>
             <p className="cin-tagline">for fine crafted cinematics</p>
-            <div className="cin-buttons">
+              for fine crafted cinematics
               <button className="cin-btn">Connect with me</button>
+                Connect with me
+              </a>
               <button className="cin-btn">Check my work</button>
             </div>
           </div>
@@ -243,10 +245,9 @@ export default function Cinematraphie({ onBack }) {
 
         {/* ── Instagram Preview Section ── */}
         <div className="cin-insta-section" ref={instaSectionRef}>
-          <div className="cin-insta-content">
-            {/* Review Card 1 - Floating Right */}
             <div className="cin-review-card card" ref={review1Ref}>
-              <div className="img"></div>
+            {/* Review Card 1 - Floating Right */}
+            <div className="cin-review-card card premium-card" ref={review1Ref}>
               <div className="textBox">
                 <div className="textContent">
                   <div className="name-box">
@@ -263,10 +264,9 @@ export default function Cinematraphie({ onBack }) {
                 </div>
               </div>
             </div>
-
-            {/* Review Card 2 - Floating Left */}
             <div className="cin-review-card card" ref={review2Ref}>
-              <div className="img"></div>
+            {/* Review Card 2 - Floating Left */}
+            <div className="cin-review-card card premium-card" ref={review2Ref}>
               <div className="textBox">
                 <div className="textContent">
                   <div className="name-box">
@@ -283,10 +283,9 @@ export default function Cinematraphie({ onBack }) {
                 </div>
               </div>
             </div>
-
-            {/* Review Card 3 - Floating Right Higher */}
             <div className="cin-review-card card" ref={review3Ref}>
-              <div className="img"></div>
+            {/* Review Card 3 - Floating Right Higher */}
+            <div className="cin-review-card card premium-card" ref={review3Ref}>
               <div className="textBox">
                 <div className="textContent">
                   <div className="name-box">
@@ -302,10 +301,9 @@ export default function Cinematraphie({ onBack }) {
                 </div>
               </div>
             </div>
-
-            {/* Review Card 4 - Floating Left Lower */}
             <div className="cin-review-card card" ref={review4Ref}>
-              <div className="img"></div>
+            {/* Review Card 4 - Floating Left Lower */}
+            <div className="cin-review-card card premium-card" ref={review4Ref}>
               <div className="textBox">
                 <div className="textContent">
                   <div className="name-box">
@@ -324,10 +322,9 @@ export default function Cinematraphie({ onBack }) {
                 </div>
               </div>
             </div>
-
-            {/* Review Card 5 - Floating Right Lower */}
             <div className="cin-review-card card" ref={review5Ref}>
-              <div className="img"></div>
+            {/* Review Card 5 - Floating Right Lower */}
+            <div className="cin-review-card card premium-card" ref={review5Ref}>
               <div className="textBox">
                 <div className="textContent">
                   <div className="name-box">
@@ -346,22 +343,21 @@ export default function Cinematraphie({ onBack }) {
                 </div>
               </div>
             </div>
-
-            {/* Review Card 6 - Floating Left Higher */}
             <div className="cin-review-card card" ref={review6Ref}>
-              <div className="img"></div>
+            {/* Review Card 6 - Floating Left Higher */}
+            <div className="cin-review-card card premium-card" ref={review6Ref}>
               <div className="textBox">
                 <div className="textContent">
                   <div className="name-box">
                     <p className="h1">Srinidhi</p>
-                    <span className="span">@_.sriniidhiii._</span>
+                    <span className="span">@_srinidhisagar</span>
                   </div>
-                  <div className="stars">⭐⭐⭐⭐</div>
+                  <div className="stars">⭐⭐⭐⭐⭐</div>
                 </div>
                 <div className="review-body">
                   <p className="p">
-                    Honestly, I feel the edit is very clear and nicely done.
-                    Flow and timing are good, transitions are smooth.
+                    Absolutely loved working with him! He captured the moments
+                    perfectly.
                   </p>
                 </div>
               </div>

@@ -268,26 +268,8 @@
   border-color: rgba(255, 255, 255, 0.2);
 }
 
-.cin-review-card .img {
-  width: 50px;
-  height: 50px;
-  flex-shrink: 0;
-  border-radius: 12px;
-  background: linear-gradient(
-    135deg,
-    #ff416c,
-    #ff4b2b
-  ); /* Cinematic red gradient */
-}
-
-.cin-review-card:hover > .img {
-  transition: 0.5s ease-in-out;
-  filter: hue-rotate(45deg);
-}
-
 .cin-review-card .textBox {
-  width: calc(100% - 60px);
-  margin-left: 15px;
+  width: 100%;
   color: white;
   text-align: left;
 }
@@ -638,13 +620,9 @@
     max-width: 280px;
     padding: 10px;
   }
-  .cin-review-card .img {
-    width: 40px;
-    height: 40px;
-  }
   .cin-review-card .textBox {
-    width: calc(100% - 50px);
-    margin-left: 10px;
+    width: 100%;
+    margin-left: 0;
   }
 }
 
@@ -746,15 +724,9 @@
     }
   }
 
-  .cin-review-card .img {
-    width: 45px;
-    height: 45px;
-    border-radius: 10px;
-  }
-
   .cin-review-card .textBox {
-    width: calc(100% - 60px);
-    margin-left: 15px;
+    width: 100%;
+    margin-left: 0;
   }
 
   .cin-review-card .h1 {
